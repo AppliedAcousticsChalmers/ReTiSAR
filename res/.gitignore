@@ -1,0 +1,71 @@
+# specific desired recources can be added nevertheless
+# `git add --force res/...`
+/*
+!/**/
+/ARIR/*
+/HPCF/*
+/HRIR/*
+/record/*
+/source/*
+/**/FABIAN_TUB/*
+!/**/FABIAN_TUB/
+/**/KEMAR_MIT/*
+!/**/KEMAR_MIT/
+/**/KEMAR_TUR/*
+!/**/KEMAR_TUR/
+/**/KU100_THK/*
+!/**/KU100_THK/
+!/research/*
+/research/benchmarks/**/*.html
+/research/benchmarks/**/*.png
+
+# always include resource references
+!*.source
+
+# always include .gitignore in subdirectories
+!.gitignore
+
+##########################
+# MacOS specific settings
+# https://github.com/github/gitignore/blob/master/Global/macOS.gitignore
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Linux specific settings
+# https://github.com/github/gitignore/blob/master/Global/Linux.gitignore
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# Windows specific settings
+# https://github.com/github/gitignore/blob/master/Global/Windows.gitignore
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk

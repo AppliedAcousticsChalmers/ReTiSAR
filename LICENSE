@@ -1,0 +1,103 @@
+NON-COMMERCIAL SOFTWARE LICENSE AGREEMENT
+
+This Non-Commercial Software License Agreement (“Agreement”) is a contract between you and Chalmers University of
+Technology (“Licensor” or “we” or “us”) for you to use this software made available in this GitHub repository,
+including all source code, and any related materials, documents, files, media, and any updates or revisions we may
+provide (the “Software”).
+The following license governs your NON-COMMERCIAL academic use of the Software. Commercial use is strictly prohibited.
+BY COPYING, REPRODUCING, ADAPTING, MODIFYING, DISTRIBUTING, DOWNLOADING, INSTALLING OR USING THE SOFTWARE, YOU AGREE TO
+BE BOUND BY THE TERMS OF THIS AGREEMENT. IF YOU DO NOT AGREE TO THESE TERMS, DO NOT USE THE SOFTWARE.
+
+1.  Non-Commercial Software License.
+Subject to the terms of this Agreement, we grant you a perpetual, worldwide, non-exclusive, no-charge, royalty-free,
+copyright license to copy, reproduce, adapt, modify, distribute or otherwise exploit this Software for any
+NON-COMMERCIAL academic purposes. Examples of acceptable, non-commercial academic use include research and education,
+and the inclusion of the Software into materials used for those purposes.
+
+2.  License Limitations.
+The preceding states the entirety of your rights with respect to the Software, and we reserve all rights in and to the
+Software not expressly granted to you in this Agreement. Any and all commercial use of this Software, or any adapted,
+modified, or derivative works thereof, is strictly prohibited.  Prohibited commercial use includes, but is not limited
+to: selling, leasing, or licensing the Software for monetary or other commercial gain, using the Software in connection
+with business functions or operations, or embedding or installing the Software into products for your own commercial
+gain or for the commercial gain of third parties.
+If you are uncertain as to whether your contemplated use of the Software is permissible, please do not use this
+Software and instead contact us for further information.
+
+3.  Ownership.
+The Software is the valuable property of Licensor and its licensors and is protected by copyright and other
+intellectual property laws and treaties. We and our licensors own all right, title and interest in and to the Software,
+including all copyright and other intellectual property rights in the Software.
+
+4.  Conditions for Use.
+We require you also comply with the following conditions of use for the Software:
+• Do not remove any copyright or other notices from the Software.
+• Provide notice that this Software is used under this License, and that all use is for non-commercial academic purposes
+  only.
+• Any distribution of the Software or any adaptations, modifications or derivative works of the Software, whether in
+  source code or object code must be under the same terms and conditions as in this Agreement and only for
+  non-commercial academic uses. Furthermore, the disclaimer of warranties in Section 5 of this License must be included
+  in any distribution of the Software to third parties.
+• If you adapt, modify, or create derivative versions of the Software, indicate that you’ve modified the original
+  Software and provide the date(s) of such adaptations, modifications or derivative works.
+• Grant back to Licensor and its licensors (including Oculus VR, LLC), without any restrictions or limitations, a
+  non-exclusive, perpetual, irrevocable, royalty-free, assignable and sub-licensable license, to reproduce, publicly
+  perform or display, install, use, modify, distribute, make and have made, and transfer your adaptations of and/or
+  modifications to and/or derivative works of the Software for any purpose.
+• Covenant not to sue and forever release Licensor and its licensors (including Oculus VR, LLC) in relation to any of
+  your adaptations of and/or modifications to and/or derivative works of the Software.
+• Acknowledge that any feedback about the Software provided by you to us is voluntarily given, and Licensor shall be
+  free to use the feedback as it sees fit without obligation or restriction of any kind.
+
+5.  Disclaimers.
+THE SOFTWARE IS PROVIDED "AS IS," WITH ALL FAULTS, DEFECTS AND ERRORS, AND WITHOUT WARRANTY OF ANY KIND. LICENSOR
+DISCLAIMS ALL WARRANTIES (EXPRESS OR IMPLIED AND ARISING BY LAW OR OTHERWISE) REGARDING THE SOFTWARE AND ITS
+PERFORMANCE OR SUITABILITY FOR YOUR INTENDED USE, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTY OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, OR NONINFRINGEMENT. LICENSOR SHALL HAVE NO LIABILITY OF ANY KIND FOR THE USE OF OR
+INABILITY TO USE THE SOFTWARE OR FOR ANY LOSS OF DATA.
+NEITHER LICENSOR NOR ANY CONTRIBUTOR TO THE SOFTWARE WILL BE LIABLE FOR ANY DAMAGES RELATED TO THE SOFTWARE OR THIS
+AGREEMENT, INCLUDING DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL OR INCIDENTAL DAMAGES, TO THE MAXIMUM EXTENT THE LAW
+PERMITS, NO MATTER WHAT LEGAL THEORY IT IS BASED ON. ALSO, YOU MUST PASS THIS LIMITATION OF LIABILITY ON WHENEVER YOU
+DISTRIBUTE THE SOFTWARE OR DERIVATIVE WORKS.
+We have no duty of reasonable care or lack of negligence, and we are not obligated to (and will not) provide technical
+support for the Software. If you breach this License or if you sue anyone over any intellectual property regarding the
+Software, or another party’s use thereof, this License and your rights herein shall terminate automatically.  You will
+immediately cease all use and distribution of the Software and destroy any copies or portions of the Software in your
+possession.
+
+6.  Indemnification.
+You agree to defend, indemnify and hold harmless Licensor, its affiliates, independent contractors and service
+providers, and each of their respective members, directors, officers, employees and agents (“Licensor Parties”), from
+and against all claims, damages, costs, liabilities and expenses (including, but not limited to, reasonable attorneys'
+fees) arising out of or related to your use of, or inability to use, the Software.
+
+7.  Limitation of Liability.
+THE LICENSOR PARTIES SHALL HAVE NO, AND YOU RELEASE THE LICENSOR PARTIES FROM, ANY LIABILITY (WHETHER IN CONTRACT,
+WARRANTY, TORT, NEGLIGENCE OR OTHERWISE) FOR ANY DAMAGES SUSTAINED BY YOU ARISING FROM YOUR USE OR INABILITY TO USE THE
+SOFTWARE, INCLUDING WITHOUT LIMITATION ANY DIRECT, INDIRECT, INCIDENTAL, CONSEQUENTIAL, SPECIAL OR PUNITIVE DAMAGES OR
+LOSS OF DATA, EVEN IF A LICENSOR PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. IN NO EVENT SHALL THE
+AGGREGATE LIABILITY OF THE LICENSOR PARTIES WITH RESPECT TO THE SOFTWARE, OR ANY USE OR INABILITY TO USE THE SOFTWARE
+EXCEED TEN DOLLARS ($10.00).
+
+9.  Termination.
+Licensor may terminate this Agreement at any time, with or without cause, immediately upon notice to you. You may
+terminate this Agreement by ceasing use of the Software and deleting all copies of the Software in your possession or
+control. In the event of the termination of this Agreement for any reason: (a) the license granted to you in this
+Agreement will terminate; (b) you must immediately cease all use of the Software and destroy or erase all copies of the
+Software in your possession or control; and (c) all sections of this Agreement except Sections 1 and 2 will survive any
+such termination.
+
+11. Third Party Beneficiaries.
+Oculus VR, LLC and Oculus VR, LLC’s affiliates are third party beneficiaries of this Agreement. Upon your acceptance of
+this Agreement, Oculus VR, LLC will have the right (and will be deemed to have accepted the right) to enforce this
+Agreement against you as a third party beneficiary thereof.
+
+12. General.
+(a) Governing Law. This Agreement shall be construed in accordance to the laws of the State of California and
+applicable United States law, without regard to any conflict of laws principles that may provide for the application of
+the law of another jurisdiction. (b) Severability. If any provision of this Agreement is held by a court of competent
+jurisdiction to be invalid, illegal, or unenforceable, the remainder of this Agreement will remain in full force and
+effect. (c) Export Laws. The Software may be subject to U.S. export jurisdiction at the time it is licensed to you, and
+it may be subject to additional export or import laws in other places.  You agree to comply with all such laws and
+regulations that may apply to the Software after delivery of the software to you. (d) Entire Agreement. This Agreement
+sets forth our entire agreement with respect to your use of the Software.

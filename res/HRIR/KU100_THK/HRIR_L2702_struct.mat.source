@@ -1,0 +1,4 @@
+https://audiogroup.web.th-koeln.de/FILES/HRIR_L2702.mat
+
+- Download
+- Transform MIRO into Matlab struct, see instructions (https://nbviewer.jupyter.org/github/AppliedAcousticsChalmers/sound_field_analysis-py/blob/master/examples/Exp4_BinauralRendering.ipynb)

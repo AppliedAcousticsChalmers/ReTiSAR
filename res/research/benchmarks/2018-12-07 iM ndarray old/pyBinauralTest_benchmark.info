@@ -1,0 +1,17 @@
+DATE
+2018-12-07
+
+HARDWARE
+iMacPro, Lab10, 2017
+3,2 GHz Intel Xenon W (8 Cores + HT)
+128 GB 2666 MHz DDR4
+Internal sound card
+
+SOFTWARE
+macOS 10.13.6
+Terminal
+Jackd 1.9.11
+Python 3.7.1
+
+PARAMETERS
+Before rework of ndarray order

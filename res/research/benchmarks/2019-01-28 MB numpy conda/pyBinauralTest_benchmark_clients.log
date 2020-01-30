@@ -1,0 +1,1559 @@
+2019-01-28 22:05:22,742  pyBinauralTest_benchmark_clients  WARNING   skipping creation of a background client. Please make sure you have the JACK server running already!
+2019-01-28 22:05:22,743  pyBinauralTest_benchmark_clients  INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=0.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=5.5 [11, 0] at load=0.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=16.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=1.0 [2, 0] at load=16.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=19.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=1.5 [3, 0] at load=19.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=19.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=1.0 [2, 0] at load=19.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=20.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=1.5 [3, 0] at load=20.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=19.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.5 [1, 0] at load=19.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=3 with mean=0.7 [1, 1, 0] at load=19.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=3 with block=256 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=27.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.5 [1, 0] at load=27.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=27.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=4 with mean=4.5 [6, 6, 6, 0] at load=27.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=4 with block=256 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=23.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.5 [1, 0] at load=23.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=3 with mean=0.7 [1, 1, 0] at load=23.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=3 with block=256 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=18.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=1.0 [2, 0] at load=18.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=256 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=12.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.5 [1, 0] at load=12.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=3 with mean=2.7 [3, 3, 2] at load=12.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=3 with block=256 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=16.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=16.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=16.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=16.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=16.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=16.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=16.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=8 with mean=5.2 [6, 6, 6, 6, 6, 6, 6, 0] at load=16.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=8 with block=512 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=21.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=21.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=21.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=21.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=21.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=21.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=21.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=21.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=9 with mean=6.2 [7, 7, 7, 7, 7, 7, 7, 7, 0] at load=21.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=9 with block=512 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=58.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=58.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=58.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=58.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=58.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=58.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=58.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=8 with mean=6.1 [7, 7, 7, 7, 7, 7, 7, 0] at load=58.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=8 with block=512 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=77.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=77.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=77.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=77.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=77.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=77.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=77.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=77.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=9 with mean=5.3 [6, 6, 6, 6, 6, 6, 6, 6, 0] at load=77.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=9 with block=512 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=88.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=88.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=88.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=88.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=88.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=88.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=7 with mean=1.7 [2, 2, 2, 2, 2, 2, 0] at load=88.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=7 with block=512 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=14 with mean=7.4 [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=14 with block=1024 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=15 with mean=4.7 [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=15 with block=1024 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=15 with mean=2.8 [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=15 with block=1024 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=12 with mean=1.8 [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=12 with block=1024 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=11 with mean=2.7 [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=11 with block=1024 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=21 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=22 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=23 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=24 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=25 with mean=22.1 [23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=25 with block=2048 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=20 with mean=17.1 [18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=20 with block=2048 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=7 with mean=1.7 [2, 2, 2, 2, 2, 2, 0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=7 with block=2048 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=19 with mean=10.4 [11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=19 with block=2048 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=21 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=22 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=23 with mean=6.7 [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=23 with block=2048 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=21 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=22 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=23 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=24 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=25 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=26 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=27 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=28 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=29 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=30 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=31 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=32 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=33 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=34 with mean=5.0 [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=34 with block=4096 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=21 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=22 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=23 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=24 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=25 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=26 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=27 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=28 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=29 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=30 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=31 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=32 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=33 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=34 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=35 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=36 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=37 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=38 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=39 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=40 with mean=14.6 [15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=40 with block=4096 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=21 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=22 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=23 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=24 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=25 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=26 with mean=41.1 [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 18] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=26 with block=4096 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=21 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=22 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=23 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=24 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=25 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=26 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=27 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=28 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=29 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=30 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=31 with mean=50.3 [52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 52, 0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=31 with block=4096 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=21 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=22 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=23 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=24 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=25 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=26 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=27 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=28 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=29 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=30 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=31 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=32 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=33 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=34 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=35 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=36 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=37 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=38 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=39 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=40 with mean=5.8 [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=40 with block=4096 of filter=128 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=56.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=2.0 [4, 0] at load=30.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=28.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=2.5 [4, 1] at load=28.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=35.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=1.5 [3, 0] at load=35.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=22.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=2.0 [4, 0] at load=22.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=28.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=2.5 [4, 1] at load=28.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=22.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=1.0 [2, 0] at load=22.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=256 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=27.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=1.5 [2, 1] at load=27.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=256 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=21.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=2.0 [3, 1] at load=21.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=256 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=17.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=1.0 [2, 0] at load=17.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=256 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=30.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=2.5 [4, 1] at load=30.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=256 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=20.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=20.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=20.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=20.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=20.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=6 with mean=2.5 [3, 3, 3, 3, 3, 0] at load=20.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=6 with block=512 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=60.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=60.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=60.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=4 with mean=1.0 [1, 1, 1, 1] at load=60.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=4 with block=512 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=40.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.5 [1, 0] at load=40.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=40.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=4 with mean=2.2 [3, 3, 3, 0] at load=40.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=4 with block=512 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=32.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=32.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=32.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=32.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=32.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=32.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=32.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=8 with mean=3.8 [4, 4, 4, 4, 4, 4, 4, 2] at load=32.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=8 with block=512 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=66.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=66.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=66.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=66.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=66.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=66.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=7 with mean=4.3 [5, 5, 5, 5, 5, 5, 0] at load=66.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=7 with block=512 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=12 with mean=1.8 [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0] at load=81.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=12 with block=1024 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=12 with mean=1.8 [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0] at load=81.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=12 with block=1024 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=8 with mean=0.9 [1, 1, 1, 1, 1, 1, 1, 0] at load=81.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=8 with block=1024 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=9 with mean=7.1 [8, 8, 8, 8, 8, 8, 8, 8, 0] at load=81.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=9 with block=1024 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=14 with mean=4.6 [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=14 with block=1024 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=21 with mean=7.6 [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=21 with block=2048 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=20 with mean=15.2 [16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=20 with block=2048 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=21 with mean=6.7 [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=21 with block=2048 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=15 with mean=2.8 [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=15 with block=2048 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=19 with mean=1.9 [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=19 with block=2048 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=21 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=22 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=23 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=24 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=25 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=26 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=27 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=28 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=29 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=30 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=31 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=32 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=33 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=34 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=35 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=36 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=37 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=38 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=39 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=40 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=41 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=42 with mean=3.9 [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=42 with block=4096 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=21 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=22 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=23 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=24 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=25 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=26 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=27 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=28 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=29 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=30 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=31 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=32 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=33 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=34 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=35 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=36 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=37 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=38 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=39 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=40 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=41 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=42 with mean=24.4 [25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=42 with block=4096 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=21 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=22 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=23 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=24 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=25 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=26 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=27 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=28 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=29 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=30 with mean=2.9 [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=30 with block=4096 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=21 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=22 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=23 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=24 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=25 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=26 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=27 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=28 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=29 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=30 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=31 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=32 with mean=1.9 [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=32 with block=4096 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=21 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=22 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=23 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=24 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=25 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=26 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=27 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=28 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=29 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=30 with mean=55.1 [57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 57, 0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=30 with block=4096 of filter=512 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=50.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=2.5 [4, 1] at load=25.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=4.5 [7, 2] at load=68.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=59.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=2.0 [4, 0] at load=59.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=60.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=3.5 [6, 1] at load=60.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=54.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=4.5 [7, 2] at load=54.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=49.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=2.0 [3, 1] at load=49.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=256 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=27.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=1.0 [2, 0] at load=27.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=256 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=35.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=2.0 [3, 1] at load=35.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=256 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=28.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=1.5 [3, 0] at load=28.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=256 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=29.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=1.5 [3, 0] at load=29.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=256 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=34.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=34.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=34.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=4 with mean=0.8 [1, 1, 1, 0] at load=34.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=4 with block=512 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=32.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=1.0 [1, 1] at load=32.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=512 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=22.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=22.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=22.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=4 with mean=0.8 [1, 1, 1, 0] at load=22.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=4 with block=512 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=26.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=26.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=26.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=26.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=5 with mean=2.0 [2, 2, 2, 2, 2] at load=26.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=5 with block=512 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=61.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=61.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=61.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=61.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=5 with mean=4.4 [5, 5, 5, 5, 2] at load=61.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=5 with block=512 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=80.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=80.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=80.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=80.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=80.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=80.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=80.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=80.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=80.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=80.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=80.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=12 with mean=8.0 [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8] at load=80.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=12 with block=1024 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=90.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=90.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=90.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=90.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=90.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=90.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=90.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=90.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=90.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=90.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=11 with mean=8.5 [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 4] at load=90.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=11 with block=1024 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=94.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=94.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=94.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=94.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=94.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=94.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=94.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=94.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=94.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=10 with mean=9.0 [9, 9, 9, 9, 9, 9, 9, 9, 9, 9] at load=94.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=10 with block=1024 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=62.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=62.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=62.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=62.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=62.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=62.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=62.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=62.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=62.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=10 with mean=1.0 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1] at load=62.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=10 with block=1024 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=81.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=7 with mean=6.0 [6, 6, 6, 6, 6, 6, 6] at load=81.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=7 with block=1024 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=21 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=22 with mean=15.3 [16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=22 with block=2048 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=9 with mean=4.4 [5, 5, 5, 5, 5, 5, 5, 5, 0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=9 with block=2048 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=17 with mean=4.7 [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=17 with block=2048 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=17 with mean=0.9 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=17 with block=2048 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=16 with mean=11.2 [12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=16 with block=2048 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=21 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=22 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=23 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=24 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=25 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=26 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=27 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=28 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=29 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=30 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=31 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=32 with mean=2.9 [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=32 with block=4096 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=21 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=22 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=23 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=24 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=25 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=26 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=27 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=28 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=29 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=30 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=31 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=32 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=33 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=34 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=35 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=36 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=37 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=38 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=39 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=40 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=41 with mean=14.6 [15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=41 with block=4096 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=21 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=22 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=23 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=24 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=25 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=26 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=27 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=28 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=29 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=30 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=31 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=32 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=33 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=34 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=35 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=36 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=37 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=38 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=39 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=40 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=41 with mean=20.5 [21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=41 with block=4096 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=21 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=22 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=23 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=24 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=25 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=26 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=27 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=28 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=29 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=30 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=31 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=32 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=33 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=34 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=35 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=36 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=37 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=38 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=39 with mean=3.9 [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=39 with block=4096 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=19 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=20 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=21 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=22 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=23 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=24 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=25 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=26 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=27 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=28 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=29 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=30 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=31 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=32 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=33 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=34 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=35 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=36 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=37 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=38 with mean=0.0 [0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=39 with mean=13.6 [14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 0] at load=52.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=39 with block=4096 of filter=4096 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=13.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=73.0 [142, 4] at load=1.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=13.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=72.5 [133, 12] at load=1.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=13.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=67.5 [126, 9] at load=7.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=1.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=70.5 [132, 9] at load=1.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=2.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=64.0 [119, 9] at load=2.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=128 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=13.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=9.0 [16, 2] at load=26.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=256 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=2.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=8.0 [16, 0] at load=21.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=256 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=2.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=7.5 [15, 0] at load=36.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=256 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=15.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=8.5 [16, 1] at load=64.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=256 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=4.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=8.5 [16, 1] at load=22.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=256 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=28.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=2.0 [3, 1] at load=28.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=512 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=53.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=1.5 [3, 0] at load=53.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=512 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=55.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=1.0 [2, 0] at load=55.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=512 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=61.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=1.5 [3, 0] at load=61.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=512 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=57.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=2 with mean=1.0 [2, 0] at load=57.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=2 with block=512 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=58.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=58.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=3 with mean=2.0 [2, 2, 2] at load=58.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=3 with block=1024 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=48.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=48.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=3 with mean=1.3 [2, 2, 0] at load=48.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=3 with block=1024 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=42.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=42.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=42.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=4 with mean=3.0 [3, 3, 3, 3] at load=42.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=4 with block=1024 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=45.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=45.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=3 with mean=0.7 [1, 1, 0] at load=45.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=3 with block=1024 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=42.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=42.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=42.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=4 with mean=3.0 [3, 3, 3, 3] at load=42.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=4 with block=1024 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=6 with mean=8.3 [10, 10, 10, 10, 10, 0] at load=68.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=6 with block=2048 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=9 with mean=2.0 [2, 2, 2, 2, 2, 2, 2, 2, 2] at load=68.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=9 with block=2048 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=8 with mean=3.0 [3, 3, 3, 3, 3, 3, 3, 3] at load=68.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=8 with block=2048 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=9 with mean=6.0 [6, 6, 6, 6, 6, 6, 6, 6, 6] at load=68.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=9 with block=2048 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=68.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=9 with mean=8.0 [8, 8, 8, 8, 8, 8, 8, 8, 8] at load=68.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=9 with block=2048 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      using sleep time of 0 ms.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=4 with mean=0.8 [1, 1, 1, 0] at load=84.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=4 with block=4096 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=19 with mean=9.5 [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0] at load=84.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=19 with block=4096 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=5 with mean=2.4 [3, 3, 3, 3, 0] at load=84.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=5 with block=4096 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=16 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=17 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=18 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=19 with mean=19.2 [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 4] at load=84.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=19 with block=4096 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=1 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=2 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=3 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=4 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=5 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=6 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=7 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=8 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=9 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=10 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=11 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=12 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=13 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=14 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       INFO      dropouts at n=15 with mean=0.0 [0] at load=84.
+pyBinauralTest_benchmark_clients       WARNING   dropouts at n=16 with mean=0.9 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0] at load=84.
+pyBinauralTest_benchmark_clients       WARNING   was not able to run n=16 with block=4096 of filter=110250 at fs=44100.
+pyBinauralTest_benchmark_clients       INFO      terminating created instances ...
+pyBinauralTest_benchmark_clients       INFO      ... running benchmark completed in 07m19s.
+pyBinauralTest_benchmark_clients       INFO      writing results to "log/pyBinauralTest_benchmark_clients.html" ...
+pyBinauralTest_benchmark_clients       INFO      writing results to "log/pyBinauralTest_benchmark_clients.png" ...
+pyBinauralTest_benchmark_clients       INFO      writing results to "log/pyBinauralTest_benchmark_clients.pdf" ...
+pyBinauralTest_benchmark_clients       INFO      also see results in "log/pyBinauralTest_benchmark_clients.log".
+pyBinauralTest_benchmark_clients       INFO      ... benchmark ended.

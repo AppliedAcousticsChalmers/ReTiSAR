@@ -1,0 +1,21 @@
+DATE
+2019-02-04
+
+HARDWARE
+MacBookPro, Helmholz, 13-inch, 2017
+3,1 GHz Intel Core i5 (2 Cores + HT)
+16 GB 2133 MHz LPDDR3
+Internal sound card
+
+SOFTWARE
+macOS 10.14.3
+Terminal
+Jackd 1.9.11
+Python 3.7.2
+numpy 1.15.4
+scipy 1.2.0
+pyfftw 0.11.1
+
+PARAMETERS
+pyfftw introduced
+prevented to run with resampled filters when JACK at 48kHz
