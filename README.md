@@ -189,6 +189,9 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 * **v2020.1.30**<br/>
   * First publication of code
 
+## Acknowledgement
+This work was funded by Facebook Reality Labs.
+
 ## License
 This software is licensed under a Non-Commercial Software License (see [LICENSE](LICENSE) for full details).
 
