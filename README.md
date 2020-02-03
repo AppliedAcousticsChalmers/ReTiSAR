@@ -24,47 +24,52 @@ Implementation of the Real-Time Spherical Microphone Renderer for binaural repro
 * Activate created _Conda_ environment<br/>
 `source activate ReTiSAR`
 
-## Execution parameters:
-* __Optional:__ In case you have never started the _JACK_ audio server on your system or want to make sure it initializes with appropriate values. Open the _JackPilot_ application set your system specific default settings.<br/>
+## Quickstart:
+* Run package with __[default]__ parameters<br/>
+`python -m ReTiSAR`
+* __Option 1:__ Modify configuration by changing default parameters in [config.py](ReTiSAR/config.py) (prepared block
+ comments for the specific execution modes below exist).
+* __Option 2:__ Modify configuration by command line arguments (like in the following examples showing different
+ execution [parameters](#execution-parameters) and [modes](#execution-modes) (see `--help`).
+
+__JACK initialization --__ In case you have never started the _JACK_ audio server on your system or want to make sure it initializes with appropriate values. Open the _JackPilot_ application set your system specific default settings.<br/>
 At this point the only relevant _JACK_ audio server setting is the sampling frequency, which has to match the sampling frequency of your rendered audio source file or stream (no resampling will be applied for that specific file).
 
-* Run package with **[default]** parameters (see settings below)<br/>
-`python -m ReTiSAR`<br/>
-__Remark:__ In case the rendering takes very long to start (after the message _"initializing FFTW DFT optimization ..."_), you might want to endure this long computation time once (per rendering configuration) or lower your [FFTW](http://www.fftw.org/fftw3_doc/Planner-Flags.html) planner effort (see `--help`)
-  * __Alternative 1:__ Modify configuration by changing default parameters in [config.py](ReTiSAR/config.py) (prepared block comments for the specific configurations below exist)
-  * __Alternative 2:__ Modify configuration by command line arguments (like in the following examples), here showing possible parameters<br/>
-  `python -m ReTiSAR --help`
-* __Rendering performance --__ follow these remarks to expect continuous and artifact free rendering:<br/>
+__FFTW optimization --__ In case the rendering takes very long to start (after the message _"initializing FFTW DFT optimization ..."_), you might want to endure this long computation time once (per rendering configuration) or lower your [FFTW](http://www.fftw.org/fftw3_doc/Planner-Flags.html) planner effort (see `--help`).
+
+__Rendering performance --__ Follow these remarks to expect continuous and artifact free rendering:<br/>
   * Optional components like array pre-rendering, headphone equalization, noise generation, etc. will save   performance in case they are not deployed.
   * Extended IR lengths (particularly for modes with array IR pre-rendering) will massively increase the computational load depending on the chosen block length (partitioned convolution).
   * Currently there is no partitioned convolution for the main binaural renderer with SH based processing, hence the FIR taps of applied HRIR, Modal Radial Filters and further compensations (e.g. Spherical Head Filter) need to cumulatively fit inside the chosen block length.
-  * Higher block length means lower computational load in real-time rendering but also increased system latency, most
-   relevant for modes with array live-stream rendering, but also all other modes in terms of a slightly "smeared" head-tracking experience (noticeable at 4096 samples).
+  * Higher block length means lower computational load in real-time rendering but also increased system latency, most relevant for modes with array live-stream rendering, but also all other modes in terms of a slightly "smeared" head-tracking experience (noticeable at 4096 samples).
   * Adjust output levels of all rendering components (default parameters chosen accordingly) to prevent signal clipping (indicated by warning messages during execution).
   * Check _JACK_ system load (e.g. _JackPilot_ or [OSC_Remote_Demo.pd](#remote-control)) to be below approx. 95% load, in order to prevent dropouts (i.e. the OS reported overall system load is not a good indicator).
   * Check _JACK_ detected dropouts ("xruns" indicated during execution).
   * Most of all, use your ears! If something sounds strange, there is probably something going wrong... ;)
 
-The following parameters are all optional and available in combinations with the named configurations subsequently:<br/>
+__Always check the command line output or generated log files in case the rendering pipeline does not initialize successfully!__
+
+## Execution parameters:
+The following parameters are all optional and available in combinations with the named execution modes subsequently:<br/>
 * Run with specific processing block size (_choose value according to the individual rendering configuration and performance of your system_)<br/>
   * Largest block size (best performance but noticeable input latency):<br/>
-  `python -m ReTiSAR -b=4096`**[default]**<br/>
-  * Try smaller block sizes **according to the specific rendering configuration and individual system performance**:<br/>
+  `python -m ReTiSAR -b=4096` __[default]__<br/>
+  * Try smaller block sizes __according to the specific rendering configuration and individual system performance__:<br/>
   `python -m ReTiSAR -b=1024`<br/>
   `python -m ReTiSAR -b=256`
 * Run with specific processing word length<br/>
   * Single precision _32 bit_ (better performance):<br/>
-  `python -m ReTiSAR -SP=TRUE`**[default]**<br/>
+  `python -m ReTiSAR -SP=TRUE` __[default]__<br/>
   * Double precision _64 bit_ (no configuration with an actual benefit is known):<br/>
   `python -m ReTiSAR -SP=FALSE`
 * Run with specific IR truncation cutoff level (applied to all IRs)<br/>
   * Cutoff _-60 dB_ under peak (better performance and perceptually irrelevant in most cases):<br/>
-  `python -m ReTiSAR -irt=-60`**[default]**<br/>
+  `python -m ReTiSAR -irt=-60` __[default]__<br/>
   * No cutoff to render entire IR (tough performance requirements in case of rendering particularly reverberant array IRs):<br/>
-  `python -m ReTiSAR -irt=0`**[applied in all scientific evaluations]**
+  `python -m ReTiSAR -irt=0` __[applied in all scientific evaluations]__
 * Run with specific head-tracking device (paths are system dependent!)<br/>
   * No tracking (head movement can be [remote controlled](#remote-control)):<br/>
-  `python -m ReTiSAR -tt=NONE`**[default]**<br/>
+  `python -m ReTiSAR -tt=NONE` __[default]__<br/>
   * Automatic rotation:<br/>
   `python -m ReTiSAR -tt=AUTO_ROTATE`<br/>
   * Tracker _Razor AHRS_:<br/>
@@ -75,26 +80,26 @@ The following parameters are all optional and available in combinations with the
   `python -m ReTiSAR -tt=POLHEMUS_FASTRACK -t=/dev/tty.UC-232AC`
 * Run with specific HRTF dataset as _MIRO_ [[5]](#references) or _SOFA_ [[6]](#references) files<br/>
   * _Neumann KU100_ artificial head from [[5]](#references) as _SOFA_:<br/>
-  `python -m ReTiSAR -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`**[default]**<br/>
+  `python -m ReTiSAR -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA` __[default]__<br/>
   * _Neumann KU100_ artificial head from [[5]](#references) as _MIRO_:<br/>
   `python -m ReTiSAR -hr=res/HRIR/KU100_THK/HRIR_L2702_struct.mat -hrt=HRIR_MIRO`<br/>
   * _FABIAN_ artificial head from [[7]](#references) as _SOFA_:<br/>
   `python -m ReTiSAR -hr=res/HRIR/FABIAN_TUB/FABIAN_HRIR_measured_HATO_0.sofa -hrt=HRIR_SOFA`
 * Run with specific headphone equalization / compensation filters (arbitrary filter length). The compensation filter should match the utilized individual headphone (model)! In the best case scenario, the filter was also gathered on the identical utilized HRIR (artificial or individual head)!<br/>
   * No individual headphone compensation:
-  `python -m ReTiSAR -hp=NONE`**[default]**<br/>
+  `python -m ReTiSAR -hp=NONE` __[default]__<br/>
   * _Sennheiser HD600_ headphone on _GRAS KEMAR_ artificial head:
   `python -m ReTiSAR -hp=res/HpIR/KEMAR_TUR/hpComp_HD600_1Filter.wav`<br/>
 * Run with specific SH processing compensation techniques (relevant for rendering modes utilizing spherical harmonics)<br/>
-  * __Modal Radial Filters__**[always applied]** with individual amplification soft-limiting in dB according to [[2]](#references):<br/>
-  `python -m ReTiSAR -arr=18`**[default]**<br/>
+  * __Modal Radial Filters__ __[always applied]__ with individual amplification soft-limiting in dB according to [[2 ]](#references):<br/>
+  `python -m ReTiSAR -arr=18` __[default]__<br/>
   * __Spherical Head Filter__ according to [[3]](#references):<br/>
   `python -m ReTiSAR -sht=SHF`<br/>
   * __Spherical Harmonics Tapering__ in combination with __Spherical Head Filter__ according to [[4]](#references):<br/>
-  `python -m ReTiSAR -sht=SHT+SHF`**[default]**
+  `python -m ReTiSAR -sht=SHT+SHF` __[default]__
 * Run with specific emulated self-noise as additive component to each microphone array sensor (performance requirements increase according to channel count)<br/>
   * No noise (best performance):<br/>
-  `python -m ReTiSAR -gt=NONE`**[default]**<br/>
+  `python -m ReTiSAR -gt=NONE` __[default]__<br/>
   * White noise (also setting the initial output level and mute state of the rendering component):<br/>
   `python -m ReTiSAR -gt=NOISE_WHITE -gl=-30 -gm=FALSE`<br/>
   * Pink noise by IIR filtering (higher performance requirements):<br/>
@@ -104,13 +109,11 @@ The following parameters are all optional and available in combinations with the
 ## Execution modes:
 This section list all the conceptually different rendering modes of the pipeline. Most of the other beforehand introduced [execution parameters](#execution-parameters) can be combined with the mode-specific parameters. In case no manual value for all specific rendering parameters is provided (as in the following examples), their respective default values will be used.
 
-**Most execution modes require additional external measurement data, which cannot be republished here.** However, all provided examples are based on publicly available research data. Respective files are represented here by provided  source reference files (see [res/](res/.)), containing a source URL and potentially further instructions. In case the respective resource data file is not yet available on your system, download instructions will be shown in the command line output and generated log files.
-
-**Always check the command line output or generated log files in case the rendering pipeline does not initialize successfully!**
+__Most execution modes require additional external measurement data, which cannot be republished here.__ However, all provided examples are based on publicly available research data. Respective files are represented here by provided  source reference files (see [res/](res/.)), containing a source URL and potentially further instructions. In case the respective resource data file is not yet available on your system, download instructions will be shown in the command line output and generated log files.
 
 * Run as array recording renderer, e.g. _Eigenmike_ at Chalmers lab space<br/>
-  * **Speaker moving horizontally around the array:**<br/>
-  `python -m ReTiSAR -sh=4 -tt=NONE -s=res/record/EM32ch_lab_voice_around.wav -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`**[default]**<br/>
+  * __Speaker moving horizontally around the array:__<br/>
+  `python -m ReTiSAR -sh=4 -tt=NONE -s=res/record/EM32ch_lab_voice_around.wav -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA` __[default]__<br/>
   * Speaker moving vertically in front of the array:<br/>
   `python -m ReTiSAR -sh=4 -tt=NONE -s=res/record/EM32ch_lab_voice_updown.wav -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
 * Run as array live-stream renderer with minimum latency, e.g. _Eigenmike_ with the respective channel calibration (provided by manufacturer)<br/>
@@ -138,7 +141,7 @@ This section list all the conceptually different rendering modes of the pipeline
 `python -m ReTiSAR -tt=AUTO_ROTATE -s=res/source/PinkMartini_Lilly_44.wav -sp="[(30, 0),(-30, 0)]" -art=NONE -hr=res/HRIR/FABIAN_TUB/hrirs_fabian.wav -hrt=HRIR_SSR` (provide respective source file and source positions!)
 
 ## Remote Control:
-* Certain parameters of the running real-time application can be remote controlled via _Open Sound Control_. Individual clients can be accessed by targeting them with specific _OSC_ commands on port `5005`**[default]**.<br/>
+* Certain parameters of the running real-time application can be remote controlled via _Open Sound Control_. Individual clients can be accessed by targeting them with specific _OSC_ commands on port `5005` __[default]__.<br/>
 Depending on the current configuration and rendering mode different commands will be available, i.e. arbitrary combinations of the following targets and values:<br/>
 `/generator/volume 0`, `/generator/volume -12`, <br/>
 `/prerenderer/mute 1`, `/prerenderer/mute 0`, `/prerenderer/mute -1`, `/prerenderer/mute`, <br/>
@@ -147,7 +150,7 @@ Depending on the current configuration and rendering mode different commands wil
 `/renderer/crossfade`, `/crossfade/renderer`, `/renderer/delay 350.0`, <br/>
 `/renderer/order 0`, `/renderer/order 1`, `/renderer/order 4`, <br/>
 `/tracker/zero`, `/tracker/azimuth 45`, `/player/stop`, `/player/play`, `/quit`
-* The individual _JACK_ client with its respective (target) name also reports real-time feedback or analysis data on port `5006`**[default]** in the specified exemplary data format (number of values depends on output ports), i.e. arbitrary combinations of the name and parameters:<br/>
+* The individual _JACK_ client with its respective (target) name also reports real-time feedback or analysis data on port `5006` __[default]__ in the specified exemplary data format (number of values depends on output ports), i.e. arbitrary combinations of the name and parameters:<br/>
 `/player/rms 0.0`, `/generator/peak 0.0 0.0 0.0 0.0`, `/renderer/load 100`, <br/>
 also `/tracker/AzimElevTilt 0.0 0.0 0.0` (current head orientation)<br/>
 and `/load 100` (current JACK system load)
@@ -160,13 +163,13 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 * __Optional:__ Install [_sendosc_](https://github.com/yoggy/sendosc) tool to be used for automation in shell scripts<br/>
 `brew install yoggy/tap/sendosc`
 * __Remark:__ Make sure all subsequent rendering configurations are able to start up properly before recording starts (particularly FFTW optimization might take a long time, see above)
-* Validate impulse responses by **comparing against a reference implementation**, in this case the output of [_sound_field_analysis-py_](https://nbviewer.jupyter.org/github/AppliedAcousticsChalmers/sound_field_analysis-py/blob/master/examples/Exp4_BinauralRendering.ipynb) [[8]](#references)
+* Validate impulse responses by __comparing against a reference implementation__, in this case the output of [_sound_field_analysis-py_](https://nbviewer.jupyter.org/github/AppliedAcousticsChalmers/sound_field_analysis-py/blob/master/examples/Exp4_BinauralRendering.ipynb) [[8]](#references)
   * Execute recording script, consecutively starting the package and capturing impulse responses in different rendering configurations<br/>
   `./res/research/validation/record_ir.sh`<br/>
   __Remark:__ Both implementations compensate the source being at an incidence angle of -37 degrees in the measurement IR set
   * Run package in validation mode, executing a comparison of all beforehand captured IRs in `res/research/validation/` against the provided reference IRs<br/>
   `python -m ReTiSAR --VALIDATION_MODE=res/HRIR/KU100_THK/BRIR_CR1_VSA_110RS_L_SSR_SFA_-37_SOFA_RFI.wav`
-* Validate signal-to-noise-ratio by **comparing input and output signals of the main binaural renderer for wanted target signals and emulated sensor self-noise** respectively
+* Validate signal-to-noise-ratio by __comparing input and output signals of the main binaural renderer for wanted target signals and emulated sensor self-noise__ respectively
   * Execute recording script consecutively starting the package and capturing target-noise as well as self-noise input and output signals in different rendering configurations<br/>
   `./res/research/validation/record_snr.sh`
   * Open (and run) _MATLAB_ analysis script to execute an SNR comparison of beforehand captured signals<br/>
@@ -196,9 +199,10 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 
 ## Changelog
 
-* **v2020.2.2**<br/>
+* __v2020.2.2__<br/>
   * Change of default rendering configuration to contained Eigenmike recording
-* **v2020.1.30**<br/>
+  * Update of README structure (including Quickstart section)
+* __v2020.1.30__<br/>
   * First publication of code
 
 ## Acknowledgement
