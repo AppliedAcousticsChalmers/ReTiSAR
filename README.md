@@ -7,6 +7,8 @@ Implementation of the Real-Time Spherical Microphone Renderer for binaural repro
 * [_Conda_ installation](https://conda.io/en/master/miniconda.html) (`miniconda` is enough, highly recommended to get [Intel _MKL_](https://software.intel.com/en-us/articles/using-intel-distribution-for-python-with-anaconda) or alternatively [_OpenBLAS_](https://github.com/conda-forge/openblas-feedstock) optimized `numpy` version, automatically done in [setup section](#setup))
 * [_Python_ installation](https://www.python.org/downloads/), recommended way is to use _Conda_ (automatically done in [setup section](#setup))
 * Installation of the required _Python_ packages (see [setup section](#setup))
+* __Optional:__ Download of publicly available measurement data for alternative [execution modes](#execution-modes
+) (always check `command line` output or log files in case the rendering pipeline does not initialize successfully!)
 * __Optional:__ [_OSC_ client](http://opensoundcontrol.org/implementations) (see [remote control section](#remote-control))
 
 ## Setup:
@@ -24,8 +26,8 @@ Implementation of the Real-Time Spherical Microphone Renderer for binaural repro
 
 ## Execution parameters:
 * __Optional:__ In case you have never started the _JACK_ audio server on your system or want to make sure it initializes with appropriate values. Open the _JackPilot_ application set your system specific default settings.<br/>
-At this point the only relevant _JACK_ audio server setting is the sampling frequency, which has to match the sampling frequency of your rendered audio source file or stream (no resampling will be applied for that specific file).<br/>
-__!!__ All here provided examples are supposed to be run at a sampling frequency of __48 kHz__ __!!__
+At this point the only relevant _JACK_ audio server setting is the sampling frequency, which has to match the sampling frequency of your rendered audio source file or stream (no resampling will be applied for that specific file).
+
 * Run package with **[default]** parameters (see settings below)<br/>
 `python -m ReTiSAR`<br/>
 __Remark:__ In case the rendering takes very long to start (after the message _"initializing FFTW DFT optimization ..."_), you might want to endure this long computation time once (per rendering configuration) or lower your [FFTW](http://www.fftw.org/fftw3_doc/Planner-Flags.html) planner effort (see `--help`)
@@ -33,13 +35,14 @@ __Remark:__ In case the rendering takes very long to start (after the message _"
   * __Alternative 2:__ Modify configuration by command line arguments (like in the following examples), here showing possible parameters<br/>
   `python -m ReTiSAR --help`
 * __Rendering performance --__ follow these remarks to expect continuous and artifact free rendering:<br/>
-  * Optional components like array pre-rendering, headphone equalization, noise generation, etc. will save performance in case they are not deployed
-  * Extended IR lengths (particularly for modes with array IR pre-rendering) will massively increase the computational load depending on the chosen block length (partitioned convolution)
-  * Currently there is no partitioned convolution for the main binaural renderer with SH based processing, hence the FIR taps of applied HRIR, Modal Radial Filters and further compensations (e.g. Spherical Head Filter) need to cumulatively fit inside the chosen block length
-  * Higher block length means lower computational load in real-time rendering but also increased system latency, most relevant for modes with array live-stream rendering, but also all other modes in terms of a slightly "smeared" head-tracking experience (noticeable at 4096 samples)
-  * Adjust output levels of all rendering components (default parameters chosen accordingly) to prevent signal clipping (indicated by warning messages during execution)
-  * Check _JACK_ system load (e.g. _JackPilot_ or [OSC_Remote_Demo.pd](#remote-control)) to be below approx. 95% load, in order to prevent dropouts (i.e. the OS reported overall system load is not a good indicator)
-  * Check _JACK_ detected dropouts ("xruns" indicated during execution)
+  * Optional components like array pre-rendering, headphone equalization, noise generation, etc. will save   performance in case they are not deployed.
+  * Extended IR lengths (particularly for modes with array IR pre-rendering) will massively increase the computational load depending on the chosen block length (partitioned convolution).
+  * Currently there is no partitioned convolution for the main binaural renderer with SH based processing, hence the FIR taps of applied HRIR, Modal Radial Filters and further compensations (e.g. Spherical Head Filter) need to cumulatively fit inside the chosen block length.
+  * Higher block length means lower computational load in real-time rendering but also increased system latency, most
+   relevant for modes with array live-stream rendering, but also all other modes in terms of a slightly "smeared" head-tracking experience (noticeable at 4096 samples).
+  * Adjust output levels of all rendering components (default parameters chosen accordingly) to prevent signal clipping (indicated by warning messages during execution).
+  * Check _JACK_ system load (e.g. _JackPilot_ or [OSC_Remote_Demo.pd](#remote-control)) to be below approx. 95% load, in order to prevent dropouts (i.e. the OS reported overall system load is not a good indicator).
+  * Check _JACK_ detected dropouts ("xruns" indicated during execution).
   * Most of all, use your ears! If something sounds strange, there is probably something going wrong... ;)
 
 The following parameters are all optional and available in combinations with the named configurations subsequently:<br/>
@@ -60,8 +63,10 @@ The following parameters are all optional and available in combinations with the
   * No cutoff to render entire IR (tough performance requirements in case of rendering particularly reverberant array IRs):<br/>
   `python -m ReTiSAR -irt=0`**[applied in all scientific evaluations]**
 * Run with specific head-tracking device (paths are system dependent!)<br/>
+  * No tracking (head movement can be [remote controlled](#remote-control)):<br/>
+  `python -m ReTiSAR -tt=NONE`**[default]**<br/>
   * Automatic rotation:<br/>
-  `python -m ReTiSAR -tt=AUTO_ROTATE`**[default]**<br/>
+  `python -m ReTiSAR -tt=AUTO_ROTATE`<br/>
   * Tracker _Razor AHRS_:<br/>
   `python -m ReTiSAR -tt=RAZOR_AHRS -t=/dev/tty.usbserial-AH03F9XC`<br/>
   * Tracker _Polhemus Patriot_:<br/>
@@ -99,34 +104,38 @@ The following parameters are all optional and available in combinations with the
 ## Execution modes:
 This section list all the conceptually different rendering modes of the pipeline. Most of the other beforehand introduced [execution parameters](#execution-parameters) can be combined with the mode-specific parameters. In case no manual value for all specific rendering parameters is provided (as in the following examples), their respective default values will be used.
 
+**Most execution modes require additional external measurement data, which cannot be republished here.** However, all provided examples are based on publicly available research data. Respective files are represented here by provided  source reference files (see [res/](res/.)), containing a source URL and potentially further instructions. In case the respective resource data file is not yet available on your system, download instructions will be shown in the command line output and generated log files.
+
+**Always check the command line output or generated log files in case the rendering pipeline does not initialize successfully!**
+
+* Run as array recording renderer, e.g. _Eigenmike_ at Chalmers lab space<br/>
+  * **Speaker moving horizontally around the array:**<br/>
+  `python -m ReTiSAR -sh=4 -tt=NONE -s=res/record/EM32ch_lab_voice_around.wav -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`**[default]**<br/>
+  * Speaker moving vertically in front of the array:<br/>
+  `python -m ReTiSAR -sh=4 -tt=NONE -s=res/record/EM32ch_lab_voice_updown.wav -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
 * Run as array live-stream renderer with minimum latency, e.g. _Eigenmike_ with the respective channel calibration (provided by manufacturer)<br/>
   * Chalmers _EM32 (SN 28)_ calibration:<br/>
   `python -m ReTiSAR -b=256 -sh=4 -tt=NONE -s=None -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`<br/>
   * Facebook Reality Labs _EM32 (SN ??)_ calibration:<br/>
   `python -m ReTiSAR -b=256 -sh=4 -tt=NONE -s=None -ar=res/ARIR/RT_calib_EM32frl_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
-* Run as array recording renderer with minimum latency, e.g. _Eigenmike_ at Chalmers lab space<br/>
-  * Speaker moving horizontally around the array:<br/>
-  `python -m ReTiSAR -b=256 -sh=4 -tt=NONE -s=res/record/EM32ch_lab_voice_around.wav -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`<br/>
-  * Speaker moving vertically in front of the array:<br/>
-  `python -m ReTiSAR -b=256 -sh=4 -tt=NONE -s=res/record/EM32ch_lab_voice_updown.wav -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
 
 * Run as array IR renderer, e.g. _Eigenmike_<br/>
-  * Simulated plane wave: `python -m ReTiSAR -sh=4 -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_sim_EM32_PW_struct.mat -art=ARIR_MIRO -arl=-6 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`<br/>
-  * Anechoic measurement: `python -m ReTiSAR -sh=4 -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_anec_EM32ch_S_struct.mat -art=ARIR_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
+  * Simulated plane wave: `python -m ReTiSAR -sh=4 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_sim_EM32_PW_struct.mat -art=ARIR_MIRO -arl=-6 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`<br/>
+  * Anechoic measurement: `python -m ReTiSAR -sh=4 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_anec_EM32ch_S_struct.mat -art=ARIR_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
 * Run as array IR renderer, e.g. sequential VSA measurements from [[8]](#references) at the maximum respective SH order<br/>
   * 50ch (sh5), SBS center:<br/>
-  `python -m ReTiSAR -sh=5 -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_SBS_VSA_50RS_PAC.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`**[default]**<br/>
+  `python -m ReTiSAR -sh=5 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_SBS_VSA_50RS_PAC.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`<br/>
   * 86ch (sh7), LBS center:<br/>
-  `python -m ReTiSAR -sh=7 -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_LBS_VSA_86RS_PAC.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`<br/>
+  `python -m ReTiSAR -sh=7 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_LBS_VSA_86RS_PAC.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`<br/>
   * 110ch (sh8), CR1 left:<br/>
-  `python -m ReTiSAR -sh=8 -s=res/source/Drums_48.wav -sp="[(-37,0)]" -ar=res/ARIR/DRIR_CR1_VSA_110RS_L.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`<br/>
+  `python -m ReTiSAR -sh=8 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -sp="[(-37,0)]" -ar=res/ARIR/DRIR_CR1_VSA_110RS_L.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`<br/>
   * 1202ch (truncated sh12), CR1 left:<br/>
-  `python -m ReTiSAR -sh=12 -s=res/source/Drums_48.wav -sp="[(-37,0)]" -ar=res/ARIR/DRIR_CR1_VSA_1202RS_L.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
+  `python -m ReTiSAR -sh=12 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -sp="[(-37,0)]" -ar=res/ARIR/DRIR_CR1_VSA_1202RS_L.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
 
 * Run as BRIR renderer (partitioned convolution in frequency domain) for any BRIR compatible to the _SoundScape Renderer_, e.g. pre-processed array IRs by [[9]](#references)<br/>
-`python -m ReTiSAR -s=res/source/Drums_48.wav -art=NONE -hr=res/HRIR/KU100_THK/BRIR_CR1_VSA_110RS_L_SSR_SFA_-37_SOFA_RFI.wav -hrt=BRIR_SSR -hrl=-12`
+`python -m ReTiSAR -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -art=NONE -hr=res/HRIR/KU100_THK/BRIR_CR1_VSA_110RS_L_SSR_SFA_-37_SOFA_RFI.wav -hrt=BRIR_SSR -hrl=-12`
 * Run as "binauralizer" for an arbitrary number of virtual sound sources via HRTF (partitioned convolution in frequency domain) for any HRIR compatible to the _SoundScape Renderer_<br/>
-`python -m ReTiSAR -s=res/source/PinkMartini_Lilly_44.wav -sp="[(30, 0),(-30, 0)]" -art=NONE -hr=res/HRIR/FABIAN_TUB/hrirs_fabian.wav -hrt=HRIR_SSR` (provide respective source file and source positions!)
+`python -m ReTiSAR -tt=AUTO_ROTATE -s=res/source/PinkMartini_Lilly_44.wav -sp="[(30, 0),(-30, 0)]" -art=NONE -hr=res/HRIR/FABIAN_TUB/hrirs_fabian.wav -hrt=HRIR_SSR` (provide respective source file and source positions!)
 
 ## Remote Control:
 * Certain parameters of the running real-time application can be remote controlled via _Open Sound Control_. Individual clients can be accessed by targeting them with specific _OSC_ commands on port `5005`**[default]**.<br/>
@@ -139,8 +148,9 @@ Depending on the current configuration and rendering mode different commands wil
 `/renderer/order 0`, `/renderer/order 1`, `/renderer/order 4`, <br/>
 `/tracker/zero`, `/tracker/azimuth 45`, `/player/stop`, `/player/play`, `/quit`
 * The individual _JACK_ client with its respective (target) name also reports real-time feedback or analysis data on port `5006`**[default]** in the specified exemplary data format (number of values depends on output ports), i.e. arbitrary combinations of the name and parameters:<br/>
-`/player/rms 0.0`, `/generator/peak 0.0 0.0 0.0 0.0`, `/renderer/load 100`, also <br/>
-`/tracker/AzimElevTilt 0.0 0.0 0.0` and `/load 100` (JACK system load)
+`/player/rms 0.0`, `/generator/peak 0.0 0.0 0.0 0.0`, `/renderer/load 100`, <br/>
+also `/tracker/AzimElevTilt 0.0 0.0 0.0` (current head orientation)<br/>
+and `/load 100` (current JACK system load)
 * In the package included is an example remote control client implemented for [_"vanilla" PD_](http://puredata.info/), see further instructions in [OSC_Remote_Demo.pd](res/OSC_Remote_Demo.pd).
 ![Screenshot of OSC_Remote_Demo.pd](res/OSC_Remote_Demo.jpg)
 
@@ -186,6 +196,8 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 
 ## Changelog
 
+* **v2020.2.2**<br/>
+  * Change of default rendering configuration to contained Eigenmike recording
 * **v2020.1.30**<br/>
   * First publication of code
 
