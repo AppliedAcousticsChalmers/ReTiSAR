@@ -1,7 +1,22 @@
 # ReTiSAR
 Implementation of the Real-Time Spherical Microphone Renderer for binaural reproduction in _Python_ [[1]](#references).
 
-## Requirements:
+##### Table of Contents:
+1. [Requirements](#requirements)
+2. [Setup](#setup)
+3. [Quickstart](#quickstart)
+4. [Execution parameters](#execution-parameters)
+5. [Execution modes](#execution-modes)
+6. [Remote Control](#remote-control)
+7. [Validation - Setup and Execution](#validation---setup-and-execution)
+8. [Benchmark - Setup and Execution](#benchmark---setup-and-execution)
+9. [References](#references)
+10. [Changelog](#changelog)
+11. [Contributing](#contributing)
+12. [Credits](#credits)
+13. [License](#license)
+
+## Requirements
 * _MacOS_ (other OS not tested)
 * [_JACK_ library](http://jackaudio.org/downloads/) (on _MacOS_ the prebuilt binary works best)
 * [_Conda_ installation](https://conda.io/en/master/miniconda.html) (`miniconda` is enough, highly recommended to get [Intel _MKL_](https://software.intel.com/en-us/articles/using-intel-distribution-for-python-with-anaconda) or alternatively [_OpenBLAS_](https://github.com/conda-forge/openblas-feedstock) optimized `numpy` version, automatically done in [setup section](#setup))
@@ -11,7 +26,7 @@ Implementation of the Real-Time Spherical Microphone Renderer for binaural repro
 ) (always check `command line` output or log files in case the rendering pipeline does not initialize successfully!)
 * __Optional:__ [_OSC_ client](http://opensoundcontrol.org/implementations) (see [remote control section](#remote-control))
 
-## Setup:
+## Setup
 * Clone repository with command line or any other _git_ client<br/>
 `git clone https://github.com/AppliedAcousticsChalmers/ReTiSAR.git`
   * __Alternative:__ Download and extract snapshot manually from provided URL (not recommended due to not being able to pull updates)<br/>
@@ -24,7 +39,7 @@ Implementation of the Real-Time Spherical Microphone Renderer for binaural repro
 * Activate created _Conda_ environment<br/>
 `source activate ReTiSAR`
 
-## Quickstart:
+## Quickstart
 * Run package with __[default]__ parameters<br/>
 `python -m ReTiSAR`
 * __Option 1:__ Modify configuration by changing default parameters in [config.py](ReTiSAR/config.py) (prepared block
@@ -37,7 +52,7 @@ At this point the only relevant _JACK_ audio server setting is the sampling freq
 
 __FFTW optimization --__ In case the rendering takes very long to start (after the message _"initializing FFTW DFT optimization ..."_), you might want to endure this long computation time once (per rendering configuration) or lower your [FFTW](http://www.fftw.org/fftw3_doc/Planner-Flags.html) planner effort (see `--help`).
 
-__Rendering performance --__ Follow these remarks to expect continuous and artifact free rendering:<br/>
+__Rendering performance --__ Follow these remarks to expect continuous and artifact free rendering:
   * Optional components like array pre-rendering, headphone equalization, noise generation, etc. will save   performance in case they are not deployed.
   * Extended IR lengths (particularly for modes with array IR pre-rendering) will massively increase the computational load depending on the chosen block length (partitioned convolution).
   * Currently there is no partitioned convolution for the main binaural renderer with SH based processing, hence the FIR taps of applied HRIR, Modal Radial Filters and further compensations (e.g. Spherical Head Filter) need to cumulatively fit inside the chosen block length.
@@ -49,7 +64,7 @@ __Rendering performance --__ Follow these remarks to expect continuous and artif
 
 __Always check the command line output or generated log files in case the rendering pipeline does not initialize successfully!__
 
-## Execution parameters:
+## Execution parameters
 The following parameters are all optional and available in combinations with the named execution modes subsequently:<br/>
 * Run with specific processing block size (_choose value according to the individual rendering configuration and performance of your system_)<br/>
   * Largest block size (best performance but noticeable input latency):<br/>
@@ -106,7 +121,7 @@ The following parameters are all optional and available in combinations with the
   `python -m ReTiSAR -gt=NOISE_IIR_PINK -gl=-30 -gm=FALSE`<br/>
 * For further [configuration parameters](#execution-parameters), check __Alternative 1__ and __Alternative 2__ above.
 
-## Execution modes:
+## Execution modes
 This section list all the conceptually different rendering modes of the pipeline. Most of the other beforehand introduced [execution parameters](#execution-parameters) can be combined with the mode-specific parameters. In case no manual value for all specific rendering parameters is provided (as in the following examples), their respective default values will be used.
 
 __Most execution modes require additional external measurement data, which cannot be republished here.__ However, all provided examples are based on publicly available research data. Respective files are represented here by provided  source reference files (see [res/](res/.)), containing a source URL and potentially further instructions. In case the respective resource data file is not yet available on your system, download instructions will be shown in the command line output and generated log files.
@@ -140,7 +155,7 @@ __Most execution modes require additional external measurement data, which canno
 * Run as "binauralizer" for an arbitrary number of virtual sound sources via HRTF (partitioned convolution in frequency domain) for any HRIR compatible to the _SoundScape Renderer_<br/>
 `python -m ReTiSAR -tt=AUTO_ROTATE -s=res/source/PinkMartini_Lilly_44.wav -sp="[(30, 0),(-30, 0)]" -art=NONE -hr=res/HRIR/FABIAN_TUB/hrirs_fabian.wav -hrt=HRIR_SSR` (provide respective source file and source positions!)
 
-## Remote Control:
+## Remote Control
 * Certain parameters of the running real-time application can be remote controlled via _Open Sound Control_. Individual clients can be accessed by targeting them with specific _OSC_ commands on port `5005` __[default]__.<br/>
 Depending on the current configuration and rendering mode different commands will be available, i.e. arbitrary combinations of the following targets and values:<br/>
 `/generator/volume 0`, `/generator/volume -12`, <br/>
@@ -157,7 +172,7 @@ and `/load 100` (current JACK system load)
 * In the package included is an example remote control client implemented for [_"vanilla" PD_](http://puredata.info/), see further instructions in [OSC_Remote_Demo.pd](res/OSC_Remote_Demo.pd).
 ![Screenshot of OSC_Remote_Demo.pd](res/OSC_Remote_Demo.jpg)
 
-## Validation - Setup and Execution:
+## Validation - Setup and Execution
 * Download and build required [_ecasound_ library](https://ecasound.seul.org/ecasound/download.php) for signal playback and capture __with _JACK_ support__<br/>
 in directory `./configure`, `make` and `sudo make install` while having _JACK_ installed
 * __Optional:__ Install [_sendosc_](https://github.com/yoggy/sendosc) tool to be used for automation in shell scripts<br/>
@@ -175,7 +190,7 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
   * Open (and run) _MATLAB_ analysis script to execute an SNR comparison of beforehand captured signals<br/>
   `open ./res/research/validation/calculate_snr.m`
 
-## Benchmark - Setup and Execution:
+## Benchmark - Setup and Execution
 * Install addition required _Python_ packages into _Conda_ environment<br/>
 `conda env update --file environment_dev.yml`
 * Run the _JACK_ server with arbitrary sampling rate via _JackPilot_ or open a new command line window `[CMD]+[T]` and<br/>
@@ -198,14 +213,23 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[9]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) Hohnerlein, C., and Ahrens, J. (2017). “Spherical Microphone Array Processing in Python with the sound field analysis-py Toolbox,” Fortschritte der Akust. -- DAGA 2017, Deutsche Gesellschaft für Akustik, Kiel, Germany, 1033–1036.<br/>
 
 ## Changelog
-* __v2020.2.2__<br/>
+* __v2020.2.2__
   * Change of default rendering configuration to contained Eigenmike recording
   * Update of README structure (including Quickstart section)
-* __v2020.1.30__<br/>
+* __v2020.1.30__
   * First publication of code
 
-## Acknowledgement
-This work was funded by Facebook Reality Labs.
+## Contributing
+TBA.
+
+## Credits
+Written by [Hannes Helmholz](http://www.ta.chalmers.se/people/hannes-helmholz/).
+
+Scientific supervision by [Jens Ahrens](http://www.ta.chalmers.se/people/jens-ahrens/).
+
+Contributions by [Carl Andersson](http://www.ta.chalmers.se/people/carl-andersson/) and [Tim Lübeck](https://www.th-koeln.de/personen/tim.luebeck/).
+
+This work was funded by [Facebook Reality Labs](https://research.fb.com/category/augmented-reality-virtual-reality/).
 
 ## License
 This software is licensed under a Non-Commercial Software License (see [LICENSE](LICENSE) for full details).
