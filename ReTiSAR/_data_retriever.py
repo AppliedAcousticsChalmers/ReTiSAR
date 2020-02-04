@@ -25,16 +25,21 @@ class DataRetriever(object):
 
         Parameters
         ----------
-        path : str
-            path to requested resource (data or source file)
+        path : str or numpy.ndarray
+            path to requested resource (data or source file) or directly provided filter coefficients where latter are
+            returned directly
         logger : logging.logger, optional
             instance to provide identical logging behaviour as the calling process
 
         Returns
         -------
-        str
-            path to resource data file (not necessarily available)
+        str or numpy.ndarray
+            path to resource data file (not necessarily available) or filter coefficients in case they were directly
+            provided
         """
+        if not isinstance(path, str):
+            return path
+
         data = DataRetriever._get_data_path(path)
         if DataRetriever.has_data(path):
             if data != path:
