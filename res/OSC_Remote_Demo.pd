@@ -1,0 +1,295 @@
+#N canvas 0 0 1221 445 10;
+#X msg 473 531 disconnect;
+#X obj 465 554 netsend -u -b;
+#X obj 466 477 list prepend send;
+#X obj 466 493 list trim;
+#X obj 743 477 loadbang;
+#X obj 428 619 oscformat tracker zero;
+#X obj 7 566 oscformat player play;
+#X obj 7 603 oscformat player stop;
+#X obj 1120 65 bng 20 250 50 0 quit empty Shutdown 22 10 0 10 -228856
+-1 -1;
+#X obj 430 830 oscformat quit;
+#X obj 223 656 oscformat renderer mute;
+#X text 7 4 Requires OSC externals: https://puredata.info/downloads/osc
+;
+#X obj 428 656 oscformat -f f tracker azimuth;
+#X obj 681 555 netreceive -u -b;
+#X msg 681 532 listen 0;
+#X obj 681 571 oscparse;
+#X obj 681 587 list trim;
+#X obj 1115 677 f;
+#X obj 1115 640 loadbang;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X array renderer_L 100 float 0;
+#X coords 0 6 99 -100 200 125 1 0 0;
+#X restore 729 256 graph;
+#X obj 1145 677 + 1;
+#X obj 1115 656 metro 100;
+#X obj 1115 698 mod 100;
+#X msg 743 493 5005;
+#X obj 743 516 + 1;
+#X msg 547 532 connect localhost \$1;
+#X msg 743 532 listen \$1;
+#X text 559 494 port can be adjusted in config;
+#X floatatom 267 357 5 0 0 1 % load -;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X array Load 100 float 0;
+#X coords 0 100 99 0 400 60 1 0 0;
+#X restore 237 372 graph;
+#X obj 1040 802 tabwrite Load;
+#X obj 223 804 oscformat renderer order;
+#X obj 492 328 hradio 19 1 0 9 renderer_order empty _0_|_1_|_2_|_3_|_4_|_5_|_6_|_7_|_8
+0 -8 0 9 -262144 -1 -128992 8;
+#X obj 223 767 oscformat -f f renderer delay;
+#X obj 493 203 r renderer_delay;
+#X obj 496 257 hsl 165 20 0 1000 0 0 renderer_delay empty 0..1000 55
+-8 0 10 -228856 -1 -128992 0 0;
+#X floatatom 496 242 5 0 0 1 ms - renderer_delay;
+#X msg 493 219 set \$1;
+#X obj 223 751 r renderer_delay;
+#X obj 493 91 vsl 20 100 -60 12 0 0 renderer_volume empty -60..+12
+22 20 0 10 -228856 -1 -128992 0 1;
+#X floatatom 513 89 5 0 0 1 dBFS - renderer_volume;
+#X obj 223 619 oscformat -f f renderer volume;
+#X obj 223 603 r renderer_volume;
+#X obj 493 50 r renderer_volume;
+#X msg 493 66 set \$1;
+#X obj 430 814 r quit;
+#X obj 223 640 r renderer_mute;
+#X obj 524 121 tgl 20 0 renderer_mute empty Mute 22 10 0 10 -228856
+-1 -1 0 1;
+#X obj 223 693 oscformat renderer passthrough;
+#X obj 223 730 oscformat renderer crossfade;
+#X obj 223 714 r renderer_crossfade;
+#X obj 524 141 tgl 20 0 renderer_passthrough empty Passthrough 22 10
+0 10 -228856 -1 -1 0 1;
+#X obj 524 161 tgl 20 0 renderer_crossfade empty Crossfade 22 10 0
+10 -228856 -1 -1 0 1;
+#X obj 223 677 r renderer_passthrough;
+#X obj 7 513 r player_mute;
+#X obj 7 529 oscformat player mute;
+#X obj 9 91 vsl 20 100 -60 12 0 0 player_volume empty -60..+12 22 20
+0 10 -228856 -1 -128992 0 1;
+#X floatatom 29 89 5 0 0 1 dBFS - player_volume;
+#X msg 9 66 set \$1;
+#X obj 9 50 r player_volume;
+#X obj 41 120 tgl 20 0 player_mute empty Mute 22 10 0 10 -228856 -1
+-1 0 1;
+#X obj 157 91 vsl 20 100 -60 12 0 0 generator_volume empty -60..+12
+22 20 0 10 -228856 -1 -128992 0 1;
+#X floatatom 177 89 5 0 0 1 dBFS - generator_volume;
+#X msg 157 66 set \$1;
+#X obj 189 120 tgl 20 0 generator_mute empty Mute 22 10 0 10 -228856
+-1 -1 0 1;
+#X obj 157 50 r generator_volume;
+#X obj 7 476 r player_volume;
+#X obj 7 492 oscformat -f f player volume;
+#X obj 8 720 r generator_mute;
+#X obj 8 683 r generator_volume;
+#X obj 8 699 oscformat -f f generator volume;
+#X obj 8 736 oscformat generator mute;
+#X obj 41 160 bng 20 250 50 0 player_stop empty Stop 22 10 0 10 -228856
+-1 -1;
+#X obj 41 140 bng 20 250 50 0 player_play empty Play 22 10 0 10 -228856
+-1 -1;
+#X obj 7 550 r player_play;
+#X obj 7 587 r player_stop;
+#X obj 320 91 vsl 20 100 -60 12 0 0 prerenderer_volume empty -60..+12
+22 20 0 10 -228856 -1 -128992 0 1;
+#X floatatom 340 89 5 0 0 1 dBFS - prerenderer_volume;
+#X msg 320 66 set \$1;
+#X obj 351 121 tgl 20 0 prerenderer_mute empty Mute 22 10 0 10 -228856
+-1 -1 0 1;
+#X obj 351 141 tgl 20 0 prerenderer_passthrough empty Passthrough 22
+10 0 10 -228856 -1 -1 0 1;
+#X obj 320 50 r prerenderer_volume;
+#X obj 222 476 r prerenderer_volume;
+#X obj 222 492 oscformat -f f prerenderer volume;
+#X obj 222 513 r prerenderer_mute;
+#X obj 222 529 oscformat prerenderer mute;
+#X obj 222 550 r prerenderer_passthrough;
+#X obj 222 566 oscformat prerenderer passthrough;
+#X obj 492 291 bng 20 250 50 0 renderer_order empty Reset 22 10 0 10
+-228856 -1 -1;
+#X obj 223 788 r renderer_order;
+#X text 575 293 renderer_order;
+#X obj 725 91 vsl 20 100 -60 12 0 0 hpcf_volume empty -60..+12 22 20
+0 10 -228856 -1 -128992 6100 1;
+#X floatatom 745 89 5 0 0 1 dBFS - hpcf_volume;
+#X msg 725 66 set \$1;
+#X obj 756 121 tgl 20 0 hpcf_mute empty Mute 22 10 0 10 -228856 -1
+-1 0 1;
+#X obj 756 141 tgl 20 0 hpcf_passthrough empty Passthrough 22 10 0
+10 -228856 -1 -1 0 1;
+#X obj 11 412 hsl 165 20 181 -180 0 0 tracker_azimuth empty +180..-180
+55 -8 0 10 -228856 -1 -128992 8223 1;
+#X floatatom 11 397 5 0 0 1 deg - tracker_azimuth;
+#X msg 8 374 set \$1;
+#X obj 8 358 r tracker_azimuth;
+#X obj 121 371 bng 20 250 50 0 tracker_zero empty Calibrate 22 10 0
+10 -228856 -1 -1;
+#X obj 428 640 r tracker_azimuth;
+#X obj 428 603 r tracker_zero;
+#X obj 1040 786 s load;
+#X obj 684 249 vu 15 120 renderer_rec_L empty -1 -8 0 10 -66577 -1
+1 0;
+#X floatatom 670 372 5 0 0 1 dBFS renderer_rec_L_rms -;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X array renderer_R 100 float 0;
+#X coords 0 6 99 -100 200 125 1 0 0;
+#X restore 995 255 graph;
+#X obj 950 248 vu 15 120 renderer_rec_R empty -1 -8 0 10 -66577 -1
+1 0;
+#X floatatom 936 371 5 0 0 1 dBFS renderer_rec_R_rms -;
+#X text 842 4 Commands are available depending on the rendering mode
+and configuration. OSC target names are derived from the given JACK
+client names. The order of the individual command and target name can
+be altered.;
+#X text 438 4 Shown Toggle or Slider values do not necessarily represent
+the current program status (no feedback implemented yet)!;
+#X text 7 24 File playback cannot be restarted over OSC so far.;
+#X obj 918 786 route AzimElevTilt;
+#X obj 918 802 unpack f f f;
+#X obj 8 342 r tracker_rec_azimuth;
+#X obj 918 830 s tracker_rec_azimuth;
+#X obj 157 243 vsl 20 50 0 30 0 0 g_volume_port_relative empty +0..+30
+22 20 0 10 -228856 -1 -128992 0 1;
+#X floatatom 177 241 5 0 0 1 dBFS - g_volume_port_relative;
+#X msg 157 218 set \$1;
+#X floatatom 177 281 5 0 110 1 port - g_volume_port;
+#X obj 35 798 f;
+#X obj 35 814 pack f f;
+#X obj 8 774 t f b;
+#X obj 35 830 oscformat -f if generator volume_port_relative;
+#X obj 157 202 r g_volume_port_relative;
+#X obj 8 758 r g_volume_port_relative;
+#X obj 50 774 r g_volume_port;
+#X floatatom 83 66 3 0 0 1 % player_load -;
+#X floatatom 249 66 3 0 0 1 % generator_load -;
+#X floatatom 423 66 3 0 0 1 % prerenderer_load -;
+#X floatatom 579 66 3 0 0 1 % renderer_load -;
+#X floatatom 786 66 3 0 0 1 % hpcf_load -;
+#X obj 823 712 OSC_Route_Client renderer;
+#X obj 1030 603 print unknown_command;
+#X obj 681 643 OSC_Route_Client player;
+#X obj 727 666 OSC_Route_Client generator;
+#X obj 775 689 OSC_Route_Client prerenderer;
+#X text 1009 650 update rate in ms;
+#X text 1051 662 for canvas;
+#X obj 725 50 r hpcf_volume;
+#X obj 429 690 r hpcf_volume;
+#X obj 429 706 oscformat -f f hpcf volume;
+#X obj 429 727 r hpcf_mute;
+#X obj 429 743 oscformat hpcf mute;
+#X obj 429 780 oscformat hpcf passthrough;
+#X obj 429 764 r hpcf_passthrough;
+#X obj 870 735 OSC_Route_Client hpcf;
+#X obj 681 603 route player generator prerenderer renderer hpcf tracker
+load;
+#X connect 0 0 1 0;
+#X connect 2 0 3 0;
+#X connect 3 0 1 0;
+#X connect 4 0 23 0;
+#X connect 5 0 2 0;
+#X connect 6 0 2 0;
+#X connect 7 0 2 0;
+#X connect 9 0 2 0;
+#X connect 10 0 2 0;
+#X connect 12 0 2 0;
+#X connect 13 0 15 0;
+#X connect 14 0 13 0;
+#X connect 15 0 16 0;
+#X connect 16 0 147 0;
+#X connect 17 0 20 0;
+#X connect 17 0 22 0;
+#X connect 18 0 21 0;
+#X connect 20 0 17 1;
+#X connect 21 0 17 0;
+#X connect 22 0 30 1;
+#X connect 22 0 132 1;
+#X connect 23 0 25 0;
+#X connect 23 0 24 0;
+#X connect 24 0 26 0;
+#X connect 25 0 1 0;
+#X connect 26 0 13 0;
+#X connect 31 0 2 0;
+#X connect 33 0 2 0;
+#X connect 34 0 37 0;
+#X connect 37 0 35 0;
+#X connect 37 0 36 0;
+#X connect 38 0 33 0;
+#X connect 41 0 2 0;
+#X connect 42 0 41 0;
+#X connect 43 0 44 0;
+#X connect 44 0 40 0;
+#X connect 44 0 39 0;
+#X connect 45 0 9 0;
+#X connect 46 0 10 0;
+#X connect 48 0 2 0;
+#X connect 49 0 2 0;
+#X connect 50 0 49 0;
+#X connect 53 0 48 0;
+#X connect 54 0 55 0;
+#X connect 55 0 2 0;
+#X connect 58 0 57 0;
+#X connect 58 0 56 0;
+#X connect 59 0 58 0;
+#X connect 63 0 62 0;
+#X connect 63 0 61 0;
+#X connect 65 0 63 0;
+#X connect 66 0 67 0;
+#X connect 67 0 2 0;
+#X connect 68 0 71 0;
+#X connect 69 0 70 0;
+#X connect 70 0 2 0;
+#X connect 71 0 2 0;
+#X connect 74 0 6 0;
+#X connect 75 0 7 0;
+#X connect 78 0 77 0;
+#X connect 78 0 76 0;
+#X connect 81 0 78 0;
+#X connect 82 0 83 0;
+#X connect 83 0 2 0;
+#X connect 84 0 85 0;
+#X connect 85 0 2 0;
+#X connect 86 0 87 0;
+#X connect 87 0 2 0;
+#X connect 89 0 31 0;
+#X connect 93 0 92 0;
+#X connect 93 0 91 0;
+#X connect 98 0 96 0;
+#X connect 98 0 97 0;
+#X connect 99 0 98 0;
+#X connect 101 0 12 0;
+#X connect 102 0 5 0;
+#X connect 112 0 113 0;
+#X connect 112 1 133 0;
+#X connect 113 0 115 0;
+#X connect 114 0 98 0;
+#X connect 118 0 117 0;
+#X connect 118 0 116 0;
+#X connect 120 0 121 0;
+#X connect 121 0 123 0;
+#X connect 122 0 121 1;
+#X connect 122 1 120 0;
+#X connect 123 0 2 0;
+#X connect 124 0 118 0;
+#X connect 125 0 122 0;
+#X connect 126 0 120 1;
+#X connect 139 0 93 0;
+#X connect 140 0 141 0;
+#X connect 141 0 2 0;
+#X connect 142 0 143 0;
+#X connect 143 0 2 0;
+#X connect 144 0 2 0;
+#X connect 145 0 144 0;
+#X connect 147 0 134 0;
+#X connect 147 1 135 0;
+#X connect 147 2 136 0;
+#X connect 147 3 132 0;
+#X connect 147 4 146 0;
+#X connect 147 5 112 0;
+#X connect 147 6 103 0;
+#X connect 147 6 30 0;
+#X connect 147 7 133 0;
