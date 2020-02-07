@@ -8,12 +8,8 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[*.py]
+[*.{sh,py}]
 indent_size = 4
 
-[*.sh]
-indent_size = 4
-max_line_length = off
-
-[*.md]
+[*.{sh,md,yml}]
 max_line_length = off

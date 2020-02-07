@@ -232,16 +232,18 @@ def get_absolute_from_relative_package_path(relative_package_path):
     """
     Parameters
     ----------
-    relative_package_path : str or list of str
+    relative_package_path : str, list of str or None
         path to a resource relative to the package base directory
 
     Returns
     -------
-    str or list of str
+    str, list of str or None
         absolute system path to resource
     """
-    _PACKAGE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
+    if relative_package_path is None:
+        return
 
+    _PACKAGE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
     if not relative_package_path or \
             (isinstance(relative_package_path, str) and relative_package_path.strip('\'"') == ''):
         return None

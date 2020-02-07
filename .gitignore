@@ -269,6 +269,7 @@ instance/
 
 # Sphinx documentation
 docs/_build/
+_site/
 
 # PyBuilder
 target/
