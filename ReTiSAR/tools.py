@@ -31,12 +31,6 @@ def parse_cmd_args():
             print(open(get_absolute_from_relative_package_path('LICENSE'), mode='r', encoding='utf-8').read())
             _parser.exit()
 
-    class _VersionAction(argparse.Action):
-        def __call__(self, _parser, namespace, values, option_string=None):
-            from . import __version__
-            print(__version__)
-            _parser.exit()
-
     # class _PrecisionAction(argparse.Action):
     #     def __call__(self, _parser, namespace, values, option_string=None):
     #         config.IS_SINGLE_PRECISION = self.dest == 'SINGLE_PRECISION'  # False if self.dest == 'DOUBLE_PRECISION'
@@ -46,7 +40,6 @@ def parse_cmd_args():
                                      description='Implementation of the Real-Time Spherical Microphone Renderer for '
                                                  'binaural reproduction in Python.')
     parser.add_argument('-l', '--license', action=_LicenseAction, nargs=0, help='show LICENSE information and exit')
-    parser.add_argument('-v', '--version', action=_VersionAction, nargs=0, help='show version information and exit')
     parser.add_argument('-b', '--BLOCK_LENGTH', type=int, required=False,
                         help='block length in samples of the JACK audio server and clients in samples')
     parser.add_argument('-irt', '--IR_TRUNCATION_LEVEL', type=float, required=False,

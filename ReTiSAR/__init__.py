@@ -1,4 +1,4 @@
-__version__ = '2020.2.10'
+__version__ = '2020.2.7'
 
 __all__ = ['config', 'DataRetriever', 'tools', 'process_logger', 'OscRemote',
            'Compensation', 'Convolver', 'FilterSet', 'HeadTracker', 'Generator',
