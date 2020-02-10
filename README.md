@@ -215,6 +215,11 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[9]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) Hohnerlein, C., and Ahrens, J. (2017). “Spherical Microphone Array Processing in Python with the sound field analysis-py Toolbox,” Fortschritte der Akust. -- DAGA 2017, Deutsche Gesellschaft für Akustik, Kiel, Germany, 1033–1036.<br/>
 
 ## Changelog
+* __v2020.2.10__
+  * Addition of project community information (contributing, code of conduct, issue templates)
+* __v2020.2.7__
+  * Extension of `DataRetriever` to automatically download data files
+  * Addition of missing ignored project resources
 * __v2020.2.2__
   * Change of default rendering configuration to contained Eigenmike recording
   * Update of README structure (including Quickstart section)
@@ -222,7 +227,7 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
   * First publication of code
 
 ## Contributing
-TBA.
+See [CONTRIBUTING](CONTRIBUTING.md) for full details.
 
 ## Credits
 Written by [Hannes Helmholz](http://www.ta.chalmers.se/people/hannes-helmholz/).
