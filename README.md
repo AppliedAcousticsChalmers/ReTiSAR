@@ -42,7 +42,9 @@ Implementation of the Real-Time Spherical Microphone Renderer for binaural repro
 ## Quickstart
 * Follow [requirements](#requirements) and [setup](#setup) instructions
 * During first execution, some small amount of additional mandatory external measurement data will be downloaded automatically, see remark in [execution modes](#execution-modes) __(requires Internet connection)__
-* Run package with __[default]__ parameters<br/>
+* Start JACK server with 48 kHz sampling rate</br>
+`jackd -d coreaudio -r 48000`
+* Run package with __[default]__ parameters to hear a binaural rendering of a raw Eigenmike recording<br/>
 `python -m ReTiSAR`
 * __Option 1:__ Modify configuration by changing default parameters in [config.py](ReTiSAR/config.py) (prepared block
  comments for the specific execution modes below exist).
