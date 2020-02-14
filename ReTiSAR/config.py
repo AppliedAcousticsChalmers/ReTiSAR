@@ -115,6 +115,26 @@ ARIR_LEVEL = 0
 SH_MAX_ORDER = 4
 """Maximum spherical harmonics order when rendering Array Room Impulse Responses, see `JackRenderer`."""
 
+# ############ ARRAY RECORDING RENDERING OF THK HOSMA ############
+# BLOCK_LENGTH = 1024
+# """Block length of the JACK audio server and clients in samples, see `JackClient`. Should only be set before starting
+# # any client."""
+# SOURCE_FILE = 'res/record/HOS64_hall_lecture.wav'  # file not provided
+# """File of audio being played by the application, see `JackPlayer`."""
+# SOURCE_LEVEL = 9
+# """Output level in dBFS of audio being played by the application, see `JackClient`."""
+# SOURCE_POSITIONS = [(90, 0)]
+# """[optional, in case related to ARIR] reference frontal position as list of tuple of azimuth (counterclockwise) and
+# elevation in degrees (int or float)."""
+# ARIR_TYPE = 'AS_MIRO'
+# """Type of FIR filter file containing Array Room Impulse Responses, see `FilterSet.Type`."""
+# ARIR_FILE = 'res/ARIR/RT_calib_HOS64_struct.mat'
+# """File with FIR filter containing Array Room Impulse Responses, see `FilterSet`."""
+# ARIR_LEVEL = 0
+# """Output level in dBFS of renderer for Array Room Impulse Responses, see `JackClient`."""
+# SH_MAX_ORDER = 7
+# """Maximum spherical harmonics order when rendering Array Room Impulse Responses, see `JackRenderer`."""
+
 # ############ ARRAY LIVE-STREAM RENDERING OF EIGENMIKE ############
 # BLOCK_LENGTH = 256
 # """Block length of the JACK audio server and clients in samples, see `JackClient`. Should only be set before starting
@@ -129,6 +149,21 @@ SH_MAX_ORDER = 4
 # ARIR_LEVEL = 0
 # """Output level in dBFS of renderer for Array Room Impulse Responses, see `JackClient`."""
 # SH_MAX_ORDER = 4
+# """Maximum spherical harmonics order when rendering Array Room Impulse Responses, see `JackRenderer`."""
+
+# ############ ARRAY LIVE-STREAM RENDERING OF THK HOSMA ############
+# BLOCK_LENGTH = 1024
+# """Block length of the JACK audio server and clients in samples, see `JackClient`. Should only be set before starting
+# any client."""
+# SOURCE_FILE = None
+# """File of audio being played by the application, see `JackPlayer`."""
+# ARIR_TYPE = 'AS_MIRO'
+# """Type of FIR filter file containing Array Room Impulse Responses, see `FilterSet.Type`."""
+# ARIR_FILE = 'res/ARIR/RT_calib_HOS64_struct.mat'
+# """File with FIR filter containing Array Room Impulse Responses, see `FilterSet`."""
+# ARIR_LEVEL = 0
+# """Output level in dBFS of renderer for Array Room Impulse Responses, see `JackClient`."""
+# SH_MAX_ORDER = 7
 # """Maximum spherical harmonics order when rendering Array Room Impulse Responses, see `JackRenderer`."""
 
 # ############ ARRAY IR RENDERING OF EIGENMIKE ############

@@ -27,29 +27,27 @@ Implementation of the Real-Time Spherical Microphone Renderer for binaural repro
 * __Optional:__ [_OSC_ client](http://opensoundcontrol.org/implementations) (see [remote control section](#remote-control))
 
 ## Setup
-* Clone repository with command line or any other _git_ client<br/>
+* Clone repository with command line or any other _git_ client:<br/>
 `git clone https://github.com/AppliedAcousticsChalmers/ReTiSAR.git`
-  * __Alternative:__ Download and extract snapshot manually from provided URL (not recommended due to not being able to pull updates)<br/>
-* Navigate into repository (the directory containing _setup.py_)<br/>
+  * __Alternative:__ Download and extract snapshot manually from provided URL (not recommended due to not being able to pull updates)
+* Navigate into repository (the directory containing _setup.py_):<br/>
 `cd ReTiSAR/`
-* Make sure that _Conda_ is up to date<br/>
+* Make sure that _Conda_ is up to date:<br/>
 `conda update conda`
-* Create new _Conda_ environment from the specified requirements (`--force` to overwrite potentially existing outdated environment)<br/>
+* Create new _Conda_ environment from the specified requirements (`--force` to overwrite potentially existing outdated environment):<br/>
 `conda env create --file environment.yml --force`
-* Activate created _Conda_ environment<br/>
+* Activate created _Conda_ environment:<br/>
 `source activate ReTiSAR`
 
 ## Quickstart
 * Follow [requirements](#requirements) and [setup](#setup) instructions
 * During first execution, some small amount of additional mandatory external measurement data will be downloaded automatically, see remark in [execution modes](#execution-modes) __(requires Internet connection)__
-* Start JACK server with 48 kHz sampling rate</br>
+* Start JACK server with 48 kHz sampling rate:</br>
 `jackd -d coreaudio -r 48000`
-* Run package with __[default]__ parameters to hear a binaural rendering of a raw Eigenmike recording<br/>
+* Run package with __[default]__ parameters to hear a binaural rendering of a raw Eigenmike recording:<br/>
 `python -m ReTiSAR`
-* __Option 1:__ Modify configuration by changing default parameters in [config.py](ReTiSAR/config.py) (prepared block
- comments for the specific execution modes below exist).
-* __Option 2:__ Modify configuration by command line arguments (like in the following examples showing different
- execution [parameters](#execution-parameters) and [modes](#execution-modes) (see `--help`).
+* __Option 1:__ Modify configuration by changing default parameters in [config.py](ReTiSAR/config.py) (prepared block comments for the specific execution modes below exist).
+* __Option 2:__ Modify configuration by command line arguments (like in the following examples showing different execution [parameters](#execution-parameters) and [modes](#execution-modes) (see `--help`).
 
 __JACK initialization --__ In case you have never started the _JACK_ audio server on your system or want to make sure it initializes with appropriate values. Open the _JackPilot_ application set your system specific default settings.<br/>
 At this point the only relevant _JACK_ audio server setting is the sampling frequency, which has to match the sampling frequency of your rendered audio source file or stream (no resampling will be applied for that specific file).
@@ -130,16 +128,22 @@ This section list all the conceptually different rendering modes of the pipeline
 
 __Most execution modes require additional external measurement data, which cannot be republished here.__ However, all provided examples are based on publicly available research data. Respective files are represented here by provided  source reference files (see [res/](res/.)), containing a source URL and potentially further instructions. In case the respective resource data file is not yet available on your system, download instructions will be shown in the command line output and generated log files.
 
-* Run as array recording renderer, e.g. _Eigenmike_ at Chalmers lab space<br/>
-  * __Speaker moving horizontally around the array:__<br/>
-  `python -m ReTiSAR -sh=4 -tt=NONE -s=res/record/EM32ch_lab_voice_around.wav -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA` __[default]__<br/>
-  * Speaker moving vertically in front of the array:<br/>
+* Run as array recording renderer<br/>
+  * _Eigenmike_ at Chalmers lab space with __speaker moving horizontally around the array:__<br/>
+  `python -m ReTiSAR -sh=4 -tt=NONE -s=res/record/EM32ch_lab_voice_around.wav -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA` __[default]__
+  * _Eigenmike_ at Chalmers lab space with speaker moving vertically in front of the array:<br/>
   `python -m ReTiSAR -sh=4 -tt=NONE -s=res/record/EM32ch_lab_voice_updown.wav -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
-* Run as array live-stream renderer with minimum latency, e.g. _Eigenmike_ with the respective channel calibration (provided by manufacturer)<br/>
-  * Chalmers _EM32 (SN 28)_ calibration:<br/>
+  * _HØSMA 7n_ at TH Cologne lecture hall __(recording file not provided)__:<br/>
+  `python -m ReTiSAR -b=1024 -sh=7 -tt=NONE -s=res/record/HOS64_hall_lecture.wav -sp="[(90,0)]" -sl=9 -ar=res/ARIR/RT_calib_HOS64_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
+* Run as array live-stream renderer with minimum latency (e.g. _Eigenmike_ with the respective channel calibration provided by manufacturer)<br/>
+  * _Eigenmike_ Chalmers _EM32 (SN 28)_:<br/>
   `python -m ReTiSAR -b=256 -sh=4 -tt=NONE -s=None -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`<br/>
-  * Facebook Reality Labs _EM32 (SN ??)_ calibration:<br/>
+  * _Eigenmike_ Facebook Reality Labs _EM32 (SN ??)_:<br/>
   `python -m ReTiSAR -b=256 -sh=4 -tt=NONE -s=None -ar=res/ARIR/RT_calib_EM32frl_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
+  * TH Cologne _HØSMA 7n_:<br/>
+  `python -m ReTiSAR -b=1024 -sh=7 -tt=NONE -s=None -ar=res/ARIR/RT_calib_HOS64_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
+  * Zylia _ZM-1_:<br/>
+  `python -m ReTiSAR -b=256 -sh=3 ...` __(grid calibration file pending)__
 
 * Run as array IR renderer, e.g. _Eigenmike_<br/>
   * Simulated plane wave: `python -m ReTiSAR -sh=4 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_sim_EM32_PW_struct.mat -art=ARIR_MIRO -arl=-6 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`<br/>
@@ -217,6 +221,8 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[9]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) Hohnerlein, C., and Ahrens, J. (2017). “Spherical Microphone Array Processing in Python with the sound field analysis-py Toolbox,” Fortschritte der Akust. -- DAGA 2017, Deutsche Gesellschaft für Akustik, Kiel, Germany, 1033–1036.<br/>
 
 ## Changelog
+* __v2020.2.14__
+  * Addition of TH Cologne _HØSMA 7n_ array configuration
 * __v2020.2.10__
   * Addition of project community information (contributing, code of conduct, issue templates)
 * __v2020.2.7__
