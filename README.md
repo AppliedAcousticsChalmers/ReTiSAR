@@ -1,6 +1,19 @@
 # ReTiSAR
 Implementation of the Real-Time Spherical Microphone Renderer for binaural reproduction in _Python_ [[1]](#references).
 
+![Badge_OS](https://img.shields.io/badge/platform-osx--64-lightgrey)
+[![Badge_Python](https://img.shields.io/badge/python->=3.7-brightgreen)][Python]
+[![Badge Version](https://badge.fury.io/gh/AppliedAcousticsChalmers%2FReTiSAR.svg)](https://github.com/AppliedAcousticsChalmers/ReTiSAR/releases)<br/>
+[![Badge_Conda](https://img.shields.io/badge/supports-conda-orange)][Conda]
+[![Badge_FFTW](https://img.shields.io/badge/supports-FFTW-orange)][FFTW]
+[![Badge_JACK](https://img.shields.io/badge/supports-JACK-orange)][JACK]
+[![Badge_SOFA](https://img.shields.io/badge/supports-SOFA-orange)][SOFA]
+[![Badge_OSC](https://img.shields.io/badge/supports-OSC-orange)][OSC]<br/>
+[![Badge_LastCommit](https://img.shields.io/github/last-commit/AppliedAcousticsChalmers/ReTiSAR)](https://github.com/AppliedAcousticsChalmers/ReTiSAR/commit/master)
+[![Badge_CommitActivity](https://img.shields.io/github/commit-activity/m/AppliedAcousticsChalmers/ReTiSAR)](https://github.com/AppliedAcousticsChalmers/ReTiSAR/commits/master)
+![Badge_CodeSize](https://img.shields.io/github/languages/code-size/AppliedAcousticsChalmers/ReTiSAR)
+![Badge_RepoSize](https://img.shields.io/github/repo-size/AppliedAcousticsChalmers/ReTiSAR)
+
 ##### Table of Contents:
 1. [Requirements](#requirements)
 2. [Setup](#setup)
@@ -17,14 +30,14 @@ Implementation of the Real-Time Spherical Microphone Renderer for binaural repro
 13. [License](#license)
 
 ## Requirements
-* _MacOS_ (other OS not tested)
-* [_JACK_ library](http://jackaudio.org/downloads/) (on _MacOS_ the prebuilt binary works best)
-* [_Conda_ installation](https://conda.io/en/master/miniconda.html) (`miniconda` is enough, highly recommended to get [Intel _MKL_](https://software.intel.com/en-us/articles/using-intel-distribution-for-python-with-anaconda) or alternatively [_OpenBLAS_](https://github.com/conda-forge/openblas-feedstock) optimized `numpy` version, automatically done in [setup section](#setup))
-* [_Python_ installation](https://www.python.org/downloads/), recommended way is to use _Conda_ (automatically done in [setup section](#setup))
-* Installation of the required _Python_ packages (see [setup section](#setup))
+* _MacOS_ (on _Windows_ compatibly with the usual _JACK_ binaries seems problematic, but this is not well investigated so far)
+* [_JACK_ library][JACK] (usual prebuilt binaries are the easiest solution, otherwise you will have to build from source)
+* [_Conda_ installation][Conda] (`miniconda` is sufficient; provides an easy way to get [Intel _MKL_](https://software.intel.com/en-us/articles/using-intel-distribution-for-python-with-anaconda) or alternatively [_OpenBLAS_](https://github.com/conda-forge/openblas-feedstock) optimized `numpy` versions which is highly recommended)
+* [_Python_ installation][Python] (recommended way to get _Python_ is to use _Conda_ as described in the [setup section](#setup))
+* Installation of the required _Python_ packages (recommended way is to use _Conda_ as described in the [setup section](#setup))
 * __Optional:__ Download of publicly available measurement data for alternative [execution modes](#execution-modes
 ) (always check `command line` output or log files in case the rendering pipeline does not initialize successfully!)
-* __Optional:__ [_OSC_ client](http://opensoundcontrol.org/implementations) (see [remote control section](#remote-control))
+* __Optional:__ Install an [_OSC_ client][OSC] for real-time feedback and [remote control](#remote-control) options during runtime
 
 ## Setup
 * Clone repository with command line or any other _git_ client:<br/>
@@ -32,12 +45,13 @@ Implementation of the Real-Time Spherical Microphone Renderer for binaural repro
   * __Alternative:__ Download and extract snapshot manually from provided URL (not recommended due to not being able to pull updates)
 * Navigate into repository (the directory containing _setup.py_):<br/>
 `cd ReTiSAR/`
-* Make sure that _Conda_ is up to date:<br/>
-`conda update conda`
-* Create new _Conda_ environment from the specified requirements (`--force` to overwrite potentially existing outdated environment):<br/>
-`conda env create --file environment.yml --force`
-* Activate created _Conda_ environment:<br/>
-`source activate ReTiSAR`
+* Install required _Python_ packages i.e., _Conda_ is recommended:
+  * Make sure that _Conda_ is up to date:<br/>
+  `conda update conda`
+  * Create new _Conda_ environment from the specified requirements (`--force` to overwrite potentially existing outdated environment):<br/>
+  `conda env create --file environment.yml --force`
+  * Activate created _Conda_ environment:<br/>
+  `source activate ReTiSAR`
 
 ## Quickstart
 * Follow [requirements](#requirements) and [setup](#setup) instructions
@@ -52,7 +66,7 @@ Implementation of the Real-Time Spherical Microphone Renderer for binaural repro
 __JACK initialization --__ In case you have never started the _JACK_ audio server on your system or want to make sure it initializes with appropriate values. Open the _JackPilot_ application set your system specific default settings.<br/>
 At this point the only relevant _JACK_ audio server setting is the sampling frequency, which has to match the sampling frequency of your rendered audio source file or stream (no resampling will be applied for that specific file).
 
-__FFTW optimization --__ In case the rendering takes very long to start (after the message _"initializing FFTW DFT optimization ..."_), you might want to endure this long computation time once (per rendering configuration) or lower your [FFTW](http://www.fftw.org/fftw3_doc/Planner-Flags.html) planner effort (see `--help`).
+__FFTW optimization --__ In case the rendering takes very long to start (after the message _"initializing FFTW DFT optimization ..."_), you might want to endure this long computation time once (per rendering configuration) or lower your [FFTW] planner effort (see `--help`).
 
 __Rendering performance --__ Follow these remarks to expect continuous and artifact free rendering:
   * Optional components like array pre-rendering, headphone equalization, noise generation, etc. will save   performance in case they are not deployed.
@@ -164,19 +178,22 @@ __Most execution modes require additional external measurement data, which canno
 `python -m ReTiSAR -tt=AUTO_ROTATE -s=res/source/PinkMartini_Lilly_44.wav -sp="[(30, 0),(-30, 0)]" -art=NONE -hr=res/HRIR/FABIAN_TUB/hrirs_fabian.wav -hrt=HRIR_SSR` (provide respective source file and source positions!)
 
 ## Remote Control
-* Certain parameters of the running real-time application can be remote controlled via _Open Sound Control_. Individual clients can be accessed by targeting them with specific _OSC_ commands on port `5005` __[default]__.<br/>
-Depending on the current configuration and rendering mode different commands will be available, i.e. arbitrary combinations of the following targets and values:<br/>
-`/generator/volume 0`, `/generator/volume -12`, <br/>
-`/prerenderer/mute 1`, `/prerenderer/mute 0`, `/prerenderer/mute -1`, `/prerenderer/mute`, <br/>
-`/hpeq/passthrough true`, `/hpeq/passthrough false`, `/hpeq/passthrough toggle`
+* __During runtime__, certain parameters of the application can be remote controlled via _Open Sound Control_. Individual clients can be accessed by targeting them with specific _OSC_ commands on port `5005` __[default]__.<br/>
+Depending on the current configuration and rendering mode different commands are available, i.e. arbitrary combinations of the following targets and values:<br/>
+`/generator/volume 0`, `/generator/volume -12` (set any client output volume in dBFS),<br/>
+`/prerenderer/mute 1`, `/prerenderer/mute 0`, `/prerenderer/mute -1`, `/prerenderer/mute` (set/toggle any client mute state),<br/>
+`/hpeq/passthrough true`, `/hpeq/passthrough false`, `/hpeq/passthrough toggle` (set/toggle any client passthrough state)
 * The target name is derived from the individual _JACK_ client name for all commands, while the order of target client and command can be altered. Additional commands might be available.<br/>
-`/renderer/crossfade`, `/crossfade/renderer`, `/renderer/delay 350.0`, <br/>
-`/renderer/order 0`, `/renderer/order 1`, `/renderer/order 4`, <br/>
-`/tracker/zero`, `/tracker/azimuth 45`, `/player/stop`, `/player/play`, `/quit`
-* The individual _JACK_ client with its respective (target) name also reports real-time feedback or analysis data on port `5006` __[default]__ in the specified exemplary data format (number of values depends on output ports), i.e. arbitrary combinations of the name and parameters:<br/>
-`/player/rms 0.0`, `/generator/peak 0.0 0.0 0.0 0.0`, `/renderer/load 100`, <br/>
-also `/tracker/AzimElevTilt 0.0 0.0 0.0` (current head orientation)<br/>
-and `/load 100` (current JACK system load)
+`/renderer/crossfade`, `/crossfade/renderer` (set/toggle crossfade state),<br/>
+`/renderer/delay 350.0` (set additional input delay in ms),<br/>
+`/renderer/order 0`, `/renderer/order 4` (set SH rendering order),<br/>
+`/tracker/zero` (calibrate tracker), `/tracker/azimuth 45` (set tracker orientation),<br/>
+`/player/stop`, `/player/play`, `/quit` (quit all rendering components)
+* __During runtime__, individual _JACK_ clients with their respective "target" name also report real-time feedback or analysis data on port `5006` __[default]__ in the specified exemplary data format (number of values depends on output ports), i.e. arbitrary combinations of the name and parameters:<br/>
+`/player/rms 0.0`, `/generator/peak 0.0 0.0 0.0 0.0` (current audio output metrics),<br/>
+`/renderer/load 100` (current client load),<br/>
+`/tracker/AzimElevTilt 0.0 0.0 0.0` (current head orientation),<br/>
+`/load 100` (current JACK system load)
 * In the package included is an example remote control client implemented for [_"vanilla" PD_](http://puredata.info/), see further instructions in [OSC_Remote_Demo.pd](res/OSC_Remote_Demo.pd).
 ![Screenshot of OSC_Remote_Demo.pd](res/OSC_Remote_Demo.jpg)
 
@@ -252,3 +269,10 @@ This software is licensed under a Non-Commercial Software License (see [LICENSE]
 Copyright (c) 2018<br/>
 Division of Applied Acoustics<br/>
 Chalmers University of Technology
+
+[JACK]: http://jackaudio.org/downloads/
+[Conda]: https://conda.io/en/master/miniconda.html
+[Python]: https://www.python.org/downloads/
+[OSC]: http://opensoundcontrol.org/implementations
+[SOFA]: https://www.sofaconventions.org/mediawiki/index.php/SOFA_(Spatially_Oriented_Format_for_Acoustics
+[FFTW]: http://www.fftw.org/fftw3_doc/Planner-Flags.html
