@@ -3,16 +3,13 @@ channels:
   - defaults  # prefer installing packages from conda-main over conda-forge, will install Intel MKL for numpy)
   - conda-forge  # preferring conda-forge would install OpenBLAS for numpy
 dependencies:
-  - cffi  # for jack-client/samplerate/pysoundfile from conda
   - matplotlib
-  - netCDF4  # for pysofaconventions from conda
   - numpy >= 1.15.4
   - pip
 #  - psutil  # for adjusting process priority, currently not used
-  - pycparser  # for jack-client/samplerate/pysoundfile from conda
-  - pyfftw
+  - pyfftw  # only on conda-forge
   - pyserial >= 3.4
-  - pysoundfile >= 0.10.2  # on Windows you need to install soundfile via pip
+  - pysoundfile >= 0.10.2  # only on conda-forge, on Windows you need to install soundfile via pip
   - python >= 3.7
   - scipy
   - pip:
