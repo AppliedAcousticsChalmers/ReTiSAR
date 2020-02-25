@@ -2,38 +2,41 @@
 Implementation of the Real-Time Spherical Microphone Renderer for binaural reproduction in _Python_ [[1]](#references).
 
 ![Badge_OS](https://img.shields.io/badge/platform-osx--64-lightgrey)
-[![Badge_Python](https://img.shields.io/badge/python->=3.7-brightgreen)][Python]
-[![Badge Version](https://badge.fury.io/gh/AppliedAcousticsChalmers%2FReTiSAR.svg)](https://github.com/AppliedAcousticsChalmers/ReTiSAR/releases)<br/>
+[![Badge_Python](https://img.shields.io/badge/python-3.7%20|%203.8-brightgreen)][Python]
+[![Badge Version](https://badge.fury.io/gh/AppliedAcousticsChalmers%2FReTiSAR.svg)](https://github.com/AppliedAcousticsChalmers/ReTiSAR/releases)
+[![Badge_LastCommit](https://img.shields.io/github/last-commit/AppliedAcousticsChalmers/ReTiSAR)](https://github.com/AppliedAcousticsChalmers/ReTiSAR/commit/master)<br/>
+[![Badge_CommitActivity](https://img.shields.io/github/commit-activity/m/AppliedAcousticsChalmers/ReTiSAR)](https://github.com/AppliedAcousticsChalmers/ReTiSAR/commits/master)
+![Badge_CodeSize](https://img.shields.io/github/languages/code-size/AppliedAcousticsChalmers/ReTiSAR)
+![Badge_RepoSize](https://img.shields.io/github/repo-size/AppliedAcousticsChalmers/ReTiSAR)
+[![Badge Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)<br/>
 [![Badge_Conda](https://img.shields.io/badge/supports-conda-orange)][Conda]
 [![Badge_FFTW](https://img.shields.io/badge/supports-FFTW-orange)][FFTW]
 [![Badge_JACK](https://img.shields.io/badge/supports-JACK-orange)][JACK]
 [![Badge_SOFA](https://img.shields.io/badge/supports-SOFA-orange)][SOFA]
-[![Badge_OSC](https://img.shields.io/badge/supports-OSC-orange)][OSC]<br/>
-[![Badge_LastCommit](https://img.shields.io/github/last-commit/AppliedAcousticsChalmers/ReTiSAR)](https://github.com/AppliedAcousticsChalmers/ReTiSAR/commit/master)
-[![Badge_CommitActivity](https://img.shields.io/github/commit-activity/m/AppliedAcousticsChalmers/ReTiSAR)](https://github.com/AppliedAcousticsChalmers/ReTiSAR/commits/master)
-![Badge_CodeSize](https://img.shields.io/github/languages/code-size/AppliedAcousticsChalmers/ReTiSAR)
-![Badge_RepoSize](https://img.shields.io/github/repo-size/AppliedAcousticsChalmers/ReTiSAR)
+[![Badge_OSC](https://img.shields.io/badge/supports-OSC-orange)][OSC]
 
-##### Table of Contents:
-1. [Requirements](#requirements)
-2. [Setup](#setup)
-3. [Quickstart](#quickstart)
-4. [Execution parameters](#execution-parameters)
-5. [Execution modes](#execution-modes)
-6. [Remote Control](#remote-control)
-7. [Validation - Setup and Execution](#validation---setup-and-execution)
-8. [Benchmark - Setup and Execution](#benchmark---setup-and-execution)
-9. [References](#references)
-10. [Changelog](#changelog)
-11. [Contributing](#contributing)
-12. [Credits](#credits)
-13. [License](#license)
+---
+Contents:
+[__Requirements__](#requirements) |
+[__Setup__](#setup) |
+[__Quickstart__](#quickstart) |
+[__Execution parameters__](#execution-parameters) |
+[__Execution modes__](#execution-modes) |
+[__Remote Control__](#remote-control) |
+[__Validation - Setup and Execution__](#validation---setup-and-execution) |
+[__Benchmark - Setup and Execution__](#benchmark---setup-and-execution) |
+[__References__](#references) |
+[__Changelog__](#changelog) |
+[__Contributing__](#contributing) |
+[__Credits__](#credits) |
+[__License__](#license)
+---
 
 ## Requirements
 * _MacOS_ (on _Windows_ compatibly with the usual _JACK_ binaries seems problematic, but this is not well investigated so far)
 * [_JACK_ library][JACK] (usual prebuilt binaries are the easiest solution, otherwise you will have to build from source)
 * [_Conda_ installation][Conda] (`miniconda` is sufficient; provides an easy way to get [Intel _MKL_](https://software.intel.com/en-us/articles/using-intel-distribution-for-python-with-anaconda) or alternatively [_OpenBLAS_](https://github.com/conda-forge/openblas-feedstock) optimized `numpy` versions which is highly recommended)
-* [_Python_ installation][Python] (recommended way to get _Python_ is to use _Conda_ as described in the [setup section](#setup))
+* [_Python_ installation][Python] (version `3.7` and `3.8` have been tested; recommended way to get _Python_ is to use _Conda_ as described in the [setup section](#setup))
 * Installation of the required _Python_ packages (recommended way is to use _Conda_ as described in the [setup section](#setup))
 * __Optional:__ Download of publicly available measurement data for alternative [execution modes](#execution-modes
 ) (always check `command line` output or log files in case the rendering pipeline does not initialize successfully!)
@@ -238,6 +241,9 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[9]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) Hohnerlein, C., and Ahrens, J. (2017). “Spherical Microphone Array Processing in Python with the sound field analysis-py Toolbox,” Fortschritte der Akust. -- DAGA 2017, Deutsche Gesellschaft für Akustik, Kiel, Germany, 1033–1036.<br/>
 
 ## Changelog
+* __v2020.2.24__
+  * Introduction of `multiprocessing` context for compatibility
+  * Consolidation of Python 3.8 compatibility
 * __v2020.2.14__
   * Addition of TH Cologne _HØSMA 7n_ array configuration
 * __v2020.2.10__

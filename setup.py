@@ -26,6 +26,7 @@ setup(
         'License :: Other/Proprietary License',
         'Operating System :: MacOS',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Topic :: Multimedia :: Sound/Audio',
     ],
 

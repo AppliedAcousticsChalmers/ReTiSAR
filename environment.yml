@@ -4,18 +4,17 @@ channels:
   - conda-forge  # preferring conda-forge would install OpenBLAS for numpy
 dependencies:
   - matplotlib
-  - numpy >= 1.15.4
+  - numpy >=1.15.4
   - pip
 #  - psutil  # for adjusting process priority, currently not used
   - pyfftw  # only on conda-forge
-  - pyserial >= 3.4
-  - pysoundfile >= 0.10.2  # only on conda-forge, on Windows you need to install soundfile via pip
-  - python >= 3.7
+  - pyserial >=3.4
+  - pysoundfile >=0.10.2  # only on conda-forge, on Windows you need to install soundfile via pip
+  - python >=3.7
   - scipy
   - pip:
-    - jack-client >= 0.4.4
+    - jack-client >=0.4.4
     - python-osc
-    - pysofaconventions >= 0.1.5
+    - pysofaconventions >=0.1.5
     - samplerate
-    - sound-field-analysis >= 2020.1.30
-    - -e .
+    - sound-field-analysis >=2020.1.30

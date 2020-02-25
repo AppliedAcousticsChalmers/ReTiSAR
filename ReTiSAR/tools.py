@@ -479,6 +479,13 @@ def import_fftw_wisdom(is_enforce_load=False):
             sys.exit(1)
         log_error('... file not found.')
 
+    except ValueError:
+        if is_enforce_load:
+            print('... file in unsupported pickle protocol while load was enforced.\napplication interrupted.',
+                  file=sys.stderr)
+            sys.exit(1)
+        log_error('... file in unsupported pickle protocol.')
+
     except EOFError:
         if is_enforce_load:
             print('... error reading file while load was enforced.\napplication interrupted.', file=sys.stderr)
@@ -509,7 +516,8 @@ def export_fftw_wisdom(logger):
     logger.info(log_str) if logger else print(log_str)
 
     with open(config.PYFFTW_WISDOM_FILE, mode='wb') as f:
-        pickle.dump(pyfftw.export_wisdom(), f, protocol=pickle.HIGHEST_PROTOCOL)
+        # enforcing pickle protocol version 4 for compatibility between Python 3.7 and 3.8
+        pickle.dump(pyfftw.export_wisdom(), f, protocol=4)
 
 
 def get_pretty_delay_str(samples, fs):
