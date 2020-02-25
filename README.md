@@ -18,7 +18,7 @@ Implementation of the Real-Time Spherical Microphone Renderer for binaural repro
 ---
 
 Contents:
-[__Requirements__](#requirements) |
+| [__Requirements__](#requirements) |
 [__Setup__](#setup) |
 [__Quickstart__](#quickstart) |
 [__Execution parameters__](#execution-parameters) |
@@ -27,10 +27,10 @@ Contents:
 [__Validation - Setup and Execution__](#validation---setup-and-execution) |
 [__Benchmark - Setup and Execution__](#benchmark---setup-and-execution) |
 [__References__](#references) |
-[__Changelog__](#changelog) |
+[__Change Log__](#change-log) |
 [__Contributing__](#contributing) |
 [__Credits__](#credits) |
-[__License__](#license)
+[__License__](#license) |
 
 ---
 
@@ -242,7 +242,7 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[8]](http://www.audiogroup.web.fh-koeln.de/FILES/VDT2012_WDRIRC.pdf) Stade, P., Bernschütz, B., and Rühl, M. (2012). “A Spatial Audio Impulse Response Compilation Captured at the WDR Broadcast Studios,” 27th Tonmeistertagung -- VDT Int. Conv., Verband Deutscher Tonmeister e.V., Cologne, Germany, 551–567.<br/>
 [[9]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) Hohnerlein, C., and Ahrens, J. (2017). “Spherical Microphone Array Processing in Python with the sound field analysis-py Toolbox,” Fortschritte der Akust. -- DAGA 2017, Deutsche Gesellschaft für Akustik, Kiel, Germany, 1033–1036.<br/>
 
-## Changelog
+## Change Log
 * __v2020.2.24__
   * Consolidation of Python 3.8 compatibility
   * Introduction of `multiprocessing` context for compatibility
