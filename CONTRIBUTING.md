@@ -26,11 +26,17 @@ Please refer to the project's style guidelines for submitting patches and additi
 
 3. Create a new **branch** for the feature or bug you are working on.
 
-4. **Commit** changes to your own branch.
+4. **Validate** written code to conform with the chosen `Black` code convention.
+  * Install additionally required _Python_ packages into _Conda_ environment:<br/>
+  `conda env update --file environment_dev.yml`
+  * Perform code style analysis:<br/>
+  `black ReTiSAR/*.py`
 
-5. **Push** changes to your own fork.
+5. **Commit** changes to your own branch.
 
-6. Submit a **Pull request** to the original project so we can review your changes.
+6. **Push** changes to your own fork.
+
+7. Submit a **Pull request** to the original project so we can review your changes.
 
 * Ensure the PR description clearly describes the problem and solution. Include the relevant issue number if applicable.
 

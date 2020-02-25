@@ -177,9 +177,9 @@ __Most execution modes require additional external measurement data, which canno
   * 1202ch (truncated sh12), CR1 left:<br/>
   `python -m ReTiSAR -sh=12 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -sp="[(-37,0)]" -ar=res/ARIR/DRIR_CR1_VSA_1202RS_L.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
 
-* Run as BRIR renderer (partitioned convolution in frequency domain) for any BRIR compatible to the _SoundScape Renderer_, e.g. pre-processed array IRs by [[9]](#references)<br/>
+* Run as BRIR renderer (partitioned convolution in frequency domain) for any BRIR compatible to the _SoundScape Renderer_, e.g. pre-processed array IRs by [[9]](#references):<br/>
 `python -m ReTiSAR -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -art=NONE -hr=res/HRIR/KU100_THK/BRIR_CR1_VSA_110RS_L_SSR_SFA_-37_SOFA_RFI.wav -hrt=BRIR_SSR -hrl=-12`
-* Run as "binauralizer" for an arbitrary number of virtual sound sources via HRTF (partitioned convolution in frequency domain) for any HRIR compatible to the _SoundScape Renderer_<br/>
+* Run as "binauralizer" for an arbitrary number of virtual sound sources via HRTF (partitioned convolution in frequency domain) for any HRIR compatible to the _SoundScape Renderer_:<br/>
 `python -m ReTiSAR -tt=AUTO_ROTATE -s=res/source/PinkMartini_Lilly_44.wav -sp="[(30, 0),(-30, 0)]" -art=NONE -hr=res/HRIR/FABIAN_TUB/hrirs_fabian.wav -hrt=HRIR_SSR` (provide respective source file and source positions!)
 
 ## Remote Control
@@ -188,7 +188,7 @@ Depending on the current configuration and rendering mode different commands are
 `/generator/volume 0`, `/generator/volume -12` (set any client output volume in dBFS),<br/>
 `/prerenderer/mute 1`, `/prerenderer/mute 0`, `/prerenderer/mute -1`, `/prerenderer/mute` (set/toggle any client mute state),<br/>
 `/hpeq/passthrough true`, `/hpeq/passthrough false`, `/hpeq/passthrough toggle` (set/toggle any client passthrough state)
-* The target name is derived from the individual _JACK_ client name for all commands, while the order of target client and command can be altered. Additional commands might be available.<br/>
+* The target name is derived from the individual _JACK_ client name for all commands, while the order of target client and command can be altered, while further commands might be available:<br/>
 `/renderer/crossfade`, `/crossfade/renderer` (set/toggle crossfade state),<br/>
 `/renderer/delay 350.0` (set additional input delay in ms),<br/>
 `/renderer/order 0`, `/renderer/order 4` (set SH rendering order),<br/>
@@ -203,31 +203,31 @@ Depending on the current configuration and rendering mode different commands are
 ![Screenshot of OSC_Remote_Demo.pd](res/OSC_Remote_Demo.jpg)
 
 ## Validation - Setup and Execution
-* Download and build required [_ecasound_ library](https://ecasound.seul.org/ecasound/download.php) for signal playback and capture __with _JACK_ support__<br/>
+* Download and build required [_ecasound_ library](https://ecasound.seul.org/ecasound/download.php) for signal playback and capture __with _JACK_ support__:<br/>
 in directory `./configure`, `make` and `sudo make install` while having _JACK_ installed
-* __Optional:__ Install [_sendosc_](https://github.com/yoggy/sendosc) tool to be used for automation in shell scripts<br/>
+* __Optional:__ Install [_sendosc_](https://github.com/yoggy/sendosc) tool to be used for automation in shell scripts:<br/>
 `brew install yoggy/tap/sendosc`
 * __Remark:__ Make sure all subsequent rendering configurations are able to start up properly before recording starts (particularly FFTW optimization might take a long time, see above)
 * Validate impulse responses by __comparing against a reference implementation__, in this case the output of [_sound_field_analysis-py_](https://nbviewer.jupyter.org/github/AppliedAcousticsChalmers/sound_field_analysis-py/blob/master/examples/Exp4_BinauralRendering.ipynb) [[8]](#references)
-  * Execute recording script, consecutively starting the package and capturing impulse responses in different rendering configurations<br/>
+  * Execute recording script, consecutively starting the package and capturing impulse responses in different rendering configurations:<br/>
   `./res/research/validation/record_ir.sh`<br/>
   __Remark:__ Both implementations compensate the source being at an incidence angle of -37 degrees in the measurement IR set
-  * Run package in validation mode, executing a comparison of all beforehand captured IRs in `res/research/validation/` against the provided reference IRs<br/>
+  * Run package in validation mode, executing a comparison of all beforehand captured IRs in `res/research/validation/` against the provided reference IRs:<br/>
   `python -m ReTiSAR --VALIDATION_MODE=res/HRIR/KU100_THK/BRIR_CR1_VSA_110RS_L_SSR_SFA_-37_SOFA_RFI.wav`
 * Validate signal-to-noise-ratio by __comparing input and output signals of the main binaural renderer for wanted target signals and emulated sensor self-noise__ respectively
-  * Execute recording script consecutively starting the package and capturing target-noise as well as self-noise input and output signals in different rendering configurations<br/>
+  * Execute recording script consecutively starting the package and capturing target-noise as well as self-noise input and output signals in different rendering configurations:<br/>
   `./res/research/validation/record_snr.sh`
-  * Open (and run) _MATLAB_ analysis script to execute an SNR comparison of beforehand captured signals<br/>
+  * Open (and run) _MATLAB_ analysis script to execute an SNR comparison of beforehand captured signals:<br/>
   `open ./res/research/validation/calculate_snr.m`
 
 ## Benchmark - Setup and Execution
-* Install addition required _Python_ packages into _Conda_ environment<br/>
+* Install additionally required _Python_ packages into _Conda_ environment:<br/>
 `conda env update --file environment_dev.yml`
-* Run the _JACK_ server with arbitrary sampling rate via _JackPilot_ or open a new command line window `[CMD]+[T]` and<br/>
+* Run the _JACK_ server with arbitrary sampling rate via _JackPilot_ or in a new command line window (`[CMD]+[T]`):<br/>
 `jackd -d coreaudio`
-* Run in benchmark mode, instantiating one rendering _JACK_ client with as many convolver instances as possible (35-60 minutes)<br/>
+* Run in benchmark mode, instantiating one rendering _JACK_ client with as many convolver instances as possible (40-60 minutes):<br/>
 `python -m ReTiSAR --BENCHMARK_MODE=PARALLEL_CONVOLVERS`
-* Run in benchmark mode, instantiating as many rendering _JACK_ clients as possible with one convolver instance (10-15 minutes)<br/>
+* Run in benchmark mode, instantiating as many rendering _JACK_ clients as possible with one convolver instance (10-15 minutes):<br/>
 `python -m ReTiSAR --BENCHMARK_MODE=PARALLEL_CLIENTS`
 * Find generated results in the specified files at the end of the script.
 
