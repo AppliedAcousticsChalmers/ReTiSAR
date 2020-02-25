@@ -68,7 +68,7 @@ class JackRenderer(JackClient):
         is_prevent_resampling : bool, optional
             if loaded filter should not be resampled
         """
-        super().__init__(name, block_length=block_length, *args, **kwargs)
+        super().__init__(name=name, block_length=block_length, *args, **kwargs)
 
         # set attributes
         self._is_passthrough = True
@@ -490,8 +490,8 @@ class JackRendererBenchmark(JackRenderer):
             return filter_ir
 
         super().__init__(
-            name,
-            block_length,
+            name=name,
+            block_length=block_length,
             filter_name=generate_dirac(filter_length),
             filter_type="FIR_MULTICHANNEL",
             *args,

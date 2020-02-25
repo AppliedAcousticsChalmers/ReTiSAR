@@ -38,7 +38,7 @@ class JackGenerator(JackClient):
         generator_type : str or Generator.Type
             type of audio signal generator
         """
-        super().__init__(name, block_length=block_length, *args, **kwargs)
+        super().__init__(name=name, block_length=block_length, *args, **kwargs)
         if self._is_single_precision:
             self._logger.info(
                 f"single precision ignored since performance of noise generation is better in "
@@ -339,7 +339,7 @@ class GeneratorNoiseAr(GeneratorNoise):
         order : int, optional
             order indicating the mimicked filter order for auto-regressive method
         """
-        super().__init__(output_count, dtype)
+        super().__init__(output_count=output_count, dtype=dtype)
 
         coefficients = np.zeros(order, dtype=dtype)
         coefficients[0] = 1
@@ -423,7 +423,7 @@ class GeneratorNoiseIir(GeneratorNoise):
         color : str, optional
             coloration of noise to generate
         """
-        super().__init__(output_count, dtype)
+        super().__init__(output_count=output_count, dtype=dtype)
 
         # initialize constants
         self._GAIN_FACTOR = 20

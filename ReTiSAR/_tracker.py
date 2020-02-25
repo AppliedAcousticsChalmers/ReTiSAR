@@ -369,7 +369,7 @@ class HeadTrackerSerial(HeadTracker):
             self._logger.info(f'opened tracker "{port}"\n --> {self._serial}')
 
             # signal to start continuous data output mode
-            if self._DATA_INIT_STRING and self._DATA_INIT_STRING is not "":
+            if self._DATA_INIT_STRING and self._DATA_INIT_STRING != "":
                 self._serial.write(self._DATA_INIT_STRING.encode())  # as byte sequence
                 self._serial.flush()
 

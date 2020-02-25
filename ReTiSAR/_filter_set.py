@@ -337,11 +337,18 @@ class FilterSet(object):
                 data = self._irs_td[0]
             else:
                 data = self._irs_td[:, :8]
-            # extract parent dir
-            top_dir = os.path.basename(os.path.dirname(self._file_name))
-            # extract file name without ending
-            name = os.path.basename(self._file_name).rsplit(".")[0]
-            name = f"{logger.name if logger else self.__module__}_{top_dir}_{name}_{block_length}"
+
+            if isinstance(self._file_name, np.ndarray):
+                # extract generated size
+                name = f'GENERATED,{str(self._file_name.shape).strip("()").replace(" ", "")}'
+            else:
+                # extract parent dir
+                top_dir = os.path.basename(os.path.dirname(self._file_name))
+                # extract file name without ending
+                name = os.path.basename(self._file_name).rsplit(".")[0]
+                name = f"{top_dir}_{name}"
+            name = f"{logger.name if logger else self.__module__}_{name}_{block_length}"
+
             tools.export_plot(
                 figure=tools.plot_ir_and_tf(
                     data_td_or_fd=data,
@@ -369,26 +376,30 @@ class FilterSet(object):
         logger : logging.Logger, optional
             instance to provide identical logging behaviour as the parent process
         """
-        log_str = f'opening file "{os.path.relpath(self._file_name)}"'
+        if isinstance(self._file_name, np.ndarray):
+            log_str = f"loading provided filter coefficients with size {self._file_name.shape}"
+        else:
+            log_str = f'opening file "{os.path.relpath(self._file_name)}"'
 
-        try:
-            # cut off name and reformat LF
-            file_info = (
-                soundfile.info(self._file_name)
-                .__str__()
-                .split("\n", 1)[1]
-                .replace("\n", ", ")
-            )
-        except RuntimeError:
             try:
+                # cut off name and reformat LF
                 file_info = (
-                    f"unable to open with `soundfile`, "
-                    f"size: {os.stat(self._file_name).st_size / 1E6:.2f} MB"
+                    soundfile.info(self._file_name)
+                    .__str__()
+                    .split("\n", 1)[1]
+                    .replace("\n", ", ")
                 )
-            except FileNotFoundError:
-                raise ValueError(f"{log_str}\n --> file not found")
+            except RuntimeError:
+                try:
+                    file_info = (
+                        f"unable to open with `soundfile`, "
+                        f"size: {os.stat(self._file_name).st_size / 1E6:.2f} MB"
+                    )
+                except FileNotFoundError:
+                    raise ValueError(f"{log_str}\n --> file not found")
 
-        log_str = f"{log_str}\n --> {file_info}"
+            log_str = f"{log_str}\n --> {file_info}"
+
         logger.info(log_str) if logger else print(log_str)
 
     def _load(self, dtype):

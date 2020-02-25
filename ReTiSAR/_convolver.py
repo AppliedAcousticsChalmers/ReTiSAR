@@ -461,7 +461,7 @@ class OverlapSaveConvolver(Convolver):
         block_length : int
             system wide time domain audio block size
         """
-        super().__init__(filter_set)
+        super().__init__(filter_set=filter_set)
         self._block_length = block_length
         self._input_block_td = None
 
@@ -718,7 +718,7 @@ class AdjustableFdConvolver(OverlapSaveConvolver):
         ValueError
             in case no `source_positions` are given
         """
-        super().__init__(filter_set, block_length)
+        super().__init__(filter_set=filter_set, block_length=block_length)
         self._is_crossfade = True
 
         if not source_positions:
@@ -1027,7 +1027,10 @@ class AdjustableShConvolver(AdjustableFdConvolver):
             in case more then one `source_positions` are given
         """
         super().__init__(
-            filter_set, block_length, source_positions, shared_tracker_data
+            filter_set=filter_set,
+            block_length=block_length,
+            source_positions=source_positions,
+            shared_tracker_data=shared_tracker_data,
         )
 
         if self._sources_deg.shape[0] > 1:

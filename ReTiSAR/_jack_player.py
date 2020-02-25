@@ -52,7 +52,7 @@ class JackPlayer(JackClient):
         is_auto_play : bool, optional
             if audio is supposed to be played after program start
         """
-        super().__init__(name, *args, **kwargs)
+        super().__init__(name=name, *args, **kwargs)
 
         # set attributes
         assert buffer_length >= 1

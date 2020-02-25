@@ -14,7 +14,7 @@ class Compensation(object):
     helpful when processing microphone arrays in the SH domain.
     """
 
-    _TYPES_STR_SEP = ",.;:|/\-+"
+    _TYPES_STR_SEP = r",.;:|/\-+"
     """Characters to separate compensation techniques when concatenated in a string."""
     _TYPES_REQUESTED = []
     """Global list of `Compensation.Type` to store requested compensation techniques,

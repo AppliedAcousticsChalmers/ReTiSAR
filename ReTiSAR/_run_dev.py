@@ -31,6 +31,7 @@ def inner(_it, _timer{init}):
     # _timeit_sht()
     # _timeit_sp()
     # _timeit_basic()
+    # _test_multiprocessing()
 
     return None
 
@@ -131,7 +132,7 @@ def _timeit_roll():
 
     buffer = buffer_ref.copy()
     s = """\
-buffer = globals().get('buffer')  # I don't know why this is necessary...
+buffer = globals().get("buffer")  # I don't know why this is necessary...
 buffer = np.roll(buffer, 1, axis=0)  # roll buffer to the right
 buffer[0] = input_td  # update the first element
 result = buffer
@@ -147,7 +148,7 @@ result = buffer
 
     buffer = buffer_ref.copy()
     s = """\
-buffer = globals().get('buffer')  # I don't know why this is necessary...
+buffer = globals().get("buffer")  # I don't know why this is necessary...
 buffer[1:] = buffer[:-1]  # roll buffer to the right
 buffer[0] = input_td  # update the first element
 result = buffer
@@ -168,10 +169,12 @@ result = buffer
     s = """\
 bytes_written = rb.write(input_td.tobytes())
 if bytes_written != input_td.nbytes:
-    print('OVERFLOW')
-read = np.frombuffer(rb.read(input_td.nbytes), dtype=input_td.dtype).reshape(input_td.shape)
+    print("OVERFLOW")
+read = np.frombuffer(rb.read(input_td.nbytes), dtype=input_td.dtype).reshape(
+    input_td.shape
+)
 if read.nbytes != input_td.nbytes:
-    print('UNDERFLOW')
+    print("UNDERFLOW")
 result = read
 """
     # this is not expected to deliver the same result as the roll methods above
@@ -188,19 +191,22 @@ result = read
     rb = jack.RingBuffer(buffer_ref.nbytes)
     s = """\
 if rb.write_space >= input_td.nbytes:
-    rb.write_buffers[0][:input_td.nbytes] = input_td.tobytes()
+    rb.write_buffers[0][: input_td.nbytes] = input_td.tobytes()
     rb.write_advance(input_td.nbytes)
 else:
-    print('OVERFLOW')
-read = np.frombuffer(rb.read_buffers[0][:input_td.nbytes], dtype=input_td.dtype).reshape(input_td.shape)
+    print("OVERFLOW")
+read = np.frombuffer(
+    rb.read_buffers[0][: input_td.nbytes], dtype=input_td.dtype
+).reshape(input_td.shape)
 rb.read_advance(read.nbytes)
 if read.nbytes != input_td.nbytes:
-    print('UNDERFLOW')
+    print("UNDERFLOW")
 result = read
 """
-    # this code does not run so far, I don't know how it is supposed to be done with write_buffers() and read_buffers()
-    # independent of that I don't know why the timeit() code does not run like that
-    # this is not expected to deliver the same result as the roll methods above
+    # this code does not run so far, I don't know how it is supposed to be done with
+    # write_buffers() and read_buffers() independent of that I don't know why the timeit() code
+    # does not run like that this is not expected to deliver the same result as the roll methods
+    # above
     _timeit(
         description="Ringbuffer no copy",
         stmt=s,
@@ -422,7 +428,7 @@ _ar_buffer = np.zeros((_ar_coefficients.shape[0], _CHANNEL_COUNT))
 normal = _normal_ref.copy()
 shaped = np.zeros_like(normal)
 for idx in range(normal.shape[0]):
-    shaped[idx] = normal[idx] - np.einsum('i,ij', _ar_coefficients, _ar_buffer)
+    shaped[idx] = normal[idx] - np.einsum("i,ij", _ar_coefficients, _ar_buffer)
     _ar_buffer = np.roll(_ar_buffer, 1, axis=0)
     _ar_buffer[0] = shaped[idx]
 result = shaped.T
@@ -519,7 +525,12 @@ result = normal.T
 _ar_buffer = np.zeros((_ar_coefficients.shape[0], _CHANNEL_COUNT))
 normal = _normal_ref.T.copy()
 shaped = np.zeros_like(normal)
-with np.nditer([shaped, normal], flags=['external_loop'], order='F', op_flags=[['readwrite'], ['readonly']]) as it:
+with np.nditer(
+    [shaped, normal],
+    flags=["external_loop"],
+    order="F",
+    op_flags=[["readwrite"], ["readonly"]],
+) as it:
     for it_shaped, it_normal in it:
         it_shaped[...] = it_normal - np.dot(_ar_coefficients, _ar_buffer)
         _ar_buffer = np.roll(_ar_buffer, 1, axis=0)
@@ -540,7 +551,9 @@ result = shaped
     s = """\
 _ar_buffer = np.zeros((_ar_coefficients.shape[0], _CHANNEL_COUNT))
 normal = _normal_ref.T.copy()
-with np.nditer(normal, flags=['external_loop'], order='F', op_flags=['readwrite']) as it:
+with np.nditer(
+    normal, flags=["external_loop"], order="F", op_flags=["readwrite"]
+) as it:
     for it_normal in it:
         it_normal[...] -= np.dot(_ar_coefficients, _ar_buffer)
         _ar_buffer = np.roll(_ar_buffer, 1, axis=0)
@@ -570,9 +583,21 @@ result = normal
     # """
     #     normal = _normal_ref.T.copy()
     #     shaped = np.zeros_like(normal)
-    #     it = np.nditer([shaped, normal], flags=["external_loop"], order="F", op_flags=[["readwrite"], ['readonly']])
-    #     _timeit(description='AR nditer reused', stmt=s, setup='import numpy as np',
-    #            _globals=locals(), reference=ref, repeat=_TIMEIT_REPEAT, number=_TIMEIT_NUMBER)  # not working properly
+    #     it = np.nditer(
+    #         [shaped, normal],
+    #         flags=["external_loop"],
+    #         order="F",
+    #         op_flags=[["readwrite"], ["readonly"]],
+    #     )
+    #     _timeit(
+    #         description="AR nditer reused",
+    #         stmt=s,
+    #         setup="import numpy as np",
+    #         _globals=locals(),
+    #         reference=ref,
+    #         repeat=_TIMEIT_REPEAT,
+    #         number=_TIMEIT_NUMBER,
+    #     )  # not working properly
 
     s = """\
 normal = _normal_ref_t60.copy()
@@ -616,10 +641,16 @@ def _timeit_sp():
             repeat=_TIMEIT_REPEAT,
             number=_TIMEIT_NUMBER,
         )
-        # return _timeit(description=f'PYFFTW irfft(rfft()) as {d.dtype}',
-        #                stmt='pyfftw.builders.irfft(pyfftw.builders.rfft(d, axis=-1), axis=-1)',
-        #                setup='import pyfftw', _globals=locals(), reference=r, check_dtype=dtype,
-        #                repeat=_TIMEIT_REPEAT, number=_TIMEIT_NUMBER)
+        # return _timeit(
+        #     description=f"PYFFTW irfft(rfft()) as {d.dtype}",
+        #     stmt="pyfftw.builders.irfft(pyfftw.builders.rfft(d, axis=-1), axis=-1)",
+        #     setup="import pyfftw",
+        #     _globals=locals(),
+        #     reference=r,
+        #     check_dtype=dtype,
+        #     repeat=_TIMEIT_REPEAT,
+        #     number=_TIMEIT_NUMBER,
+        # )
 
     print("comparison of dtypes")
     ref = _test_performance(data, np.float64, None)
@@ -628,10 +659,10 @@ def _timeit_sp():
 
 
 def _timeit_sht():
-    # print(f'system switcher interval is {sys.getswitchinterval()}')
-    # print(f'system recursion limit is {sys.getrecursionlimit()}')
+    # print(f"system switcher interval is {sys.getswitchinterval()}")
+    # print(f"system recursion limit is {sys.getrecursionlimit()}")
     # sys.setrecursionlimit(1500)
-    # print(f'system recursion limit is {sys.getrecursionlimit()}')
+    # print(f"system recursion limit is {sys.getrecursionlimit()}")
 
     _TIMEIT_REPEAT = 10
     _TIMEIT_NUMBER = 2000
@@ -688,7 +719,7 @@ def _timeit_sht():
         _test_performance(spherical_harmonic_bases, data, np.complex64),
     ]
     # for r in range(len(rs[0])):
-    #     print(f'results {r} max: {np.abs(np.subtract(*rs[:][r][1])).max()}')
+    #     print(f"results {r} max: {np.abs(np.subtract(*rs[:][r][1])).max()}")
 
 
 def _timeit_basic():
@@ -736,3 +767,35 @@ def _timeit_basic():
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
     )
+
+
+def _test_multiprocessing():
+    import jack
+
+    client = jack.Client(name="MP_TEST")
+    print("-------------------------")
+
+    # import dill
+    #
+    # print(dill.detect.badtypes(client, depth=1).keys())
+    # print('-------------------------')
+    #
+    # dill.detect.trace(True)
+    # print(dill.pickles(client))
+    # print('-------------------------')
+
+    import pickle
+
+    print(pickle.dumps(obj=client, protocol=pickle.HIGHEST_PROTOCOL))
+    print("-------------------------")
+
+    client.inports.register(f"input_{1}")
+    client.outports.register(f"output_{1}")
+    client.activate()
+
+    print(pickle.dumps(obj=client, protocol=pickle.HIGHEST_PROTOCOL))
+    print("-------------------------")
+
+    client.deactivate()
+    client.close()
+    print("-------------------------")
