@@ -34,6 +34,13 @@ soundfile = '^0.10.2'
 sound_field_analysis = '^2019.8.15'
 
 [dev-dependencies]
-jinja2 = '*'
-natsort = '*'
-pandas = '*'
+black = '^19.10b0'  # for code formatting
+jinja2 = '*'  # for benchmarking
+natsort = '*'  # for benchmarking
+pandas = '*'  # for benchmarking
+
+[tool.black]
+line-length = 88
+target-version = ['py37','py38']
+include = './ReTiSAR/'
+exclude = 'dev/'

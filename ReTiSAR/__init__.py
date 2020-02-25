@@ -1,8 +1,21 @@
-__version__ = '2020.2.24'
+__version__ = "2020.2.24"
 
-__all__ = ['config', 'mp_context', 'process_logger', 'tools',
-           'Compensation', 'Convolver', 'DataRetriever', 'FilterSet', 'Generator', 'HeadTracker', 'OscRemote',
-           'JackPlayer', 'JackRenderer', 'JackGenerator']
+__all__ = [
+    "Compensation",
+    "config",
+    "Convolver",
+    "DataRetriever",
+    "FilterSet",
+    "Generator",
+    "HeadTracker",
+    "JackPlayer",
+    "JackRenderer",
+    "JackGenerator",
+    "mp_context",
+    "OscRemote",
+    "process_logger",
+    "tools",
+]
 
 # IMPORTANT: BE VERY CAUTIOUS IN CHANGING THE ORDER OF IMPORTS HERE !!!
 from ._multiprocessing import mp_context
@@ -16,4 +29,5 @@ from ._jack_player import JackPlayer
 from ._jack_renderer import JackRenderer
 from ._jack_generator import Generator, JackGenerator
 from . import *
+
 # IMPORTANT: BE VERY CAUTIOUS IN CHANGING THE ORDER OF IMPORTS HERE !!!

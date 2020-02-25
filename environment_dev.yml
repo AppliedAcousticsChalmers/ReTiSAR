@@ -2,6 +2,7 @@ channels:
   - defaults
   - conda-forge
 dependencies:
-  - jinja2
-  - natsort
-  - pandas
+  - black >=19.10b0 # for code formatting
+  - jinja2  # for benchmarking
+  - natsort  # for benchmarking
+  - pandas  # for benchmarking

@@ -16,6 +16,7 @@ Implementation of the Real-Time Spherical Microphone Renderer for binaural repro
 [![Badge_OSC](https://img.shields.io/badge/supports-OSC-orange)][OSC]
 
 ---
+
 Contents:
 [__Requirements__](#requirements) |
 [__Setup__](#setup) |
@@ -30,6 +31,7 @@ Contents:
 [__Contributing__](#contributing) |
 [__Credits__](#credits) |
 [__License__](#license)
+
 ---
 
 ## Requirements
@@ -242,8 +244,9 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 
 ## Changelog
 * __v2020.2.24__
-  * Introduction of `multiprocessing` context for compatibility
   * Consolidation of Python 3.8 compatibility
+  * Introduction of `multiprocessing` context for compatibility
+  * Enforcement of `Black` code style
 * __v2020.2.14__
   * Addition of TH Cologne _HØSMA 7n_ array configuration
 * __v2020.2.10__
