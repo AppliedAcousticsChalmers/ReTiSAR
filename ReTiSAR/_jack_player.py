@@ -1,5 +1,4 @@
 import logging
-import multiprocessing
 import os
 import queue
 
@@ -7,7 +6,7 @@ import jack
 import numpy as np
 import soundfile
 
-from . import config
+from . import config, mp_context
 from ._jack_client import JackClient
 
 
@@ -99,8 +98,8 @@ class JackPlayer(JackClient):
             self._counter_dropout = None
             return
 
-        self._event_play = multiprocessing.Event()
-        self._q = multiprocessing.Queue(maxsize=self._buffer_length)
+        self._event_play = mp_context.Event()
+        self._q = mp_context.Queue(maxsize=self._buffer_length)
 
         # print file information
         file_info = soundfile.info(self._file_name).__str__() \

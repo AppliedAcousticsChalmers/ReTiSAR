@@ -1,10 +1,11 @@
 __version__ = '2020.2.14'
 
-__all__ = ['config', 'DataRetriever', 'tools', 'process_logger', 'OscRemote',
-           'Compensation', 'Convolver', 'FilterSet', 'HeadTracker', 'Generator',
+__all__ = ['config', 'mp_context', 'process_logger', 'tools',
+           'Compensation', 'Convolver', 'DataRetriever', 'FilterSet', 'Generator', 'HeadTracker', 'OscRemote',
            'JackPlayer', 'JackRenderer', 'JackGenerator']
 
 # IMPORTANT: BE VERY CAUTIOUS IN CHANGING THE ORDER OF IMPORTS HERE !!!
+from ._multiprocessing import mp_context
 from ._data_retriever import DataRetriever
 from ._remote import OscRemote
 from ._filter_set import FilterSet

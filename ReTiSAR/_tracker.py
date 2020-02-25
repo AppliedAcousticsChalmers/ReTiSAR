@@ -1,12 +1,10 @@
 import re
 from enum import auto, Enum, IntEnum
-# noinspection PyUnresolvedReferences
-from multiprocessing import Array
 from time import sleep
 
 import serial
 
-from . import tools
+from . import mp_context, tools
 from ._subprocess import SubProcess
 
 
@@ -152,9 +150,9 @@ class HeadTracker(SubProcess):
         """
         super().__init__(name, *args, **kwargs)
 
-        self._position_raw = Array(typecode_or_type='f', size_or_initializer=len(HeadTracker.DataIndex))
-        self._position_zero = Array(typecode_or_type='f', size_or_initializer=len(HeadTracker.DataIndex))
-        self._position_shared = Array(typecode_or_type='f', size_or_initializer=len(HeadTracker.DataIndex))
+        self._position_raw = mp_context.Array(typecode_or_type='f', size_or_initializer=len(HeadTracker.DataIndex))
+        self._position_zero = mp_context.Array(typecode_or_type='f', size_or_initializer=len(HeadTracker.DataIndex))
+        self._position_shared = mp_context.Array(typecode_or_type='f', size_or_initializer=len(HeadTracker.DataIndex))
 
         self._init_tracker(tracker_port)
 

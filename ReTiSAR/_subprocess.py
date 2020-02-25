@@ -1,10 +1,9 @@
 import logging
-from multiprocessing import Event, Process
 
-from . import config, process_logger, tools
+from . import config, mp_context, process_logger, tools
 
 
-class SubProcess(Process):
+class SubProcess(mp_context.Process):
     """
     Base functionality to run arbitrary functionality in a separate process. To run the process the functions `start()`,
     `join()` and `terminate()` have to be used.
@@ -38,7 +37,7 @@ class SubProcess(Process):
             disable logger after creation, useful for benchmarking
         """
         # self._logger.debug(f'initializing PROCESS [{name}] ...')
-        Process.__init__(self, name=name)
+        mp_context.Process.__init__(self, name=name)
         self.daemon = is_daemon_process
 
         # initialize attributes
@@ -51,7 +50,7 @@ class SubProcess(Process):
             self._logger.disabled = True
 
         # initialize attributes
-        self._event_terminate = Event()
+        self._event_terminate = mp_context.Event()
 
     def _init_osc_client(self):
         """Initialize OSC client specific attributes to open port sending status data."""

@@ -1,6 +1,4 @@
-import multiprocessing
-
-from . import tools
+from . import mp_context, tools
 
 
 # ############################## #
@@ -359,7 +357,7 @@ IS_DEBUG_MODE = tools.get_is_debug()
 on real time execution do not raise errors. Also this is used to make use of breakpoints in certain functions before
 they get released in a separate process."""
 
-IS_RUNNING = multiprocessing.Event()
+IS_RUNNING = mp_context.Event()
 """If the application is running and rendering audio at the moment. This needs to be set after all rendering clients
 have started up. This can also be used to globally interrupt rendering and output of all clients."""
 

@@ -1,12 +1,11 @@
 import logging
-import multiprocessing
 from sys import platform
 from time import sleep
 
 import jack
 import numpy as np
 
-from . import config, tools
+from . import config, mp_context, tools
 from ._convolver import DelayBuffer
 from ._subprocess import SubProcess
 
@@ -88,8 +87,8 @@ class JackClient(SubProcess):
         self._output_mute = False
         self._output_volume = pow(10, output_volume_dbfs / 20.0)
         self._output_volume_relative = None
-        self._event_ready = multiprocessing.Event()
-        self._counter_dropout = multiprocessing.Value('i')
+        self._event_ready = mp_context.Event()
+        self._counter_dropout = mp_context.Value('i')
 
         self._init_client(block_length)
         self._input_buffer = DelayBuffer(sample_rate=self._client.samplerate, block_length=block_length,
