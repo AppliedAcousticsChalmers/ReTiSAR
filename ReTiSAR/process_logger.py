@@ -29,8 +29,10 @@ class LoggerLevelFilter(logging.Filter):
 
 
 _LOGGING_REPLACER = "@"
-"""Character to replace in logging related configuration strings from `config`,
-see `config.LOGGING_FORMAT`. """
+"""Character to replace in logging related configuration strings, see `config.LOGGING_FORMAT`. """
+
+_LOGGING_FILE_PREFIX = "%(asctime)s  "
+"""Prefix to apply in related strings for logging to a file (not terminal)."""
 
 
 def setup(subprocess_name=None, is_disable_file_logger=False):
@@ -88,7 +90,9 @@ def setup(subprocess_name=None, is_disable_file_logger=False):
             if logger.file:
                 # setup handler for output to logfile
                 handler_file = logging.FileHandler(logger.file, "a")
-                handler_file.setFormatter(logging.Formatter(f"%(asctime)s  {fmt}"))
+                handler_file.setFormatter(
+                    logging.Formatter(f"{_LOGGING_FILE_PREFIX}{fmt}")
+                )  # add prefix
                 handler_file.setLevel(logging.NOTSET)
                 logger.addHandler(handler_file)
                 logger.debug(f'created LOGGER file "{os.path.relpath(logger.file)}".')
@@ -182,6 +186,9 @@ def _update_format_all_handlers(logger, fmt):
         logging.Formatter style string
     """
     for handler in logger.handlers:  # type: logging.Handler
+        if isinstance(handler, logging.FileHandler):
+            # add prefix in case of file logging handler
+            fmt = f"{_LOGGING_FILE_PREFIX}{fmt}"
         # (always creating a new formatter with updated settings does not seem reasonable)
         handler.formatter._fmt = fmt
         # noinspection PyProtectedMember
