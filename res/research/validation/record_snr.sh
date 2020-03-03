@@ -21,8 +21,7 @@ run_and_record() {
         read -r
     fi
 
-    for AZIMUTH in 0 90; do
-#    for AZIMUTH in 0 45 90; do
+    for AZIMUTH in 0 45 90; do
         set_azimuth "${AZIMUTH}"
         record_target "${NAME}_${AZIMUTH}deg" "${CONFIG_REC_CH}"
         record_noise "${NAME}_${AZIMUTH}deg" "${CONFIG_REC_CH}"
@@ -104,76 +103,87 @@ pkill -f ReTiSAR
 ## ######################### #
 #CONFIG_REC_CH=1
 #
-#CONFIG_NAME="32ch_4cm_sh4_0dB_incoherent"
-#CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/DRIR_sim_EM32_PW_struct.mat -hr=res/HRIR/KU100_THK/HRIR_L2702_struct.mat -arr=0 -sh=4"
+#CONFIG_NAME="230ch_8cm_sh12_0dB"
+#CONFIG="-b=4096 -SP=TRUE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/DRIR_sim_LE230_PW_struct.mat -hr=res/HRIR/KU100_THK/L2702_struct.mat -arr=0 -sh=12"
 #run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
-#CONFIG_NAME="32ch_4cm_sh4_12dB_incoherent"
-#CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/DRIR_sim_EM32_PW_struct.mat -hr=res/HRIR/KU100_THK/HRIR_L2702_struct.mat -arr=12 -sh=4"
+#CONFIG_NAME="338ch_8cm_sh12_0dB"
+#CONFIG="-b=4096 -SP=TRUE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/DRIR_sim_GL338_PW_struct.mat -hr=res/HRIR/KU100_THK/L2702_struct.mat -arr=0 -sh=12"
 #run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
-#CONFIG_NAME="32ch_4cm_sh4_0dB_coherent"
-#CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/DRIR_sim_EM32_PW_struct.mat -hr=res/HRIR/KU100_THK/HRIR_L2702_struct.mat -arr=0 -sh=4"
-#run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH} false
-#CONFIG_NAME="32ch_4cm_sh4_12dB_coherent"
-#CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/DRIR_sim_EM32_PW_struct.mat -hr=res/HRIR/KU100_THK/HRIR_L2702_struct.mat -arr=12 -sh=4"
-#run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH} false
 ## ######################### #
 
 # ######################### #
-CONFIG_NAME="110ch_8cm_sh4_0dB"
-CONFIG_REC_CH=4
-CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/DRIR_sim_110RS_PW_struct.mat -hr=res/HRIR/KU100_THK/HRIR_L2702_struct.mat -arr=0 -sh=4"
-run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
-
-CONFIG_NAME="110ch_8cm_sh8_0dB"
-CONFIG_REC_CH=4
-CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/DRIR_sim_110RS_PW_struct.mat -hr=res/HRIR/KU100_THK/HRIR_L2702_struct.mat -arr=0 -sh=8"
-run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
-
-CONFIG_NAME="110ch_8cm_sh8_0dB_EQ"
-CONFIG_REC_CH=4
-CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/DRIR_sim_110RS_PW_struct.mat -hr=res/HRIR/KU100_THK/HRIR_L2702_eq_CR1_VSA_110RS_L_struct.mat -arr=0 -sh=8"
-run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
-
-CONFIG_NAME="110ch_8cm_sh8_18dB"
-CONFIG_REC_CH=4
-CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/DRIR_sim_110RS_PW_struct.mat -hr=res/HRIR/KU100_THK/HRIR_L2702_struct.mat -arr=18 -sh=8"
-run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
-
-CONFIG_NAME="32ch_4cm_sh4_0dB"
 CONFIG_REC_CH=1
-CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/DRIR_sim_EM32_PW_struct.mat -hr=res/HRIR/KU100_THK/HRIR_L2702_struct.mat -arr=0 -sh=4"
-run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
 
-CONFIG_NAME="32ch_4cm_sh4_0dB_EQ"
-CONFIG_REC_CH=1
-CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/DRIR_sim_EM32_PW_struct.mat -hr=res/HRIR/KU100_THK/HRIR_L2702_eq_Eigenmike_struct.mat -arr=0 -sh=4"
+CONFIG_NAME="32ch_4cm_sh4_0dB_incoherent"
+CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/Eigenmike_synthetic_struct.mat -hr=res/HRIR/KU100_THK/L2702_struct.mat -arr=0 -sh=4"
 run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
-
-CONFIG_NAME="32ch_4cm_sh4_18dB"
-CONFIG_REC_CH=1
-CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/DRIR_sim_EM32_PW_struct.mat -hr=res/HRIR/KU100_THK/HRIR_L2702_struct.mat -arr=18 -sh=4"
+CONFIG_NAME="32ch_4cm_sh4_12dB_incoherent"
+CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/Eigenmike_synthetic_struct.mat -hr=res/HRIR/KU100_THK/L2702_struct.mat -arr=12 -sh=4"
 run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
-
-CONFIG_NAME="32ch_8cm_sh4_0dB"
-CONFIG_REC_CH=1
-CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/DRIR_sim_EM32r875_PW_struct.mat -hr=res/HRIR/KU100_THK/HRIR_L2702_struct.mat -arr=0 -sh=4"
-run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
-
-CONFIG_NAME="32ch_8cm_sh8_0dB"
-CONFIG_REC_CH=1
-CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/DRIR_sim_EM32r875_PW_struct.mat -hr=res/HRIR/KU100_THK/HRIR_L2702_struct.mat -arr=0 -sh=8"
-run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
-
-CONFIG_NAME="110ch_8cm_sh8_0dB_1024"
-CONFIG_REC_CH=4
-CONFIG="-b=1024 -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/110RS_synthetic_struct.mat -hr=res/HRIR/KU100_THK/HRIR_L2702_struct.mat -arr=0 -sh=8"
-run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
-
-CONFIG_NAME="110ch_8cm_sh8_0dB_1ch"
-CONFIG_REC_CH=4
-CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/DRIR_sim_110RS_PW_struct.mat -hr=res/HRIR/KU100_THK/HRIR_L2702_struct.mat -arr=0 -sh=8"
+CONFIG_NAME="32ch_4cm_sh4_0dB_coherent"
+CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/Eigenmike_synthetic_struct.mat -hr=res/HRIR/KU100_THK/L2702_struct.mat -arr=0 -sh=4"
+run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH} false
+CONFIG_NAME="32ch_4cm_sh4_12dB_coherent"
+CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/Eigenmike_synthetic_struct.mat -hr=res/HRIR/KU100_THK/L2702_struct.mat -arr=12 -sh=4"
 run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH} false
 # ######################### #
 
+## ######################### #
+#CONFIG_NAME="110ch_8cm_sh4_0dB"
+#CONFIG_REC_CH=4
+#CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/110RS_synthetic_struct.mat -hr=res/HRIR/KU100_THK/L2702_struct.mat -arr=0 -sh=4"
+#run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
+#
+#CONFIG_NAME="110ch_8cm_sh8_0dB"
+#CONFIG_REC_CH=4
+#CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/110RS_synthetic_struct.mat -hr=res/HRIR/KU100_THK/L2702_struct.mat -arr=0 -sh=8"
+#run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
+#
+#CONFIG_NAME="110ch_8cm_sh8_0dB_EQ"
+#CONFIG_REC_CH=4
+#CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/110RS_synthetic_struct.mat -hr=res/HRIR/KU100_THK/L2702_eq_CR1_VSA_110RS_L_struct.mat -arr=0 -sh=8"
+#run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
+#
+#CONFIG_NAME="110ch_8cm_sh8_18dB"
+#CONFIG_REC_CH=4
+#CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/110RS_synthetic_struct.mat -hr=res/HRIR/KU100_THK/L2702_struct.mat -arr=18 -sh=8"
+#run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
+#
+#CONFIG_NAME="32ch_4cm_sh4_0dB"
+#CONFIG_REC_CH=1
+#CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/Eigenmike_synthetic_struct.mat -hr=res/HRIR/KU100_THK/L2702_struct.mat -arr=0 -sh=4"
+#run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
+#
+#CONFIG_NAME="32ch_4cm_sh4_0dB_EQ"
+#CONFIG_REC_CH=1
+#CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/Eigenmike_synthetic_struct.mat -hr=res/HRIR/KU100_THK/L2702_eq_Eigenmike_struct.mat -arr=0 -sh=4"
+#run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
+#
+#CONFIG_NAME="32ch_4cm_sh4_18dB"
+#CONFIG_REC_CH=1
+#CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/Eigenmike_synthetic_struct.mat -hr=res/HRIR/KU100_THK/L2702_struct.mat -arr=18 -sh=4"
+#run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
+#
+#CONFIG_NAME="32ch_8cm_sh4_0dB"
+#CONFIG_REC_CH=1
+#CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/Eigenmike_synthetic_r875_struct.mat -hr=res/HRIR/KU100_THK/L2702_struct.mat -arr=0 -sh=4"
+#run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
+#
+#CONFIG_NAME="32ch_8cm_sh8_0dB"
+#CONFIG_REC_CH=1
+#CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/Eigenmike_synthetic_r875_struct.mat -hr=res/HRIR/KU100_THK/L2702_struct.mat -arr=0 -sh=8"
+#run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
+#
+#CONFIG_NAME="110ch_8cm_sh8_0dB_1024"
+#CONFIG_REC_CH=4
+#CONFIG="-b=1024 -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/110RS_synthetic_struct.mat -hr=res/HRIR/KU100_THK/L2702_struct.mat -arr=0 -sh=8"
+#run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH}
+#
+#CONFIG_NAME="110ch_8cm_sh8_0dB_1ch"
+#CONFIG_REC_CH=4
+#CONFIG="-b=4096 -SP=FALSE -art=ARIR_MIRO -hrt=HRIR_MIRO -gt=NOISE_IIR_PINK -gl=-20 -arl=-20 -hrl=0 -ar=res/ARIR/110RS_synthetic_struct.mat -hr=res/HRIR/KU100_THK/L2702_struct.mat -arr=0 -sh=8"
+#run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}" ${CONFIG_REC_CH} false
+## ######################### #
+
 # shellcheck disable=SC2039
-echo ${SECONDS} | awk '{printf "\n ... finished in "int($1/60/60)"h "int($1/60)"m "int($1%60)"s.\n"}'
+echo ${SECONDS} | awk '{printf "\n ... finished in "int($1/3600)"h "int($1%3600/60)"m "int($1%60)"s.\n"}'
