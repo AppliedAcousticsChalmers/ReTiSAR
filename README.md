@@ -48,6 +48,8 @@ Contents:
 * Clone repository with command line or any other _git_ client:<br/>
 `git clone https://github.com/AppliedAcousticsChalmers/ReTiSAR.git`
   * __Alternative:__ Download and extract snapshot manually from provided URL (not recommended due to not being able to pull updates)
+  * __Alternative:__ Update your local copy with changes from the repository (if you have cloned it in the past):<br/>
+  `git pull`
 * Navigate into repository (the directory containing _setup.py_):<br/>
 `cd ReTiSAR/`
 * Install required _Python_ packages i.e., _Conda_ is recommended:
@@ -243,6 +245,8 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[9]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) Hohnerlein, C., and Ahrens, J. (2017). “Spherical Microphone Array Processing in Python with the sound field analysis-py Toolbox,” Fortschritte der Akust. -- DAGA 2017, Deutsche Gesellschaft für Akustik, Kiel, Germany, 1033–1036.<br/>
 
 ## Change Log
+* __v2020.3.3__
+  * Addition of further simulated array data sets
 * __v2020.2.24__
   * Consolidation of Python 3.8 compatibility
   * Introduction of `multiprocessing` context for compatibility
