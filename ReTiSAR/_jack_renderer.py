@@ -408,7 +408,9 @@ class JackRenderer(JackClient):
         new_order = self._convolver.update_sh_processing(
             sh_new_order=new_order, logger=self._logger
         )
-        self._logger.info(f"set SH processing order to {new_order:d}.")
+        if new_order is not None:
+            self._logger.info(f"set SH processing order to {new_order:d}.")
+
         return new_order
 
     def prepare_renderer_sh_processing(
