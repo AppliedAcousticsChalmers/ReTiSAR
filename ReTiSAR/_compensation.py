@@ -143,7 +143,7 @@ class Compensation(object):
     def reset_config(is_plot):
         """
         Reset parameters storing requested and already applied compensation methods. This needs
-        to be executed in case compensation techniques should be re-applied, i.e. in case
+        to be executed in case compensation techniques should be re-applied i.e., in case
         rendering conditions are changed during runtime.
 
         Parameters

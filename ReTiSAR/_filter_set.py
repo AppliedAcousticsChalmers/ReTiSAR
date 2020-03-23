@@ -749,7 +749,7 @@ class FilterSetMultiChannel(FilterSet):
         """
         Load an arbitrary number of impulse responses from multi-channel audio file. There is no
         directional information associated with this data. This can be used to provide a
-        multi-channel-wise convolution, i.e. to equalize reproduction setups (headphones or
+        multi-channel-wise convolution i.e., to equalize reproduction setups (headphones or
         loudspeakers).
 
         Parameters

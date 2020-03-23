@@ -338,7 +338,7 @@ class JackClient(SubProcess):
         """
         self._event_terminate.set()
         self._event_ready.clear()
-        # needed to not crash when terminating clients i.e. at block_len=64 filter_len=110250
+        # needed to not crash when terminating clients e.g. at block_len=64 filter_len=110250
         sleep(0.05)
         self._client.deactivate()  # this is likely to not succeed if called by instance itself
 

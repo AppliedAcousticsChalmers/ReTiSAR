@@ -56,7 +56,7 @@ def main():
     # there is a limitation of JACK ports per server (256 by default), which leads to a
     # limitation of around 64 JACK clients, when each client has 2 input and 2 output
     # ports
-    # TODO: try to avoid port limitation i.e. by starting JACK server with modified command
+    # TODO: try to avoid port limitation e.g. by starting JACK server with modified command
     #  jackd --port-max 512 -d coreaudio
     _JACK_INSTANCES_LIMIT = 61 if config.BENCHMARK_MODE == "PARALLEL_CLIENTS" else 0
 

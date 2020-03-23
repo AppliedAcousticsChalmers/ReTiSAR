@@ -962,8 +962,8 @@ def generate_iir_filter_fd(
     Parameters
     ----------
     type_str : str
-        filter type, see `scipy.signal.butter()` for reference (i.e. ‘lowpass’, ‘highpass’,
-        ‘bandpass’, ‘bandstop’)
+        filter type, see `scipy.signal.butter()` for reference, e.g. ‘lowpass’, ‘highpass’,
+        ‘bandpass’, ‘bandstop’
     length_td : int
         length of filter (number of taps in time domain)
     fs : int

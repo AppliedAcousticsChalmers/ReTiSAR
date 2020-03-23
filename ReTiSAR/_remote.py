@@ -12,7 +12,7 @@ class OscRemote(object):
     Open Sound Control server to receive OSC messages that will invoke mapped client functions.
     http://opensoundcontrol.org/
 
-    The OSC message to i.e. set activate mute state of a `JackClient` will look like this:
+    The OSC message to e.g. set activate mute state of a `JackClient` will look like this:
     /renderer/mute 1
 
     Also look at the provided PureData example showing more examples to control different kind of

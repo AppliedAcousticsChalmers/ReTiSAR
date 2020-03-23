@@ -672,7 +672,7 @@ class OverlapSaveConvolver(Convolver):
 class AdjustableFdConvolver(OverlapSaveConvolver):
     """
     Extension of `OverlapSaveConvolver` to allow fast convolution in frequency domain with
-    exchangeable impulse responses, i.e. for binaural rendering (selection of a Head Related
+    exchangeable impulse responses i.e., for binaural rendering (selection of a Head Related
     Impulse Response depending on the head orientation).
 
     Attributes
@@ -978,10 +978,10 @@ class AdjustableFdConvolver(OverlapSaveConvolver):
 class AdjustableShConvolver(AdjustableFdConvolver):
     """
     Extension of `AdjustableFdConvolver` to allow fast convolution in spherical harmonics domain
-    while adjusting orientation by a rotation matrix, i.e. for binaural rendering (depending on
+    while adjusting orientation by a rotation matrix i.e., for binaural rendering (depending on
     the head  orientation).
 
-    The current spherical harmonics rendering order can be adjusted, i.e. lowered, during execution.
+    The current spherical harmonics rendering order can be adjusted i.e., lowered, during execution.
 
     Attributes
     ----------
@@ -1171,7 +1171,7 @@ class AdjustableShConvolver(AdjustableFdConvolver):
         """
         Calculate and apply modal radial filter as well as further compensation filters. This
         function can be re-used during runtime, in case aspects of the rendering configuration
-        change, i.e. the current spherical harmonics rendering order.
+        change i.e., the current spherical harmonics rendering order.
 
         Parameters
         ----------

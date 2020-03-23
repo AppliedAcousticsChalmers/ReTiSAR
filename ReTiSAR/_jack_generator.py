@@ -145,7 +145,7 @@ class Generator(object):
     class Type(IntEnum):
         """
         Enumeration data type used to get an identification of generators utilizing a certain
-        algorithm to generate artificial audio signals (i.e. noise with a specified coloration).
+        algorithm to generate artificial audio signals i.e., noise with a specified coloration.
         It's attributes (with an distinct integer value) are used as system wide unique constant
         identifiers.
 

@@ -264,9 +264,9 @@ def main():
             log_str = (
                 f"time alignment is not identical for all channels "
                 f"({tools.get_pretty_delay_str(samples=cmp_corr_n, fs=fs)}).\n"
-                f" --> i.e. as per ear offset resulting from horizontal head rotation ("
+                f" --> e.g. as per ear offset resulting from horizontal head rotation ("
                 f"{tools.get_pretty_delay_str(samples=(cmp_corr_n[0] - cmp_corr_n[1]) / 2, fs=fs)}"
-                f").\n --> i.e. with {_ARIR_RADIUS * 100:.1f} cm head / array radius"
+                f").\n --> e.g. with {_ARIR_RADIUS * 100:.1f} cm head / array radius"
             )
             if np.abs(angle) > 1:
                 logger.error(
