@@ -772,30 +772,33 @@ def _timeit_basic():
 def _test_multiprocessing():
     import jack
 
-    client = jack.Client(name="MP_TEST")
-    print("-------------------------")
+    client = jack.Client(name="PICKLE_TEST")
+    print("--- CLIENT CREATED ---\n")
 
     # import dill
     #
     # print(dill.detect.badtypes(client, depth=1).keys())
-    # print('-------------------------')
+    # print("--- DILL BADTYPES ---\n")
     #
     # dill.detect.trace(True)
     # print(dill.pickles(client))
-    # print('-------------------------')
+    # print("--- DILL TRACED ---\n")
 
     import pickle
 
+    # This fails since pickling is not possible for `jack.Client`, see `_multiprocessing`
     print(pickle.dumps(obj=client, protocol=pickle.HIGHEST_PROTOCOL))
-    print("-------------------------")
+    print("--- PICKLE DUMPED ---\n")
 
+    client.activate()
     client.inports.register(f"input_{1}")
     client.outports.register(f"output_{1}")
-    client.activate()
+    print("--- CLIENT ACTIVATED ---\n")
 
+    # This fails since pickling is not possible for `jack.Port`, see `_multiprocessing`
     print(pickle.dumps(obj=client, protocol=pickle.HIGHEST_PROTOCOL))
-    print("-------------------------")
+    print("--- PICKLE DUMPED ---\n")
 
     client.deactivate()
     client.close()
-    print("-------------------------")
+    print("--- CLIENT CLOSED ---\n")
