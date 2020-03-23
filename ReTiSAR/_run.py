@@ -90,7 +90,7 @@ def main():
                 sleep(_INITIALIZE_DELAY)
         except (ValueError, NotImplementedError, FileNotFoundError, RuntimeError) as e:
             logger.error(e)
-            terminate_all(new_renderer)
+            terminate_all(additional_renderer=new_renderer)
             raise InterruptedError
 
         try:
@@ -191,7 +191,7 @@ def main():
                 )
         except (ValueError, NotImplementedError, FileNotFoundError, RuntimeError) as e:
             logger.error(e)
-            terminate_all(new_renderer)
+            terminate_all(additional_renderer=new_renderer)
             raise InterruptedError
         return new_renderer
 
@@ -270,7 +270,7 @@ def main():
                     )
         except (ValueError, NotImplementedError, FileNotFoundError, RuntimeError) as e:
             logger.error(e)
-            terminate_all(new_player)
+            terminate_all(additional_renderer=new_player)
             raise InterruptedError
         return new_player
 
@@ -320,19 +320,25 @@ def main():
                 )
         except (ValueError, NotImplementedError, FileNotFoundError, RuntimeError) as e:
             logger.error(e)
-            terminate_all(new_renderer)
+            terminate_all(additional_renderer=new_renderer)
             raise InterruptedError
         return new_renderer
 
-    def terminate_all(additional_process=None):
+    def terminate_all(additional_renderer=None):
         """
-        Terminate all (potentially) spawned child processes after muting the outputting
-        client.
+        Terminate all (potentially) spawned child processes after muting the last client in the
+        rendering chain (headphone compensation or binaural renderer).
+
+        Parameters
+        ----------
+        additional_renderer : JackRenderer, optional
+            renderer that should be terminated, which was not (yet) returned to the main run
+            function and is part of the usually implemented list of clients (see below)
         """
         config.IS_RUNNING.clear()
         try:
-            additional_process.terminate()
-            additional_process.join()
+            additional_renderer.terminate()
+            additional_renderer.join()
         except (NameError, AttributeError):
             pass
         try:
