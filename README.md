@@ -1,5 +1,5 @@
 # ReTiSAR
-Implementation of the Real-Time Spherical Microphone Renderer for binaural reproduction in _Python_ [[1]](#references).
+Implementation of the Real-Time Spherical Microphone Renderer for binaural reproduction in _Python_ [[1]](#references)[[2]](#references).
 
 ![Badge_OS](https://img.shields.io/badge/platform-osx--64-lightgrey)
 [![Badge_Python](https://img.shields.io/badge/python-3.7%20|%203.8-brightgreen)][Python]
@@ -116,12 +116,12 @@ The following parameters are all optional and available in combinations with the
   `python -m ReTiSAR -tt=POLHEMUS_PATRIOT -t=/dev/tty.UC-232AC`
   * Tracker _Polhemus Fastrack_:<br/>
   `python -m ReTiSAR -tt=POLHEMUS_FASTRACK -t=/dev/tty.UC-232AC`
-* Run with specific HRTF dataset as _MIRO_ [[5]](#references) or _SOFA_ [[6]](#references) files<br/>
-  * _Neumann KU100_ artificial head from [[5]](#references) as _SOFA_:<br/>
+* Run with specific HRTF dataset as _MIRO_ [[6]](#references) or _SOFA_ [[7]](#references) files<br/>
+  * _Neumann KU100_ artificial head from [[6]](#references) as _SOFA_:<br/>
   `python -m ReTiSAR -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA` __[default]__<br/>
-  * _Neumann KU100_ artificial head from [[5]](#references) as _MIRO_:<br/>
+  * _Neumann KU100_ artificial head from [[6]](#references) as _MIRO_:<br/>
   `python -m ReTiSAR -hr=res/HRIR/KU100_THK/HRIR_L2702_struct.mat -hrt=HRIR_MIRO`<br/>
-  * _FABIAN_ artificial head from [[7]](#references) as _SOFA_:<br/>
+  * _FABIAN_ artificial head from [[8]](#references) as _SOFA_:<br/>
   `python -m ReTiSAR -hr=res/HRIR/FABIAN_TUB/FABIAN_HRIR_measured_HATO_0.sofa -hrt=HRIR_SOFA`
 * Run with specific headphone equalization / compensation filters (arbitrary filter length). The compensation filter should match the utilized individual headphone (model)! In the best case scenario, the filter was also gathered on the identical utilized HRIR (artificial or individual head)!<br/>
   * No individual headphone compensation:<br/>
@@ -129,11 +129,11 @@ The following parameters are all optional and available in combinations with the
   * _Sennheiser HD600_ headphone on _GRAS KEMAR_ artificial head:<br/>
   `python -m ReTiSAR -hp=res/HpIR/KEMAR_TUR/hpComp_HD600_1Filter.wav`
 * Run with specific SH processing compensation techniques (relevant for rendering modes utilizing spherical harmonics)<br/>
-  * __Modal Radial Filters__ __[always applied]__ with individual amplification soft-limiting in dB according to [[2]](#references):<br/>
+  * __Modal Radial Filters__ __[always applied]__ with individual amplification soft-limiting in dB according to [[3]](#references):<br/>
   `python -m ReTiSAR -arr=18` __[default]__
-  * __Spherical Head Filter__ according to [[3]](#references):<br/>
+  * __Spherical Head Filter__ according to [[4]](#references):<br/>
   `python -m ReTiSAR -sht=SHF`
-  * __Spherical Harmonics Tapering__ in combination with __Spherical Head Filter__ according to [[4]](#references):<br/>
+  * __Spherical Harmonics Tapering__ in combination with __Spherical Head Filter__ according to [[5]](#references):<br/>
   `python -m ReTiSAR -sht=SHT+SHF` __[default]__
 * Run with specific emulated self-noise as additive component to each microphone array sensor (performance requirements increase according to channel count)<br/>
   * No noise (best performance):<br/>
@@ -154,14 +154,14 @@ __Most execution modes require additional external measurement data, which canno
   `python -m ReTiSAR -sh=4 -tt=NONE -s=res/record/EM32ch_lab_voice_around.wav -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA` __[default]__
   * _Eigenmike_ at Chalmers lab space with speaker moving vertically in front of the array:<br/>
   `python -m ReTiSAR -sh=4 -tt=NONE -s=res/record/EM32ch_lab_voice_updown.wav -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
-  * _HØSMA 7n_ at TH Cologne lecture hall __(recording file not provided!)__:<br/>
+  * _HØSMA-7N_ at TH Cologne lecture hall __(recording file not provided!)__:<br/>
   `python -m ReTiSAR -b=1024 -sh=7 -tt=NONE -s=res/record/HOS64_hall_lecture.wav -sp="[(90,0)]" -sl=9 -ar=res/ARIR/RT_calib_HOS64_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
 * Run as array live-stream renderer with minimum latency (e.g. _Eigenmike_ with the respective channel calibration provided by manufacturer)<br/>
   * _Eigenmike_ Chalmers _EM32 (SN 28)_:<br/>
   `python -m ReTiSAR -b=256 -sh=4 -tt=NONE -s=None -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`<br/>
   * _Eigenmike_ Facebook Reality Labs _EM32 (SN ??)_:<br/>
   `python -m ReTiSAR -b=256 -sh=4 -tt=NONE -s=None -ar=res/ARIR/RT_calib_EM32frl_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
-  * TH Cologne _HØSMA 7n_:<br/>
+  * TH Cologne _HØSMA-7N_:<br/>
   `python -m ReTiSAR -b=1024 -sh=7 -tt=NONE -s=None -ar=res/ARIR/RT_calib_HOS64_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
   * Zylia _ZM-1_:<br/>
   `python -m ReTiSAR -b=256 -sh=3 ...` __(grid calibration file pending!)__
@@ -171,7 +171,7 @@ __Most execution modes require additional external measurement data, which canno
   `python -m ReTiSAR -sh=4 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_sim_EM32_PW_struct.mat -art=ARIR_MIRO -arl=-6 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
   * Anechoic measurement:<br/>
   `python -m ReTiSAR -sh=4 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_anec_EM32ch_S_struct.mat -art=ARIR_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
-* Run as array IR renderer, e.g. sequential VSA measurements from [[8]](#references) at the maximum respective SH order<br/>
+* Run as array IR renderer, e.g. sequential VSA measurements from [[9]](#references) at the maximum respective SH order<br/>
   * 50ch (sh5), SBS center:<br/>
   `python -m ReTiSAR -sh=5 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_SBS_VSA_50RS_PAC.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
   * 86ch (sh7), LBS center:<br/>
@@ -181,7 +181,7 @@ __Most execution modes require additional external measurement data, which canno
   * 1202ch (truncated sh12), CR1 left:<br/>
   `python -m ReTiSAR -sh=12 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -sp="[(-37,0)]" -ar=res/ARIR/DRIR_CR1_VSA_1202RS_L.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
 
-* Run as BRIR renderer (partitioned convolution in frequency domain) for any BRIR compatible to the _SoundScape Renderer_, e.g. pre-processed array IRs by [[9]](#references):<br/>
+* Run as BRIR renderer (partitioned convolution in frequency domain) for any BRIR compatible to the _SoundScape Renderer_, e.g. pre-processed array IRs by [[10]](#references):<br/>
 `python -m ReTiSAR -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -art=NONE -hr=res/HRIR/KU100_THK/BRIR_CR1_VSA_110RS_L_SSR_SFA_-37_SOFA_RFI.wav -hrt=BRIR_SSR -hrl=-12`
 * Run as "binauralizer" for an arbitrary number of virtual sound sources via HRTF (partitioned convolution in frequency domain) for any HRIR compatible to the _SoundScape Renderer_:<br/>
 `python -m ReTiSAR -tt=AUTO_ROTATE -s=res/source/PinkMartini_Lilly_44.wav -sp="[(30, 0),(-30, 0)]" -art=NONE -hr=res/HRIR/FABIAN_TUB/hrirs_fabian.wav -hrt=HRIR_SSR` __(provide respective source file and source positions!)__
@@ -212,7 +212,7 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 * __Optional:__ Install [_sendosc_](https://github.com/yoggy/sendosc) tool to be used for automation in shell scripts:<br/>
 `brew install yoggy/tap/sendosc`
 * __Remark:__ Make sure all subsequent rendering configurations are able to start up properly before recording starts (particularly FFTW optimization might take a long time, see above)
-* Validate impulse responses by __comparing against a reference implementation__, in this case the output of [_sound_field_analysis-py_](https://nbviewer.jupyter.org/github/AppliedAcousticsChalmers/sound_field_analysis-py/blob/master/examples/Exp4_BinauralRendering.ipynb) [[8]](#references)
+* Validate impulse responses by __comparing against a reference implementation__, in this case the output of [_sound_field_analysis-py_](https://nbviewer.jupyter.org/github/AppliedAcousticsChalmers/sound_field_analysis-py/blob/master/examples/Exp4_BinauralRendering.ipynb) [[9]](#references)
   * Execute recording script, consecutively starting the package and capturing impulse responses in different rendering configurations:<br/>
   `./res/research/validation/record_ir.sh`<br/>
   __Remark:__ Both implementations compensate the source being at an incidence angle of -37 degrees in the measurement IR set
@@ -236,15 +236,16 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 * Find generated results in the specified files at the end of the script.
 
 ## References
-[[1]](https://research.chalmers.se/en/publication/509494) Helmholz, H., Andersson, C., and Ahrens, J. (2019). “Real-Time Implementation of Binaural Rendering of High-Order Spherical Microphone Array Signals,” Fortschritte der Akust. -- DAGA 2019, Deutsche Gesellschaft für Akustik, Rostock, Germany, 1462-1465.<br/>
-[[2]](http://audiogroup.web.th-koeln.de/PUBLIKATIONEN/Bernschuetz_DAGA2011_01.pdf) Bernschütz, B., Pöschmann, C., Spors, S., and Weinzierl, S. (2011). “Soft-Limiting der modalen Amplitudenverstärkung bei sphärischen Mikrofonarrays im Plane Wave Decomposition Verfahren,” Fortschritte der Akust. -- DAGA 2011, Deutsche Gesellschaft für Akustik, Düsseldorf, Germany, 661–662.<br/>
-[[3]](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8683751&tag=1) Hold, C., Gamper, H., Pulkki, V., Raghuvanshi, N., and Tashev, I. J. (2019). “Improving Binaural Ambisonics Decoding by Spherical Harmonics Domain Tapering and Coloration Compensation,” Int. Conf. Acoust. Speech Signal Process., IEEE, Brighton, UK, 261–265. doi:10.1109/ICASSP.2019.8683751<br/>
-[[4]](http://asa.scitation.org/doi/10.1121/1.4983652) Ben-Hur, Z., Brinkmann, F., Sheaffer, J., Weinzierl, S., and Rafaely, B. (2017). “Spectral equalization in binaural signals represented by order-truncated spherical harmonics,” J. Acoust. Soc. Am., 141, 4087–4096. doi:10.1121/1.4983652<br/>
-[[5]](http://www.audiogroup.web.fh-koeln.de/FILES/AIA-DAGA2013_HRIRs.pdf) Bernschütz, B. (2013). “A spherical far field HRIR/HRTF compilation of the Neumann KU 100,” Fortschritte der Akust. -- AIA/DAGA 2013, Deutsche Gesellschaft für Akustik, Meran, Italy, 592–595.<br/>
-[[6]](http://www.aes.org/e-lib/browse.cfm?elib=16781) Majdak, P., Iwaya, Y., Carpentier, T., Nicol, R., Parmentier, M., Roginska, A., Suzuki, Y., et al. (2013). “Spatially Oriented Format for Acoustics: A Data Exchange Format Representing Head-Related Transfer Functions,” AES Conv. 134, Audio Engineering Society, Rome, 262–272.<br/>
-[[7]](https://depositonce.tu-berlin.de/handle/11303/6153.4) F. Brinkmann et al., “The FABIAN head-related transfer function data base.” Technische Universität Berlin, Berlin, Germany, 2017.<br/>
-[[8]](http://www.audiogroup.web.fh-koeln.de/FILES/VDT2012_WDRIRC.pdf) Stade, P., Bernschütz, B., and Rühl, M. (2012). “A Spatial Audio Impulse Response Compilation Captured at the WDR Broadcast Studios,” 27th Tonmeistertagung -- VDT Int. Conv., Verband Deutscher Tonmeister e.V., Cologne, Germany, 551–567.<br/>
-[[9]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) Hohnerlein, C., and Ahrens, J. (2017). “Spherical Microphone Array Processing in Python with the sound field analysis-py Toolbox,” Fortschritte der Akust. -- DAGA 2017, Deutsche Gesellschaft für Akustik, Kiel, Germany, 1033–1036.<br/>
+[[1]](https://research.chalmers.se/en/publication/509494) H. Helmholz, C. Andersson, and J. Ahrens, “Real-Time Implementation of Binaural Rendering of High-Order Spherical Microphone Array Signals,” in Fortschritte der Akustik -- DAGA 2019, 2019, pp. 1462–1465.<br/>
+[[2]](https://research.chalmers.se/en/publication/516281) H. Helmholz, T. Lübeck, J. Ahrens, S. V. A. Garí, D. Lou Alon, and R. Mehra, “Updates on the Real-Time Spherical Array Renderer (ReTiSAR),” in Fortschritte der Akustik -- DAGA 2020, 2020, pp. 1–4.<br/>
+[[3]](http://audiogroup.web.th-koeln.de/FILES/ICSA2011_SOFiA_PAPER.pdf) B. Bernschütz, C. Pörschmann, S. Spors, and S. Weinzierl, “SOFiA Sound Field Analysis Toolbox,” in International Conference on Spatial Audio, 2011, pp. 7–15.<br/>
+[[4]](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8683751&tag=1) C. Hold, H. Gamper, V. Pulkki, N. Raghuvanshi, and I. J. Tashev, “Improving Binaural Ambisonics Decoding by Spherical Harmonics Domain Tapering and Coloration Compensation,” in International Conference on Acoustics, Speech and Signal Processing, 2019, pp. 261–265, doi: 10.1109/ICASSP.2019.8683751.<br/>
+[[5]](http://asa.scitation.org/doi/10.1121/1.4983652) Z. Ben-Hur, F. Brinkmann, J. Sheaffer, S. Weinzierl, and B. Rafaely, “Spectral equalization in binaural signals represented by order-truncated spherical harmonics,” J. Acoust. Soc. Am., vol. 141, no. 6, pp. 4087–4096, 2017, doi: 10.1121/1.4983652.<br/>
+[[6]](http://www.audiogroup.web.fh-koeln.de/FILES/AIA-DAGA2013_HRIRs.pdf) B. Bernschütz, “A spherical far field HRIR/HRTF compilation of the Neumann KU 100,” in Fortschritte der Akustik -- AIA/DAGA 2013, 2013, pp. 592–595.<br/>
+[[7]](http://www.aes.org/e-lib/browse.cfm?elib=16781) P. Majdak et al., “Spatially Oriented Format for Acoustics: A Data Exchange Format Representing Head-Related Transfer Functions,” in AES Convention 134, 2013, pp. 262–272.<br/>
+[[8]](https://depositonce.tu-berlin.de/handle/11303/6153.4) F. Brinkmann et al., “The FABIAN head-related transfer function data base.” Technische Universität Berlin, Berlin, Germany, 2017, doi: 10.14279/depositonce-5718.3.<br/>
+[[9]](http://www.audiogroup.web.fh-koeln.de/FILES/VDT2012_WDRIRC.pdf) P. Stade, B. Bernschütz, and M. Rühl, “A Spatial Audio Impulse Response Compilation Captured at the WDR Broadcast Studios,” in 27th Tonmeistertagung -- VDT International Convention, 2012, pp. 551–567.<br/>
+[[10]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) C. Hohnerlein and J. Ahrens, “Spherical Microphone Array Processing in Python with the sound_field_analysis-py Toolbox,” in Fortschritte der Akustik -- DAGA 2017, 2017, pp. 1033–1036.
 
 ## Change Log
 * __v2020.3.3__
@@ -254,7 +255,7 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
   * Introduction of `multiprocessing` context for compatibility
   * Enforcement of `Black` code style
 * __v2020.2.14__
-  * Addition of TH Cologne _HØSMA 7n_ array configuration
+  * Addition of TH Cologne _HØSMA-7N_ array configuration
 * __v2020.2.10__
   * Addition of project community information (contributing, code of conduct, issue templates)
 * __v2020.2.7__

@@ -183,12 +183,12 @@ see `JackRenderer`. """
 # SH_MAX_ORDER = 4
 # """Maximum spherical harmonics order when rendering Array Room Impulse Responses,
 # see `JackRenderer`. """
-# Level offsets for noise generator to reproduce relative self-noise level distribution of
-# Eigenmike Chalmers (SN 28) according to an anechoic measurement.
 # G_LEVEL_REL = [-0.5, -0.1, 1.3, -0.9, -0.3, 1.2, -0.3, -0.8, 0.1, -1.3, -0.5, 0.5, 1.4, -0.7, 0.5,
 #                -0.4, 0.2, 1.2, 0.4, -0.3, 0.2, -0.5, 0.0, 0.1, 0.7, 0.8, -0.2, -0.3, -0.2, -0.7,
 #                -1.2, 0.6]
-# """Output level in dBFS relative between ports of sound generator, see `JackGenerator`."""
+# """Output level in dBFS relative between ports of sound generator, see `JackGenerator`.
+# Level offsets for noise generator to reproduce relative self-noise level distribution of
+# Eigenmike Chalmers (SN 28) according to an anechoic measurement."""
 
 # ############ ARRAY IR RENDERING OF COLOGNE 50 CHANNEL ############
 # SOURCE_FILE = "res/source/Drums_48.wav"
