@@ -4,7 +4,7 @@ channels:
   - conda-forge  # preferring conda-forge would install OpenBLAS for numpy
 dependencies:
   - matplotlib
-  - numpy >=1.15.4
+  - numpy >=1.17
   - pip
 #  - psutil  # for adjusting process priority, currently not used
   - pyfftw  # only on conda-forge

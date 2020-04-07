@@ -30,7 +30,7 @@ setup(
     install_requires=[
         "jack-client >=0.4.4",
         "matplotlib",
-        "numpy >=1.15.4",
+        "numpy >=1.17",
         "pyfftw",
         "python-osc",
         "pyserial >=3.4",

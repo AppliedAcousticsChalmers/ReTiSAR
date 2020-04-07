@@ -39,12 +39,6 @@ class JackGenerator(JackClient):
             type of audio signal generator
         """
         super().__init__(name=name, block_length=block_length, *args, **kwargs)
-        if self._is_single_precision:
-            self._logger.info(
-                f"single precision ignored since performance of noise generation is better in "
-                f"double precision."
-            )
-            self._is_single_precision = False
 
         dtype = np.float32 if self._is_single_precision else np.float64
         self._generator = Generator.create_instance_by_type(
