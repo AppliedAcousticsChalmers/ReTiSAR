@@ -1,7 +1,7 @@
 from enum import auto, IntEnum
 
 import numpy as np
-from scipy import signal
+from scipy.signal import lfilter, lfilter_zi
 
 from . import config, tools
 from ._jack_client import JackClient
@@ -49,7 +49,7 @@ class JackGenerator(JackClient):
             self._debug_generate_block()
 
         # plot
-        gen = self._generator.generate_block(self._client.blocksize)
+        gen = self._generator.generate_block(block_length=self._client.blocksize)
         name = f"{self._logger.name}_{generator_type}_{block_length}_{output_count}ch"
         tools.export_plot(
             figure=tools.plot_ir_and_tf(
@@ -104,10 +104,14 @@ class JackGenerator(JackClient):
             generated output blocks in time domain of size [number of output channels;
             `_block_length`]
         """
-        op = self._generator.generate_block(self._client.blocksize)
+        op1 = self._generator.generate_block(block_length=self._client.blocksize)
+        tools.plot_ir_and_tf(op1[:8], fs=self._client.samplerate)
+
+        op2 = self._generator.generate_block(block_length=self._client.blocksize)
+        tools.plot_ir_and_tf(op2[:8], fs=self._client.samplerate)
 
         # potentially check output blocks
-        return op
+        return op2
 
     def _process(self, _):
         """
@@ -121,7 +125,7 @@ class JackGenerator(JackClient):
         """
         if not config.IS_RUNNING.is_set():
             return None
-        return self._generator.generate_block(self._client.blocksize)
+        return self._generator.generate_block(block_length=self._client.blocksize)
 
 
 class Generator(object):
@@ -184,7 +188,9 @@ class Generator(object):
         elif _type is Generator.Type.NOISE_WHITE:
             return GeneratorNoise(output_count=output_count, dtype=dtype)
         elif _type is Generator.Type.NOISE_IIR_PINK:
-            return GeneratorNoiseIir(output_count=output_count, dtype=dtype)
+            return GeneratorNoiseIir(
+                output_count=output_count, dtype=dtype, color="PINK"
+            )
         elif _type in [
             Generator.Type.NOISE_AR_PURPLE,
             Generator.Type.NOISE_AR_BLUE,
@@ -258,7 +264,7 @@ class GeneratorImpulse(Generator):
         if is_transposed:
             shape = shape[::-1]  # invert
 
-        impulse = np.zeros(shape, dtype=self._dtype)
+        impulse = np.zeros(shape=shape, dtype=self._dtype)
         if is_transposed:
             impulse[0] = 1
         else:
@@ -294,7 +300,7 @@ class GeneratorNoise(Generator):
         if is_transposed:
             shape = shape[::-1]  # invert
 
-        return tools.generate_noise(shape, dtype=self._dtype)
+        return tools.generate_noise(shape=shape, dtype=self._dtype)
 
 
 class GeneratorNoiseAr(GeneratorNoise):
@@ -335,14 +341,14 @@ class GeneratorNoiseAr(GeneratorNoise):
         """
         super().__init__(output_count=output_count, dtype=dtype)
 
-        coefficients = np.zeros(order, dtype=dtype)
+        coefficients = np.zeros(shape=order, dtype=dtype)
         coefficients[0] = 1
         for k in range(1, order):
             coefficients[k] = (k - 1 - power / 2) * coefficients[k - 1] / k
 
         self._coefficients = coefficients[1:].copy()
         self._buffer = np.zeros(
-            (self._coefficients.shape[0], self._output_count),
+            shape=(self._coefficients.shape[0], self._output_count),
             dtype=self._coefficients.dtype,
         )
 
@@ -364,12 +370,12 @@ class GeneratorNoiseAr(GeneratorNoise):
             generated block of audio data
         """
         # generate white noise
-        normal = super().generate_block(block_length, is_transposed=True)
+        normal = super().generate_block(block_length=block_length, is_transposed=True)
 
         # run auto-regressive filtering
         for n in normal:
             n -= np.dot(self._coefficients, self._buffer)
-            self._buffer = np.roll(self._buffer, 1, axis=0)
+            self._buffer = np.roll(self._buffer, shift=1, axis=0)
             self._buffer[0] = n
 
         if is_transposed:
@@ -383,41 +389,38 @@ class GeneratorNoiseIir(GeneratorNoise):
     Extended `GeneratorNoise` implementation for generating noise with a desired coloration. This
     means an incoherent block of noise will be generated for every output channel.
 
-    This implementation uses an auto-regressive algorithm, mimicking the application of IIR
-    filters of very high order. The current implementation is computationally very expensive,
-    since the samples are acquired in time domain, hence the implementation can not be utilized
-    in real-time so far.
+    This implementation uses filtering with provided IIR filter coefficients. For better numeric
+    stability this filter is employed by IIR second-order sections (instead of B-A-coefficients).
 
     Attributes
     ----------
     _GAIN_FACTOR : float
         linear multiplicand to reach a comparable output range like `GeneratorNoise`
     _B_PINK : numpy.ndarray
-        IIR filter numerator coefficients to achieve pink noise coloration
+        IIR filter numerator coefficients to achieve pink noise coloration from [1]
     _A_PINK : numpy.ndarray
-        IIR filter denominator coefficients to achieve pink noise coloration
+        IIR filter denominator coefficients to achieve pink noise coloration from [1]
     _b : numpy.ndarray
         utilized IIR filter numerator coefficients according to coloration
     _a : numpy.ndarray
         utilized IIR filter denominator coefficients according to coloration
-    _t60 : int
-        approximated reverberation time of IIR filter in samples
 
     References
     ----------
-        https://ccrma.stanford.edu/~jos/sasp/Example_Synthesis_1_F_Noise.html
+    .. [1] https://ccrma.stanford.edu/~jos/sasp/Example_Synthesis_1_F_Noise.html
     """
 
-    def __init__(self, output_count, dtype, color="pink"):
+    def __init__(self, output_count, dtype, color):
         """
         Parameters
         ----------
         output_count : int
             number of channels to generate
-        color : str, optional
+        color : str
             coloration of noise to generate
         """
         super().__init__(output_count=output_count, dtype=dtype)
+        color = color.upper()
 
         # initialize constants
         self._GAIN_FACTOR = 20
@@ -430,7 +433,7 @@ class GeneratorNoiseIir(GeneratorNoise):
         # TODO: introduce coefficients for different coloration
 
         # pick utilized coefficients
-        if color == "pink":
+        if color == "PINK":
             self._b = self._B_PINK.copy()
             self._a = self._A_PINK.copy()
         else:
@@ -438,8 +441,15 @@ class GeneratorNoiseIir(GeneratorNoise):
                 f'chosen noise generator color "{color}" not implemented yet.'
             )
 
-        # approximate "reverberation time" to skip transient response part
-        self._t60 = int(np.log(1000.0) / (1.0 - np.abs(np.roots(self._a)).max())) + 1
+        # # approximate decay time to skip transient response part of IIR filter
+        # self._t60 = int(np.log(1000.0) / (1.0 - np.abs(np.roots(self._a)).max())) + 1
+
+        # initialize IIR filter delay conditions
+        self._last_delays = lfilter_zi(b=self._b, a=self._a).astype(dtype)
+        # adjust according to output count
+        self._last_delays = np.repeat(
+            self._last_delays[np.newaxis, :], repeats=output_count, axis=0
+        )
 
     def generate_block(self, block_length, is_transposed=False):
         """
@@ -460,19 +470,22 @@ class GeneratorNoiseIir(GeneratorNoise):
         """
         # generate white noise
         normal = super().generate_block(
-            block_length + self._t60, is_transposed=is_transposed
+            block_length=block_length, is_transposed=is_transposed
         )
+
+        # transpose initial IIR filter delay conditions in case output should be transposed
+        # this is not nice, but should only happens
+        if is_transposed and self._last_delays.shape[1] != normal.shape[1]:
+            self._last_delays = self._last_delays.T
 
         # filter signal along time axis
-        shaped = signal.lfilter(
-            self._b, self._a, normal, axis=0 if is_transposed else 1
+        [shaped, self._last_delays] = lfilter(
+            b=self._b,
+            a=self._a,
+            x=normal,
+            axis=0 if is_transposed else 1,
+            zi=self._last_delays,
         )
-
-        # skip transient response
-        if is_transposed:
-            shaped = shaped[self._t60 :]
-        else:
-            shaped = shaped[:, self._t60 :]
 
         # apply gain
         return shaped * self._GAIN_FACTOR

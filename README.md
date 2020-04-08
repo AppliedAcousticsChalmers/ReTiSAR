@@ -248,6 +248,8 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[10]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) C. Hohnerlein and J. Ahrens, “Spherical Microphone Array Processing in Python with the sound_field_analysis-py Toolbox,” in Fortschritte der Akustik -- DAGA 2017, 2017, pp. 1033–1036.
 
 ## Change Log
+* __v2020.4.8__
+  * Improvement of IIR pink noise generation (continuous utilization of internal filter delay conditions)
 * __v2020.4.3__
   * Improvement of white noise generation (vastly improved performance due to `numpy SFC64` generator)
   * Enabling of `JackGenerator` (and derivatives) to operate in single precision for improved performance
