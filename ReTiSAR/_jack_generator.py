@@ -106,11 +106,13 @@ class JackGenerator(JackClient):
         """
         op1 = self._generator.generate_block(block_length=self._client.blocksize)
         tools.plot_ir_and_tf(op1[:8], fs=self._client.samplerate)
+        # potentially check output block here!
 
         op2 = self._generator.generate_block(block_length=self._client.blocksize)
         tools.plot_ir_and_tf(op2[:8], fs=self._client.samplerate)
+        # in case of IIR colored noise specifically, check that first generated blocks are
+        # unimpaired!
 
-        # potentially check output blocks
         return op2
 
     def _process(self, _):
@@ -334,6 +336,8 @@ class GeneratorNoiseAr(GeneratorNoise):
         ----------
         output_count : int
             number of channels to generate
+        dtype : str or numpy.dtype or type
+            data type to generate
         power : int
             power indicating the type of coloration for auto-regressive method
         order : int, optional
@@ -416,6 +420,8 @@ class GeneratorNoiseIir(GeneratorNoise):
         ----------
         output_count : int
             number of channels to generate
+        dtype : str or numpy.dtype or type
+            data type to generate
         color : str
             coloration of noise to generate
         """
@@ -441,15 +447,17 @@ class GeneratorNoiseIir(GeneratorNoise):
                 f'chosen noise generator color "{color}" not implemented yet.'
             )
 
-        # # approximate decay time to skip transient response part of IIR filter
-        # self._t60 = int(np.log(1000.0) / (1.0 - np.abs(np.roots(self._a)).max())) + 1
-
         # initialize IIR filter delay conditions
         self._last_delays = lfilter_zi(b=self._b, a=self._a).astype(dtype)
         # adjust according to output count
         self._last_delays = np.repeat(
             self._last_delays[np.newaxis, :], repeats=output_count, axis=0
         )
+
+        # approximate decay time to skip transient response part of IIR filter, according to [1]
+        t60_samples = int(np.log(1000.0) / (1.0 - np.abs(np.roots(self._a)).max())) + 1
+        # generate and discard long enough sequence to skip IIR transient response (decay time)
+        _ = self.generate_block(block_length=t60_samples)
 
     def generate_block(self, block_length, is_transposed=False):
         """
