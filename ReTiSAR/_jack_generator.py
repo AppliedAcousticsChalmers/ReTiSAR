@@ -1,7 +1,7 @@
 from enum import auto, IntEnum
 
 import numpy as np
-from scipy.signal import lfilter, lfilter_zi
+from scipy.signal import sosfilt, sosfilt_zi, tf2sos
 
 from . import config, tools
 from ._jack_client import JackClient
@@ -404,10 +404,8 @@ class GeneratorNoiseIir(GeneratorNoise):
         IIR filter numerator coefficients to achieve pink noise coloration from [1]
     _A_PINK : numpy.ndarray
         IIR filter denominator coefficients to achieve pink noise coloration from [1]
-    _b : numpy.ndarray
-        utilized IIR filter numerator coefficients according to coloration
-    _a : numpy.ndarray
-        utilized IIR filter denominator coefficients according to coloration
+    _sos : numpy.ndarray
+        utilized IIR filter second-order section coefficients according to chosen coloration
 
     References
     ----------
@@ -436,26 +434,31 @@ class GeneratorNoiseIir(GeneratorNoise):
         self._A_PINK = np.array(
             [1, -2.494956002, 2.017265875, -0.522189400], dtype=dtype
         )
+        # "Consider designing filters in ZPK format and converting directly to SOS."
+        # https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.tf2sos.html
         # TODO: introduce coefficients for different coloration
 
         # pick utilized coefficients
         if color == "PINK":
-            self._b = self._B_PINK.copy()
-            self._a = self._A_PINK.copy()
+            a = self._A_PINK
+            self._sos = tf2sos(b=self._B_PINK, a=self._A_PINK).astype(dtype)
+            # "It is generally discouraged to convert from TF to SOS format, since doing so
+            # usually will not improve numerical precision errors."
+            # https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.tf2sos.html
         else:
             raise NotImplementedError(
                 f'chosen noise generator color "{color}" not implemented yet.'
             )
 
         # initialize IIR filter delay conditions
-        self._last_delays = lfilter_zi(b=self._b, a=self._a).astype(dtype)
-        # adjust according to output count
+        self._last_delays = sosfilt_zi(sos=self._sos).astype(dtype)
+        # adjust in middle axis according to output count
         self._last_delays = np.repeat(
-            self._last_delays[np.newaxis, :], repeats=output_count, axis=0
+            self._last_delays[:, np.newaxis, :], repeats=output_count, axis=1
         )
 
         # approximate decay time to skip transient response part of IIR filter, according to [1]
-        t60_samples = int(np.log(1000.0) / (1.0 - np.abs(np.roots(self._a)).max())) + 1
+        t60_samples = int(np.log(1000.0) / (1.0 - np.abs(np.roots(a)).max())) + 1
         # generate and discard long enough sequence to skip IIR transient response (decay time)
         _ = self.generate_block(block_length=t60_samples)
 
@@ -487,9 +490,8 @@ class GeneratorNoiseIir(GeneratorNoise):
             self._last_delays = self._last_delays.T
 
         # filter signal along time axis
-        [shaped, self._last_delays] = lfilter(
-            b=self._b,
-            a=self._a,
+        [shaped, self._last_delays] = sosfilt(
+            sos=self._sos,
             x=normal,
             axis=0 if is_transposed else 1,
             zi=self._last_delays,

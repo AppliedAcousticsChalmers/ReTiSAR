@@ -250,6 +250,7 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 ## Change Log
 * __v2020.4.8__
   * Improvement of IIR pink noise generation (continuous utilization of internal filter delay conditions)
+  * Improvement of IIR pink noise generation (employment of SOS instead of BA coefficients)
 * __v2020.4.3__
   * Improvement of white noise generation (vastly improved performance due to `numpy SFC64` generator)
   * Enabling of `JackGenerator` (and derivatives) to operate in single precision for improved performance
