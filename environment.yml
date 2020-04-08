@@ -11,7 +11,7 @@ dependencies:
   - pyserial >=3.4
   - pysoundfile >=0.10.2  # only on conda-forge, on Windows you need to install soundfile via pip
   - python >=3.7
-  - scipy
+  - scipy >=0.16
   - pip:
     - jack-client >=0.4.4
     - python-osc

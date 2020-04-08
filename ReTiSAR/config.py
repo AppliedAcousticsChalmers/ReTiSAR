@@ -34,6 +34,7 @@ SOURCE_MUTE = False
 G_TYPE = None
 # G_TYPE = "NOISE_WHITE"
 # G_TYPE = "NOISE_IIR_PINK"
+# G_TYPE = "NOISE_IIR_EIGENMIKE"
 """Type of algorithm used by generator to create the specified sound, see `Generator.Type`."""
 G_LEVEL = -30
 """Output level in dBFS of sound generator, see `JackGenerator`."""

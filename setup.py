@@ -36,7 +36,7 @@ setup(
         "pyserial >=3.4",
         "pysofaconventions >=0.1.5",
         "samplerate",
-        "scipy",
+        "scipy >=0.16",
         "soundfile >=0.10.2",
         "sound_field_analysis >=2020.1.30",
         # 'psutil',  # for adjusting process priority, currently not used

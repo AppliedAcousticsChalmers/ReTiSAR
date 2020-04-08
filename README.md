@@ -142,6 +142,8 @@ The following parameters are all optional and available in combinations with the
   `python -m ReTiSAR -gt=NOISE_WHITE -gl=-30 -gm=FALSE`
   * Pink noise by IIR filtering (higher performance requirements):<br/>
   `python -m ReTiSAR -gt=NOISE_IIR_PINK -gl=-30 -gm=FALSE`
+  * Eigenmike noise coloration by IIR filtering from [[9]](#references):<br/>
+  `python -m ReTiSAR -gt=NOISE_IIR_EIGENMIKE -gl=-30 -gm=FALSE`
 * For further [configuration parameters](#execution-parameters), check __Alternative 1__ and __Alternative 2__ above!
 
 ## Execution modes
@@ -171,7 +173,7 @@ __Most execution modes require additional external measurement data, which canno
   `python -m ReTiSAR -sh=4 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_sim_EM32_PW_struct.mat -art=ARIR_MIRO -arl=-6 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
   * Anechoic measurement:<br/>
   `python -m ReTiSAR -sh=4 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_anec_EM32ch_S_struct.mat -art=ARIR_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
-* Run as array IR renderer, e.g. sequential VSA measurements from [[9]](#references) at the maximum respective SH order<br/>
+* Run as array IR renderer, e.g. sequential VSA measurements from [[10]](#references) at the maximum respective SH order<br/>
   * 50ch (sh5), SBS center:<br/>
   `python -m ReTiSAR -sh=5 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_SBS_VSA_50RS_PAC.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
   * 86ch (sh7), LBS center:<br/>
@@ -181,7 +183,7 @@ __Most execution modes require additional external measurement data, which canno
   * 1202ch (truncated sh12), CR1 left:<br/>
   `python -m ReTiSAR -sh=12 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -sp="[(-37,0)]" -ar=res/ARIR/DRIR_CR1_VSA_1202RS_L.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
 
-* Run as BRIR renderer (partitioned convolution in frequency domain) for any BRIR compatible to the _SoundScape Renderer_, e.g. pre-processed array IRs by [[10]](#references):<br/>
+* Run as BRIR renderer (partitioned convolution in frequency domain) for any BRIR compatible to the _SoundScape Renderer_, e.g. pre-processed array IRs by [[11]](#references):<br/>
 `python -m ReTiSAR -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -art=NONE -hr=res/HRIR/KU100_THK/BRIR_CR1_VSA_110RS_L_SSR_SFA_-37_SOFA_RFI.wav -hrt=BRIR_SSR -hrl=-12`
 * Run as "binauralizer" for an arbitrary number of virtual sound sources via HRTF (partitioned convolution in frequency domain) for any HRIR compatible to the _SoundScape Renderer_:<br/>
 `python -m ReTiSAR -tt=AUTO_ROTATE -s=res/source/PinkMartini_Lilly_44.wav -sp="[(30, 0),(-30, 0)]" -art=NONE -hr=res/HRIR/FABIAN_TUB/hrirs_fabian.wav -hrt=HRIR_SSR` __(provide respective source file and source positions!)__
@@ -212,7 +214,7 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 * __Optional:__ Install [_sendosc_](https://github.com/yoggy/sendosc) tool to be used for automation in shell scripts:<br/>
 `brew install yoggy/tap/sendosc`
 * __Remark:__ Make sure all subsequent rendering configurations are able to start up properly before recording starts (particularly FFTW optimization might take a long time, see above)
-* Validate impulse responses by __comparing against a reference implementation__, in this case the output of [_sound_field_analysis-py_](https://nbviewer.jupyter.org/github/AppliedAcousticsChalmers/sound_field_analysis-py/blob/master/examples/Exp4_BinauralRendering.ipynb) [[9]](#references)
+* Validate impulse responses by __comparing against a reference implementation__, in this case the output of [_sound_field_analysis-py_](https://nbviewer.jupyter.org/github/AppliedAcousticsChalmers/sound_field_analysis-py/blob/master/examples/Exp4_BinauralRendering.ipynb) [[10]](#references)
   * Execute recording script, consecutively starting the package and capturing impulse responses in different rendering configurations:<br/>
   `./res/research/validation/record_ir.sh`<br/>
   __Remark:__ Both implementations compensate the source being at an incidence angle of -37 degrees in the measurement IR set
@@ -244,13 +246,15 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[6]](http://www.audiogroup.web.fh-koeln.de/FILES/AIA-DAGA2013_HRIRs.pdf) B. Bernschütz, “A spherical far field HRIR/HRTF compilation of the Neumann KU 100,” in Fortschritte der Akustik -- AIA/DAGA 2013, 2013, pp. 592–595.<br/>
 [[7]](http://www.aes.org/e-lib/browse.cfm?elib=16781) P. Majdak et al., “Spatially Oriented Format for Acoustics: A Data Exchange Format Representing Head-Related Transfer Functions,” in AES Convention 134, 2013, pp. 262–272.<br/>
 [[8]](https://depositonce.tu-berlin.de/handle/11303/6153.4) F. Brinkmann et al., “The FABIAN head-related transfer function data base.” Technische Universität Berlin, Berlin, Germany, 2017, doi: 10.14279/depositonce-5718.3.<br/>
-[[9]](http://www.audiogroup.web.fh-koeln.de/FILES/VDT2012_WDRIRC.pdf) P. Stade, B. Bernschütz, and M. Rühl, “A Spatial Audio Impulse Response Compilation Captured at the WDR Broadcast Studios,” in 27th Tonmeistertagung -- VDT International Convention, 2012, pp. 551–567.<br/>
-[[10]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) C. Hohnerlein and J. Ahrens, “Spherical Microphone Array Processing in Python with the sound_field_analysis-py Toolbox,” in Fortschritte der Akustik -- DAGA 2017, 2017, pp. 1033–1036.
+[[9]]() H. Helmholz, D. Lou Alon, S. V. A. Garí, and J. Ahrens, “Instrumental Evaluation of Sensor Self-Noise in Binaural Rendering of Spherical Microphone Array Signals,” in Forum Acusticum, 2020, pp. 1–8.<br/>
+[[10]](http://www.audiogroup.web.fh-koeln.de/FILES/VDT2012_WDRIRC.pdf) P. Stade, B. Bernschütz, and M. Rühl, “A Spatial Audio Impulse Response Compilation Captured at the WDR Broadcast Studios,” in 27th Tonmeistertagung -- VDT International Convention, 2012, pp. 551–567.<br/>
+[[11]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) C. Hohnerlein and J. Ahrens, “Spherical Microphone Array Processing in Python with the sound_field_analysis-py Toolbox,” in Fortschritte der Akustik -- DAGA 2017, 2017, pp. 1033–1036.
 
 ## Change Log
 * __v2020.4.8__
   * Improvement of IIR pink noise generation (continuous utilization of internal filter delay conditions)
   * Improvement of IIR pink noise generation (employment of SOS instead of BA coefficients)
+  * Addition of IIR Eigenmike coloration noise generation according to [[9]](#references)
 * __v2020.4.3__
   * Improvement of white noise generation (vastly improved performance due to `numpy SFC64` generator)
   * Enabling of `JackGenerator` (and derivatives) to operate in single precision for improved performance

@@ -83,9 +83,9 @@ def parse_cmd_args():
     parser.add_argument("-sm", "--SOURCE_MUTE", type=transform_str2bool, required=False,
                         help="output mute state of source audio replay")
     parser.add_argument("-gt", "--G_TYPE", type=str, required=False,
-                        choices=["NOISE_WHITE", "NOISE_IIR_PINK", "NOISE_AR_PINK",
-                                 "NOISE_AR_PURPLE", "NOISE_AR_BLUE",
-                                 "NOISE_AR_BROWN", "NONE"],
+                        choices=["NOISE_WHITE", "NOISE_IIR_EM", "NOISE_IIR_EIGENMIKE",
+                                 "NOISE_IIR_PINK", "NOISE_AR_PINK", "NOISE_AR_PURPLE",
+                                 "NOISE_AR_BLUE", "NOISE_AR_BROWN", "NONE"],
                         help="type of algorithm used by generator to create sound")
     parser.add_argument("-gl", "--G_LEVEL", type=float, required=False,
                         help="output level in dBFS of sound generator")

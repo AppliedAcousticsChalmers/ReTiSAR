@@ -1,7 +1,7 @@
 from enum import auto, IntEnum
 
 import numpy as np
-from scipy.signal import sosfilt, sosfilt_zi, tf2sos
+from scipy.signal import sos2tf, sosfilt, sosfilt_zi, tf2sos
 
 from . import config, tools
 from ._jack_client import JackClient
@@ -160,6 +160,8 @@ class Generator(object):
         NOISE_AR_BROWN = 2
         NOISE_WHITE = auto()
         NOISE_IIR_PINK = auto()
+        NOISE_IIR_EM = auto()
+        NOISE_IIR_EIGENMIKE = NOISE_IIR_EM
         IMPULSE_DIRAC = auto()
 
     @staticmethod
@@ -192,6 +194,10 @@ class Generator(object):
         elif _type is Generator.Type.NOISE_IIR_PINK:
             return GeneratorNoiseIir(
                 output_count=output_count, dtype=dtype, color="PINK"
+            )
+        elif _type in [Generator.Type.NOISE_IIR_EM, Generator.Type.NOISE_IIR_EIGENMIKE]:
+            return GeneratorNoiseIir(
+                output_count=output_count, dtype=dtype, color="EM"
             )
         elif _type in [
             Generator.Type.NOISE_AR_PURPLE,
@@ -404,12 +410,17 @@ class GeneratorNoiseIir(GeneratorNoise):
         IIR filter numerator coefficients to achieve pink noise coloration from [1]
     _A_PINK : numpy.ndarray
         IIR filter denominator coefficients to achieve pink noise coloration from [1]
+    _SOS_EM : numpy.ndarray
+        IIR filter second-order section coefficients to achieve Eigenmike noise coloration from [2]
     _sos : numpy.ndarray
         utilized IIR filter second-order section coefficients according to chosen coloration
 
     References
     ----------
     .. [1] https://ccrma.stanford.edu/~jos/sasp/Example_Synthesis_1_F_Noise.html
+    .. [2] H. Helmholz, D. Lou Alon, S. V. A. Garí, and J. Ahrens, “Instrumental Evaluation of
+           Sensor Self-Noise in Binaural Rendering of Spherical Microphone Array Signals,”
+           in Forum Acusticum, 2020.
     """
 
     def __init__(self, output_count, dtype, color):
@@ -428,15 +439,22 @@ class GeneratorNoiseIir(GeneratorNoise):
 
         # initialize constants
         self._GAIN_FACTOR = 20
-        self._B_PINK = np.array(
-            [0.049922035, -0.095993537, 0.050612699, -0.004408786], dtype=dtype
-        )
-        self._A_PINK = np.array(
-            [1, -2.494956002, 2.017265875, -0.522189400], dtype=dtype
-        )
+        # fmt: off
+        self._B_PINK = np.array([0.049922035, -0.095993537, 0.050612699, -0.004408786], dtype=dtype)
+        self._A_PINK = np.array([1, -2.494956002, 2.017265875, -0.522189400], dtype=dtype)
         # "Consider designing filters in ZPK format and converting directly to SOS."
         # https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.tf2sos.html
-        # TODO: introduce coefficients for different coloration
+        self._SOS_EM = np.array(
+            [[0.0248484318401191, -0.0430465879719351, 0.0185894592446002, 1, -1.83308400613427,
+              0.833084457582538],
+             [1.09742855358091, -2, 0.902572344822294, 1, -1.84861597668780, 0.849007279800584],
+             [1.32049919002049, -2, 1.27062183754708, 1, -1.51266987481441, 0.958710654962438],
+             [2, -1.23789744854974, 0.693137522016399, 1, -0.555672516031578, 0.356572277622976],
+             [2, -0.127412449936323, 0.451198075878658, 1, -0.0464446484127454, 0.0651312831643292],
+             [0.295094951044653, 0.0954033015853709, 0, 1, 0, 0]],
+            dtype=dtype
+        )
+        # fmt: on
 
         # pick utilized coefficients
         if color == "PINK":
@@ -445,6 +463,9 @@ class GeneratorNoiseIir(GeneratorNoise):
             # "It is generally discouraged to convert from TF to SOS format, since doing so
             # usually will not improve numerical precision errors."
             # https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.tf2sos.html
+        elif color in ["EM", "EIGENMIKE"]:
+            [_, a] = sos2tf(sos=self._SOS_EM)
+            self._sos = self._SOS_EM
         else:
             raise NotImplementedError(
                 f'chosen noise generator color "{color}" not implemented yet.'
