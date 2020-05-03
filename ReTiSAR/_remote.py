@@ -130,6 +130,10 @@ class OscRemote(object):
         dispatch.map("/quit", OscRemote.handle_terminate, self)
         dispatch.map("/exit", OscRemote.handle_terminate, self)
 
+        # TODO: This line fails in case multiple ReTiSAR instances are run, due an OSC server
+        #  already running (the same port being already bound). In the second instance, either try
+        #  to reference the already existing OSC server or create a new server with an available
+        #  port number!?
         # start OSC server
         self._server = osc_server.ThreadingOSCUDPServer(
             ("127.0.0.1", self._port), dispatch
@@ -155,9 +159,8 @@ class OscRemote(object):
         self._server.shutdown()
         self._server = None
 
-    # noinspection PyUnusedLocal
     @staticmethod
-    def handle_terminate(_, references, *parameters):
+    def handle_terminate(_, references, *__):
         """
         Call the terminate function of this instance to shutdown the application.
 
@@ -167,11 +170,10 @@ class OscRemote(object):
             OSC target
         references : list of object
             instance, in this case a reference to itself
-        parameters : any
+        __ : any
             ignored parameters
         """
-        # noinspection PyUnresolvedReferences
-        self = references[0]
+        self: OscRemote = references[0]
 
         log_str = "terminated by user."
         self._logger.error(log_str) if self._logger else print(log_str, file=sys.stderr)

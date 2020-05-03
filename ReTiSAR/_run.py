@@ -88,7 +88,7 @@ def main():
                 new_renderer.set_output_volume_db(config.ARIR_LEVEL)
                 new_renderer.set_output_mute(config.ARIR_MUTE)
                 sleep(_INITIALIZE_DELAY)
-        except (ValueError, NotImplementedError, FileNotFoundError, RuntimeError) as e:
+        except (ValueError, FileNotFoundError, RuntimeError) as e:
             logger.error(e)
             terminate_all(additional_renderer=new_renderer)
             raise InterruptedError
@@ -189,7 +189,7 @@ def main():
                 new_renderer.client_register_and_connect_inputs(
                     existing_generator.get_client_outputs()
                 )
-        except (ValueError, NotImplementedError, FileNotFoundError, RuntimeError) as e:
+        except (ValueError, FileNotFoundError, RuntimeError) as e:
             logger.error(e)
             terminate_all(additional_renderer=new_renderer)
             raise InterruptedError
@@ -268,7 +268,7 @@ def main():
                     existing_renderer.client_register_and_connect_inputs(
                         source_ports=None
                     )
-        except (ValueError, NotImplementedError, FileNotFoundError, RuntimeError) as e:
+        except (ValueError, FileNotFoundError, RuntimeError) as e:
             logger.error(e)
             terminate_all(additional_renderer=new_player)
             raise InterruptedError
@@ -318,7 +318,7 @@ def main():
                 new_renderer.client_register_and_connect_inputs(
                     existing_renderer.get_client_outputs()
                 )
-        except (ValueError, NotImplementedError, FileNotFoundError, RuntimeError) as e:
+        except (ValueError, FileNotFoundError, RuntimeError) as e:
             logger.error(e)
             terminate_all(additional_renderer=new_renderer)
             raise InterruptedError

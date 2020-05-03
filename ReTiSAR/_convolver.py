@@ -619,7 +619,7 @@ class OverlapSaveConvolver(Convolver):
         """
         # do block-wise complex multiplication
         for block_fd, filter_block_fd in zip(buffer_blocks_fd, filter_blocks_fd):
-            block_fd += filter_block_fd * input_block_fd
+            block_fd += filter_block_fd * input_block_fd  # NOSONAR
 
     def _filter_block_shift_and_convert_result(self, is_last_block=False):
         """
@@ -758,7 +758,7 @@ class AdjustableFdConvolver(OverlapSaveConvolver):
             is_single_precision=self._filter.get_dirac_td().dtype == np.float32,
         )
         new = type(self)(
-            _filter, self._block_length, self._sources_deg, self._tracker_deg
+            _filter, self._block_length, tuple(self._sources_deg), self._tracker_deg
         )
         new.__dict__.update(self.__dict__)
         return new

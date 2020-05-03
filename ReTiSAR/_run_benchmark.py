@@ -165,6 +165,7 @@ def main():
     plot.savefig(pdf_file)
 
     # end application
+    # noinspection PyUnresolvedReferences
     logger.info(f'also see results in "{os.path.relpath(logger.file)}".')
     logger.info("... benchmark ended.")
     return logger

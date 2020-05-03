@@ -340,7 +340,10 @@ class FilterSet(object):
 
             if isinstance(self._file_name, np.ndarray):
                 # extract generated size
-                name = f'GENERATED,{str(self._file_name.shape).strip("()").replace(" ", "")}'
+                name = (  # NOSONAR
+                    f"GENERATED,"
+                    f'{str(self._file_name.shape).strip("()").replace(" ", "")}'
+                )
             else:
                 # extract parent dir
                 top_dir = os.path.basename(os.path.dirname(self._file_name))

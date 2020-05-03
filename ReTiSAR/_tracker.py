@@ -117,11 +117,6 @@ class HeadTracker(SubProcess):
             return HeadTrackerFastrack(name, tracker_port, *args, **kwargs)
         elif _type == HeadTracker.Type.RAZOR_AHRS:
             return HeadTrackerRazor(name, tracker_port, *args, **kwargs)
-        else:
-            # noinspection PyUnresolvedReferences
-            raise NotImplementedError(
-                f'chosen tracker type "{type(self)}" not implemented yet.'
-            )
 
     # noinspection PyTypeChecker
     @staticmethod

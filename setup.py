@@ -6,6 +6,7 @@ for line in open("ReTiSAR/__init__.py"):
         exec(line)
         break
 
+# noinspection SpellCheckingInspection
 setup(
     name="ReTiSAR",
     description="Real-Time Spherical Array Renderer for binaural reproduction in Python",
@@ -51,6 +52,10 @@ setup(
             "black >=19.10b0",  # for code formatting
         ]
     },
-    package_data={"": ["res/*"],},
+    package_data={
+        "": [
+            "res/*"
+        ],
+    },
     packages=find_packages(),
 )

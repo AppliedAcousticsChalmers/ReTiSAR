@@ -806,10 +806,10 @@ class JackClient(SubProcess):
                         f"{self._osc_name}/rms", np.round(rms, 1).astype(np.float64)
                     )
                 else:
-                    self._logger.info(
-                        f"output RMS level ["
-                        f'{np.array2string(rms, separator=",", precision=1, floatmode="fixed", sign="+")}]'
+                    log_str = np.array2string(
+                        rms, separator=",", precision=1, floatmode="fixed", sign="+"
                     )
+                    self._logger.info(f"output RMS level [{log_str}]")
 
                 # calculate PEAK level
                 peak = tools.calculate_peak(output_td, is_level=True)
@@ -820,10 +820,10 @@ class JackClient(SubProcess):
                         f"{self._osc_name}/peak", np.round(peak, 2).astype(np.float64)
                     )
                 else:
-                    self._logger.debug(
-                        f"output PEAK level ["
-                        f'{np.array2string(peak, separator=",", precision=2, floatmode="fixed", sign="+")}]'
+                    log_str = np.array2string(
+                        peak, separator=",", precision=2, floatmode="fixed", sign="+"
                     )
+                    self._logger.debug(f"output PEAK level [{log_str}]")
 
             # check array structure and dtype (first processing frame only)
             if self._is_first_frame:

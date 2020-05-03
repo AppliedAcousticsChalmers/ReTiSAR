@@ -207,6 +207,7 @@ def _update_format_for_children(logger, fmt):
     fmt : str
         logging.Formatter style string
     """
+    # noinspection PyUnresolvedReferences
     for name in logger.manager.loggerDict:
         logger_child = logging.getLogger(name)
         if not logger_child.propagate:
