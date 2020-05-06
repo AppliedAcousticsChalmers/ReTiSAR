@@ -1,0 +1,22 @@
+name: ReTiSAR
+channels:
+  - defaults
+dependencies:
+  - jinja2
+  - matplotlib
+  - numpy >= 1.15.4
+  - pandas
+  - pip
+  # - 'psutil'  # necessary when adjusting process priority
+  - pyserial >= 3.4
+  - python >= 3.6
+  - scipy
+  - pip:
+    - jack-client >= 0.4.4
+    - pyfftw  # alo available in conda-forge
+    - python-osc
+    - samplerate
+    # - sound-field-analysis > 0.3  # use repository as long as PyPI package is not updated
+    - "https://github.com/AppliedAcousticsChalmers/sound_field_analysis-py/tarball/master#egg=sound_field_analysis"
+    - soundfile >= 0.10.2  # also available in conda-forge as pysoundfile
+    - -e .
