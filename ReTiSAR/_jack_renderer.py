@@ -2,7 +2,7 @@ from copy import copy
 
 from . import Convolver, FilterSet, tools
 from ._convolver import AdjustableFdConvolver, AdjustableShConvolver
-from ._filter_set import FilterSetMiro, FilterSetShConfig
+from ._filter_set import FilterSetMiro, FilterSetShConfig, FilterSetSofa
 from ._jack_client import JackClient
 
 
@@ -20,7 +20,8 @@ class JackRenderer(JackClient):
     """
 
     def __init__(self, name, block_length, filter_name=None, filter_type=None, source_positions=None,
-                 shared_tracker_data=None, sh_max_order=None, is_prevent_resampling=False, *args, **kwargs):
+                 shared_tracker_data=None, sh_max_order=None, ir_trunc_db=None, is_prevent_resampling=False,
+                 *args, **kwargs):
         """
         Extends the `JackClient` function to initialize a new JACK client and process. According to the
         documentation all attributes must be initialized in this function, to be available to the spawned process.
@@ -42,20 +43,22 @@ class JackRenderer(JackClient):
             shared data array from an existing tracker instance for dynamic binaural rendering, see `HeadTracker`
         sh_max_order : int, optional
             maximum spherical harmonics order used for the spatial Fourier transform
+        ir_trunc_db : float
+             impulse response truncation level in dB relative under peak
         is_prevent_resampling : bool, optional
             if loaded filter should not be resampled
         """
-        super(JackRenderer, self).__init__(name, block_length=block_length, *args, **kwargs)
+        super().__init__(name, block_length=block_length, *args, **kwargs)
 
         # set attributes
         self._is_passthrough = True
         self._convolver = None
 
-        self._init_convolver(filter_name, filter_type, source_positions, shared_tracker_data, sh_max_order,
+        self._init_convolver(filter_name, filter_type, source_positions, shared_tracker_data, sh_max_order, ir_trunc_db,
                              is_prevent_resampling)
 
     def _init_convolver(self, filter_name, filter_type, source_positions, shared_tracker_data, sh_max_order,
-                        is_prevent_resampling):
+                        ir_trunc_db, is_prevent_resampling):
         """
         Initialize `_convolver` specific attributes by also loading the necessary `FilterSet`. `filter_name` (and all
         other parameters can be `None`, so no `Convolver` is created.
@@ -73,22 +76,29 @@ class JackRenderer(JackClient):
             shared data array from an existing tracker instance for dynamic binaural rendering, see `HeadTracker`
         sh_max_order : int
             maximum spherical harmonics order used for the spatial Fourier transform
+        ir_trunc_db : float
+             impulse response truncation level in dB relative under peak
         is_prevent_resampling : bool
             if loaded filter should not be resampled
         """
-        if not filter_name or filter_name.strip('\'"') == '' or filter_name == 'None':
+        if not filter_name or filter_name.strip('\'"') == '' or filter_name.upper() == 'NONE':
             self._logger.warning('skipping filter load.')
             # use `_counter_dropout` as indicator if file was loaded
             self._counter_dropout = None
             return
         assert filter_type is not None
 
-        filter_set = FilterSet.create_instance_by_type(filter_name, filter_type, sh_max_order)
-        filter_set.load(self._client.blocksize, self._logger, self._client.samplerate, is_prevent_resampling)
+        filter_set = FilterSet.create_instance_by_type(file_name=filter_name, file_type=filter_type,
+                                                       sh_max_order=sh_max_order)
+        filter_set.load(block_length=self._client.blocksize, is_single_precision=self._is_single_precision,
+                        logger=self._logger, ir_trunc_db=ir_trunc_db, check_fs=self._client.samplerate,
+                        is_prevent_resampling=is_prevent_resampling, is_prevent_logging=self._logger.disabled)
 
-        self._convolver = Convolver.create_instance_by_filter_set(filter_set, self._client.blocksize,
-                                                                  source_positions, shared_tracker_data)
-        if type(self._convolver) == AdjustableFdConvolver and type(filter_set) == FilterSetMiro:
+        self._convolver = Convolver.create_instance_by_filter_set(filter_set=filter_set,
+                                                                  block_length=self._client.blocksize,
+                                                                  source_positions=source_positions,
+                                                                  shared_tracker_data=shared_tracker_data)
+        if type(self._convolver) == AdjustableFdConvolver and type(filter_set) in (FilterSetMiro, FilterSetSofa):
             self._logger.warning('selection of HRIR depending on head rotation is not properly implemented yet.')
 
         self._is_passthrough = False
@@ -133,20 +143,24 @@ class JackRenderer(JackClient):
         # limit to source number specified by convolver
         convolver_port_count = self._convolver.get_input_channel_count()
         if len(source_ports) > convolver_port_count:
-            self._logger.warning('tried to connect {} input ports ... limited the number to {} (according to '
-                                 'loaded filter).'.format(len(source_ports), convolver_port_count))
+            self._logger.info(f'tried to connect {len(source_ports)} input ports ... limited the number to '
+                              f'{convolver_port_count} (according to loaded filter).')
             source_ports = source_ports[:convolver_port_count]
 
-        elif len(source_ports) < convolver_port_count and type(self._convolver) is AdjustableShConvolver:
-            raise ValueError('number of {} input ports is smaller then the number of array processing channels {} ('
-                             'according to loaded filter).'.format(len(source_ports), convolver_port_count))
+        # elif len(source_ports) < convolver_port_count and type(self._convolver) is AdjustableShConvolver:
+        #     raise ValueError(f'number of {len(source_ports)} input ports is smaller then the number of array '
+        #                      f'processing channels {convolver_port_count} (according to loaded filter).')
+        if len(source_ports) < convolver_port_count and type(self._convolver) is AdjustableShConvolver:
+            self._logger.warning(f'skipping input register and connect.\n'
+                                 f' --> number of {len(source_ports)} input ports is smaller then the number of array '
+                                 f'processing channels {convolver_port_count} (according to loaded filter)')
+        else:
+            self._client_register_inputs(len(source_ports))
 
-        self._client_register_inputs(len(source_ports))
-
-        if is_connect:
-            # connect source to input ports
-            for src, dst in zip(source_ports, self._client.inports):
-                self._client.connect(src, dst)
+            if is_connect:
+                # connect source to input ports
+                for src, dst in zip(source_ports, self._client.inports):
+                    self._client.connect(src, dst)
 
         # restore beforehand execution state
         if event_ready_state_before:
@@ -165,7 +179,7 @@ class JackRenderer(JackClient):
             self._client_register_outputs(self._convolver.get_output_channel_count())
 
         # noinspection PyProtectedMember
-        super(JackRenderer, self)._client_register_and_connect_outputs(target_ports)
+        super()._client_register_and_connect_outputs(target_ports)
 
     def get_client_outputs(self):
         """
@@ -175,7 +189,7 @@ class JackRenderer(JackClient):
             JACK client outports or list of convolver output channels, in case client was not started (yet)
         """
         if self.is_alive():
-            return super(JackRenderer, self).get_client_outputs()
+            return super().get_client_outputs()
 
         # in case client was not started yet, a list of output channels of the contained `Convolver` is returned
         self._logger.debug('output count determined from `Convolver`, since client was not started yet.')
@@ -191,7 +205,7 @@ class JackRenderer(JackClient):
         client_connect_target_ports : jack.Ports or bool, optional
             see `_client_register_and_connect_outputs()` for documentation
         """
-        super(JackRenderer, self).start()
+        super().start()
 
         # run after `AdjustableShConvolver.prepare_renderer_sh_processing()` was run
         self._convolver.init_fft_optimize(self._logger)
@@ -217,7 +231,7 @@ class JackRenderer(JackClient):
             processed block of audio data that will be delivered to JACK
         """
         if self._is_passthrough:
-            return super(JackRenderer, self)._process(input_td)
+            return super()._process(input_td)
 
         if input_td is None:
             return None
@@ -248,11 +262,11 @@ class JackRenderer(JackClient):
             #     self._is_passthrough = not self._is_passthrough
             # else:
             #     self._is_passthrough = new_state
-            # self._logger.info('set passthrough state to {}.'.format(['OFF', 'ON'][self._is_passthrough]))
+            # self._logger.info(f'set passthrough state to {["OFF", "ON"][self._is_passthrough]}.')
 
             # let _convolver handle the passthrough behaviour
             new_state = self._convolver.set_passthrough(new_state)
-            self._logger.info('set passthrough state to {}.'.format(['OFF', 'ON'][new_state]))
+            self._logger.info(f'set passthrough state to {["OFF", "ON"][new_state]}.')
             return new_state
 
     def set_client_crossfade(self, new_state=None):
@@ -271,29 +285,15 @@ class JackRenderer(JackClient):
             return
 
         new_state = tools.transform_into_state(new_state, logger=self._logger)
-        if new_state is True and\
-                (not self._convolver or type(self._convolver) not in [AdjustableFdConvolver, AdjustableShConvolver]):
+        if (new_state is True and
+                (not self._convolver or type(self._convolver) not in [AdjustableFdConvolver, AdjustableShConvolver])):
             self._logger.warning('This client does not support crossfade mode.')
         else:
             new_state = self._convolver.set_crossfade(new_state)
-            self._logger.info('set crossfade state to {}.'.format(['OFF', 'ON'][new_state]))
+            self._logger.info(f'set crossfade state to {["OFF", "ON"][new_state]}.')
             return new_state
 
-    def prepare_input_subsonic(self, cutoff_freq):
-        """
-        Initialize subsonic input filter.
-
-        Parameters
-        ----------
-        cutoff_freq : float
-            cutoff frequency of generated highpass filter
-        """
-        if not cutoff_freq:
-            return
-
-        self._convolver.init_subsonic(cutoff_freq, self._client.samplerate, logger=self._logger)
-
-    def prepare_renderer_sh_processing(self, input_sh_config, amp_limit_db):
+    def prepare_renderer_sh_processing(self, input_sh_config, mrf_limit_db, compensation_type):
         """
         Calculate components which can be prepared before spherical harmonic processing in real-time. This contains
         calculating all spherical harmonics orders, coefficients and base functions. Also a modal radial filter
@@ -304,8 +304,10 @@ class JackRenderer(JackClient):
         input_sh_config : FilterSetShConfig
             combined filter configuration with all necessary information to transform an incoming audio block into
             spherical harmonics sound field coefficients in real-time
-        amp_limit_db : int
+        mrf_limit_db : int
             maximum modal amplification limit in dB
+        compensation_type : str or Compensation.Type
+            type of spherical harmonics processing compensation technique
 
         Raises
         ------
@@ -316,10 +318,10 @@ class JackRenderer(JackClient):
 
         if type(self._convolver) is not AdjustableShConvolver:
             # noinspection PyProtectedMember
-            raise ValueError('convolver type {} of filter {} is incompatible for spherical harmonics processing.'
-                             .format(type(self._convolver), type(self._convolver._filter)))
+            raise ValueError(f'convolver type {type(self._convolver)} of filter {type(self._convolver._filter)} is '
+                             f'incompatible for spherical harmonics processing.')
 
-        self._convolver.prepare_sh_processing(input_sh_config, amp_limit_db, self._logger)
+        self._convolver.prepare_sh_processing(input_sh_config, mrf_limit_db, compensation_type, self._logger)
 
     def get_pre_renderer_sh_config(self):
         """
@@ -348,7 +350,7 @@ class JackRendererBenchmark(JackRenderer):
 
     def __init__(self, name, block_length, *args, **kwargs):
         """Extends the `JackRenderer` function to also initialize the list of contained `Convolver`."""
-        super(JackRendererBenchmark, self).__init__(name, block_length, *args, **kwargs)
+        super().__init__(name, block_length, *args, **kwargs)
         self._convolvers = [self._convolver]
 
     def add_convolver(self):
@@ -374,7 +376,7 @@ class JackRendererBenchmark(JackRenderer):
             processed block of audio data that will be delivered to JACK
         """
         # process main convolver
-        output_td = super(JackRendererBenchmark, self)._process(input_td)
+        output_td = super()._process(input_td)
 
         if len(self._convolvers) > 1:
             # process additional convolvers

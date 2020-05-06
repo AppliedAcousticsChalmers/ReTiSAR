@@ -117,7 +117,7 @@ class HeadTracker(SubProcess):
             return HeadTrackerRazor(name, tracker_port, *args, **kwargs)
         else:
             # noinspection PyUnresolvedReferences
-            raise NotImplementedError('chosen tracker type "{}" not implemented yet.'.format(type(self)))
+            raise NotImplementedError(f'chosen tracker type "{type(self)}" not implemented yet.')
 
     @staticmethod
     def print_data(array):
@@ -131,10 +131,10 @@ class HeadTracker(SubProcess):
         """
         s = '['
         for i in range(len(array)):
-            s += '{}={:.1f}'.format(HeadTracker.DataIndex(i).name, array[i])
+            s = f'{s}{HeadTracker.DataIndex(i).name}={array[i]:.1f}'
             if i < len(array) - 1:
-                s += ', '
-        return s + ']'
+                s = f'{s}, '
+        return f'{s}]'
 
     # noinspection PyTypeChecker
     def __init__(self, name, tracker_port, *args, **kwargs):
@@ -150,9 +150,9 @@ class HeadTracker(SubProcess):
         """
         super(HeadTracker, self).__init__(name, *args, **kwargs)
 
-        self._position_raw = Array('d', len(HeadTracker.DataIndex))
-        self._position_zero = Array('d', len(HeadTracker.DataIndex))
-        self._position_shared = Array('d', len(HeadTracker.DataIndex))
+        self._position_raw = Array(typecode_or_type='f', size_or_initializer=len(HeadTracker.DataIndex))
+        self._position_zero = Array(typecode_or_type='f', size_or_initializer=len(HeadTracker.DataIndex))
+        self._position_shared = Array(typecode_or_type='f', size_or_initializer=len(HeadTracker.DataIndex))
 
         self._init_tracker(tracker_port)
 
@@ -214,10 +214,9 @@ class HeadTracker(SubProcess):
         if azim_offset_deg:
             self._position_zero[HeadTracker.DataIndex.AZIM] += azim_offset_deg
 
-        log_str = 'setting head tracker zero position to {}.'.format(
-            HeadTracker.print_data(self._position_zero))
+        log_str = f'setting head tracker zero position to {HeadTracker.print_data(self._position_zero)}.'
         if azim_offset_deg:
-            self._logger.warning(log_str + ' ({:.1f} deg azimuth offset)'.format(azim_offset_deg))
+            self._logger.warning(f'{log_str} ({azim_offset_deg:.1f} deg azimuth offset)')
         else:
             self._logger.info(log_str)
 
@@ -251,8 +250,8 @@ class HeadTrackerRotate(HeadTracker):
         self._timeout = 1 / 60  # data send rate
         self._position_step = [0, 0, 0, .5, 0, 0]  # x, y, z, azim, elev, tilt
 
-        self._logger.info('opened tracker "AUTO_ROTATE"\n --> send_rate: {} Hz, step_size: {} deg'.format(
-            1/self._timeout, self._position_step[3:]))
+        self._logger.info(f'opened tracker "AUTO_ROTATE"\n'
+                          f' --> send_rate: {1 / self._timeout} Hz, step_size: {self._position_step[3:]} deg')
 
     def _read_data(self):
         """
@@ -317,7 +316,7 @@ class HeadTrackerSerial(HeadTracker):
         try:
             # open serial port
             self._serial = serial.Serial(port=port, baudrate=self._BAUD_RATE, timeout=1)
-            self._logger.info('opened tracker "{}"\n --> {}'.format(port, self._serial))
+            self._logger.info(f'opened tracker "{port}"\n --> {self._serial}')
 
             # signal to start continuous data output mode
             if self._DATA_INIT_STRING and self._DATA_INIT_STRING is not '':
@@ -327,7 +326,7 @@ class HeadTrackerSerial(HeadTracker):
             # read first data line and discard it since it's often incomplete
             self._serial.readline()
         except serial.SerialException as e:
-            self._logger.warning(e.strerror + ' ... no tracker will be used.')
+            self._logger.warning(f'{e.strerror} ... no tracker will be used.')
             self._serial = None
             self._timeout = 1 / 60  # artificial timeout
 
@@ -336,7 +335,7 @@ class HeadTrackerSerial(HeadTracker):
         Extends the function of `HeadTracker` to configure individual communication parameters according to the used
         tracker hardware. Deriving classes need to override this function to set appropriate parameters.
         """
-        raise NotImplementedError('chosen tracker type "{}" not implemented yet.'.format(type(self)))
+        raise NotImplementedError(f'chosen tracker type "{type(self)}" not implemented yet.')
 
     def _read_data(self):
         """
@@ -350,16 +349,16 @@ class HeadTrackerSerial(HeadTracker):
         line = self._serial.readline()
         try:
             line = line.decode().strip()  # get as string
-            # self._logger.debug('line "{}"'.format(line))
+            # self._logger.debug(f'line "{line}"')
             result = re.findall(self._DATA_FIND_FORMAT, line)
-            # self._logger.debug('result "{}"'.format(result))
+            # self._logger.debug(f'result "{result}"')
 
             for i in HeadTracker.DataIndex:
                 if 0 <= self._DATA_RAW_INDEX[i] < len(result):
-                    # self._logger.debug('get raw {} from result {}'.format(i, self._DATA_RAW_INDEX[i]))
+                    # self._logger.debug(f'get raw {i} from result {self._DATA_RAW_INDEX[i]}')
                     self._position_raw[i] = float(result[self._DATA_RAW_INDEX[i]]) * self._DATA_RAW_SCALE[i]
         except UnicodeDecodeError:
-            self._logger.warning('skipped incomplete TRACKER message "{}"'.format(line))
+            self._logger.warning(f'skipped incomplete TRACKER message "{line}"')
 
     def terminate(self):
         """

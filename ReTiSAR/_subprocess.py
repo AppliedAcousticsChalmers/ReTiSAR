@@ -34,7 +34,7 @@ class SubProcess(multiprocessing.Process):
             disable logger after creation, useful for benchmarking
         """
 
-        # self._logger.debug('initializing PROCESS [{}] ...'.format(name))
+        # self._logger.debug(f'initializing PROCESS [{name}] ...')
         multiprocessing.Process.__init__(self, name=name)
         self.daemon = is_daemon_process
 

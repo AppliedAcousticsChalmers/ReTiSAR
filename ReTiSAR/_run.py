@@ -3,7 +3,6 @@ from time import sleep
 
 from . import *
 
-
 _INITIALIZE_DELAY = .5
 """Delay in seconds waited after certain points of the initialization progress to get a clear logging behaviour."""
 
@@ -28,7 +27,8 @@ def main():
         HeadTracker
             freshly created instance
         """
-        new_tracker = HeadTracker.create_instance_by_type(name + '-Tracker', config.TRACKER_TYPE, config.TRACKER_PORT)
+        new_tracker = HeadTracker.create_instance_by_type(name=f'{name}-Tracker', tracker_type=config.TRACKER_TYPE,
+                                                          tracker_port=config.TRACKER_PORT)
         new_tracker.start()
         sleep(_INITIALIZE_DELAY)
 
@@ -47,45 +47,47 @@ def main():
         JackGenerator
             freshly created instance
         """
+        new_renderer = None
+        new_generator = None
         try:
-            new_renderer = JackRenderer(name + '-PreRenderer', config.BLOCK_LENGTH, config.ARIR_FILE, config.ARIR_TYPE,
-                                        sh_max_order=config.SH_MAX_ORDER)
-        except ValueError as e:
+            new_renderer = JackRenderer(name=f'{name}-PreRenderer', block_length=config.BLOCK_LENGTH,
+                                        filter_name=config.ARIR_FILE, filter_type=config.ARIR_TYPE,
+                                        sh_max_order=config.SH_MAX_ORDER, ir_trunc_db=config.IR_TRUNCATION_LEVEL,
+                                        is_main_client=False, is_single_precision=config.IS_SINGLE_PRECISION)
+
+            # check `_counter_dropout` if file was loaded, see `JackRenderer._init_convolver()`
+            if new_renderer.get_dropout_counter() is None or tools.transform_into_type(
+                    config.HRIR_TYPE, FilterSet.Type) not in [FilterSet.Type.HRIR_MIRO, FilterSet.Type.HRIR_SOFA]:
+                logger.warning('skipping microphone array pre-rendering.')
+                return None, new_generator
+
+            # in case microphone array audio stream (real-time capture or recorded) should be rendered
+            elif tools.transform_into_type(config.ARIR_TYPE, FilterSet.Type) is FilterSet.Type.AS_MIRO:
+                logger.warning('skipping microphone array pre-rendering (file still loaded to gather configuration).')
+
+            # in case microphone array IR set should be rendered
+            else:
+                new_renderer.start(client_connect_target_ports=False)
+                new_renderer.set_output_volume_db(config.ARIR_LEVEL)
+                new_renderer.set_output_mute(config.ARIR_MUTE)
+                sleep(_INITIALIZE_DELAY)
+        except (ValueError, NotImplementedError, FileNotFoundError, RuntimeError) as e:
             logger.error(e)
-            logger.error('application interrupted.')
-            terminate_all()
-            sys.exit(1)
-
-        # check `_counter_dropout` if file was loaded, see `JackRenderer._init_convolver()`
-        if new_renderer.get_dropout_counter() is None or tools.transform_into_type(config.HRIR_TYPE, FilterSet.Type)\
-                not in [FilterSet.Type.HRIR_MIRO, FilterSet.Type.HRIR_SOFA]:
-            logger.warning('skipping microphone array pre-rendering.')
-            return None, None
-
-        # in case microphone array audio stream (real-time capture or recorded) should be rendered
-        elif tools.transform_into_type(config.ARIR_TYPE, FilterSet.Type) is FilterSet.Type.AS_MIRO:
-            logger.warning('skipping microphone array pre-rendering (file still loaded to gather configuration).')
-
-        # in case microphone array IR set should be rendered
-        else:
-            new_renderer.start(client_connect_target_ports=False)
-            new_renderer.set_output_volume_db(config.ARIR_LEVEL)
-            new_renderer.set_output_mute(config.ARIR_MUTE)
-            sleep(_INITIALIZE_DELAY)
+            terminate_all(new_renderer)
+            raise InterruptedError
 
         try:
-            new_generator = JackGenerator(name + '-Generator', config.BLOCK_LENGTH,
-                                          len(new_renderer.get_client_outputs()),
-                                          config.G_TYPE)
+            new_generator = JackGenerator(name=f'{name}-Generator', block_length=config.BLOCK_LENGTH,
+                                          output_count=len(new_renderer.get_client_outputs()),
+                                          generator_type=config.G_TYPE, is_main_client=False,
+                                          is_single_precision=config.IS_SINGLE_PRECISION)
+
+            new_generator.start(client_connect_target_ports=False)
+            new_generator.set_output_volume_db(config.G_LEVEL)
+            new_generator.set_output_mute(config.G_MUTE)
+            sleep(_INITIALIZE_DELAY)
         except ValueError:
             logger.warning('skipping generator.')
-            return new_renderer, None
-
-        new_generator.start(client_connect_target_ports=False)
-        new_generator.set_output_volume_db(config.G_LEVEL)
-        new_generator.set_output_mute(config.G_MUTE)
-        sleep(_INITIALIZE_DELAY)
-
         return new_renderer, new_generator
 
     def setup_renderer(existing_tracker, existing_pre_renderer=None, existing_generator=None):
@@ -98,49 +100,98 @@ def main():
             beforehand created instance, which provides the process with positional head tracking data
         existing_pre_renderer : JackRenderer, optional
             beforehand created instance, which provides the pre-processed audio input signals
-        existing_generator : Jack
+        existing_generator : JackGenerator, optional
+            beforehand created `JackGenerator` instance, which outputs will be connected to the inputs of this client
 
         Returns
         -------
         JackRenderer
             freshly created instance
         """
+        new_renderer = None
         try:
-            new_renderer = JackRenderer(name + '-Renderer', config.BLOCK_LENGTH, config.HRIR_FILE, config.HRIR_TYPE,
-                                        config.SOURCE_POSITIONS, existing_tracker.get_shared_position(),
-                                        sh_max_order=config.SH_MAX_ORDER, is_main_client=True)
+            new_renderer = JackRenderer(name=f'{name}-Renderer', block_length=config.BLOCK_LENGTH,
+                                        filter_name=config.HRIR_FILE, filter_type=config.HRIR_TYPE,
+                                        source_positions=config.SOURCE_POSITIONS,
+                                        shared_tracker_data=existing_tracker.get_shared_position(),
+                                        sh_max_order=config.SH_MAX_ORDER, ir_trunc_db=config.IR_TRUNCATION_LEVEL,
+                                        is_main_client=True, is_measure_levels=True,
+                                        is_single_precision=config.IS_SINGLE_PRECISION)
             if config.SH_MAX_ORDER and existing_pre_renderer:
-                new_renderer.prepare_renderer_sh_processing(existing_pre_renderer.get_pre_renderer_sh_config(),
-                                                            config.ARIR_RADIAL_AMP)
+                new_renderer.prepare_renderer_sh_processing(
+                    input_sh_config=existing_pre_renderer.get_pre_renderer_sh_config(),
+                    mrf_limit_db=config.ARIR_RADIAL_AMP, compensation_type=config.SH_COMPENSATION_TYPE)
 
-            new_renderer.prepare_input_subsonic(config.HRIR_SUBSONIC)
+            new_renderer.start(client_connect_target_ports=False)
+            new_renderer.set_output_volume_db(config.HRIR_LEVEL)
+            new_renderer.set_output_mute(config.HRIR_MUTE)
+            sleep(_INITIALIZE_DELAY)
 
-        except ValueError as e:
+            if existing_pre_renderer and existing_pre_renderer.is_alive():
+                if tools.transform_into_type(config.ARIR_TYPE, FilterSet.Type) is FilterSet.Type.AS_MIRO:
+                    # connect to system recording ports in case audio stream should be rendered
+                    if config.SOURCE_FILE:
+                        # recorded audio stream (generated `JackPlayer` has to connect to input ports later)
+                        new_renderer.client_register_and_connect_inputs(source_ports=False)
+                    else:
+                        # real-time captured audio stream (connect to system recording ports)
+                        new_renderer.client_register_and_connect_inputs(source_ports=True)
+                else:
+                    new_renderer.client_register_and_connect_inputs(existing_pre_renderer.get_client_outputs())
+            if existing_generator:
+                new_renderer.client_register_and_connect_inputs(existing_generator.get_client_outputs())
+        except (ValueError, NotImplementedError, FileNotFoundError, RuntimeError) as e:
             logger.error(e)
+            terminate_all(new_renderer)
+            raise InterruptedError
+        return new_renderer
+
+    def setup_generator_1ch_replace(existing_renderer, existing_generator):
+        """
+        If applicable, create and start a new `JackGenerator` instance, replacing the signal generation for
+        the provided `JackRenderer` instance at the specified port.
+
+        Parameters
+        ----------
+        existing_renderer : JackRenderer
+            beforehand created `JackRenderer` instance, which specified input connection will be replaced from the
+            output of this client
+        existing_generator : JackGenerator
+            beforehand created `JackGenerator` instance, to check if it got initialized
+
+        Returns
+        -------
+        JackGenerator
+            freshly created instance
+        """
+        if existing_generator is None or not config.G_REPLACE_PORT:
+            return None
+
+        new_generator = JackGenerator(name=f'{name}-Generator1', block_length=config.BLOCK_LENGTH,
+                                      output_count=1, generator_type=config.G_TYPE, is_main_client=False,
+                                      is_single_precision=config.IS_SINGLE_PRECISION)
+        new_generator.start(client_connect_target_ports=False)
+        new_generator.set_output_volume_db(config.G_LEVEL)
+        new_generator.set_output_mute(config.G_MUTE)
+        sleep(_INITIALIZE_DELAY)
+
+        # get renderer input port and check for valid specified port
+        # noinspection PyProtectedMember
+        port = existing_renderer._client.inports
+        if not 0 < config.G_REPLACE_PORT < len(port):
+            logger.error(f'invalid port id {config.G_REPLACE_PORT} of "{existing_renderer.name}" (must be between {1} '
+                         f'and {len(port)}).')
             logger.error('application interrupted.')
             terminate_all()
             sys.exit(1)
 
-        new_renderer.start(client_connect_target_ports=False)
-        new_renderer.set_output_volume_db(config.HRIR_LEVEL)
-        new_renderer.set_output_mute(config.HRIR_MUTE)
-        sleep(_INITIALIZE_DELAY)
-
-        if existing_pre_renderer and existing_pre_renderer.is_alive():
-            if tools.transform_into_type(config.ARIR_TYPE, FilterSet.Type) is FilterSet.Type.AS_MIRO:
-                # connect to system recording ports in case audio stream should be rendered
-                if config.SOURCE_FILE:
-                    # recorded audio stream (generated `JackPlayer` has to connect to input ports later)
-                    new_renderer.client_register_and_connect_inputs(False)
-                else:
-                    # real-time captured audio stream (connect to system recording ports)
-                    new_renderer.client_register_and_connect_inputs(True)
-            else:
-                new_renderer.client_register_and_connect_inputs(existing_pre_renderer.get_client_outputs())
-        if existing_generator:
-            new_renderer.client_register_and_connect_inputs(existing_generator.get_client_outputs())
-
-        return new_renderer
+        # select specified port (given index is 1..N, jack index is 0..N-1)
+        port = port[config.G_REPLACE_PORT - 1]
+        # disconnect connections to specific port
+        port.disconnect(existing_generator.get_client_outputs()[config.G_REPLACE_PORT - 1])
+        # connect new generator to specific port
+        new_generator.get_client_outputs()[0].connect(port)
+        return new_generator
 
     def setup_player(existing_renderer, existing_player=None):
         """
@@ -167,8 +218,11 @@ def main():
 
             existing_player.terminate()
             existing_player.join()
+
+        new_player = None
         try:
-            new_player = JackPlayer(name + '-Player', config.SOURCE_FILE)
+            new_player = JackPlayer(name=f'{name}-Player', file_name=config.SOURCE_FILE, is_main_client=False,
+                                    is_single_precision=config.IS_SINGLE_PRECISION)
 
             # check `_counter_dropout` if file was loaded, see `JackPlayer._init_player()`
             if new_player.get_dropout_counter() is not None:
@@ -187,19 +241,16 @@ def main():
             elif existing_renderer.is_alive():
                 if tools.transform_into_type(config.ARIR_TYPE, FilterSet.Type) is FilterSet.Type.AS_MIRO:
                     # connect recording ports to renderer ports directly instead (in case pre-renderer is started)
-                    existing_renderer.client_register_and_connect_inputs(True)
+                    existing_renderer.client_register_and_connect_inputs(source_ports=True)
                 else:
                     # only register renderer ports
                     logger.warning('array IR based rendering was specified without providing a playback source file.')
-                    existing_renderer.client_register_and_connect_inputs(None)
-
-            return new_player
-
-        except ValueError as e:
+                    existing_renderer.client_register_and_connect_inputs(source_ports=None)
+        except (ValueError, NotImplementedError, FileNotFoundError, RuntimeError) as e:
             logger.error(e)
-            logger.error('application interrupted.')
-            terminate_all()
-            sys.exit(1)
+            terminate_all(new_player)
+            raise InterruptedError
+        return new_player
 
     def setup_hp_eq(existing_renderer):
         """
@@ -215,25 +266,47 @@ def main():
         JackRenderer
             freshly created instance
         """
-        new_renderer = JackRenderer(name + '-HpEQ', config.BLOCK_LENGTH, config.HPIR_FILE, config.HPIR_TYPE)
-        # check `_counter_dropout` if file was loaded, see `JackRenderer._init_convolver()`
-        if new_renderer.get_dropout_counter() is None:
-            logger.warning('skipping headphone compensation.')
-            # connect renderer ports directly to playback instead
-            # noinspection PyProtectedMember
-            existing_renderer._client_register_and_connect_outputs(True)
-        else:
-            new_renderer.start(client_connect_target_ports=True)
-            new_renderer.set_output_volume_db(config.HPIR_LEVEL)
-            new_renderer.set_output_mute(config.HPIR_MUTE)
-            sleep(_INITIALIZE_DELAY)
+        new_renderer = None
+        try:
+            new_renderer = JackRenderer(name=f'{name}-HpEQ', block_length=config.BLOCK_LENGTH,
+                                        filter_name=config.HPIR_FILE, filter_type=config.HPIR_TYPE,
+                                        ir_trunc_db=config.IR_TRUNCATION_LEVEL, is_main_client=False,
+                                        is_single_precision=config.IS_SINGLE_PRECISION)
 
-            new_renderer.client_register_and_connect_inputs(existing_renderer.get_client_outputs())
+            # check `_counter_dropout` if file was loaded, see `JackRenderer._init_convolver()`
+            if new_renderer.get_dropout_counter() is None:
+                logger.warning('skipping headphone compensation.')
+                # connect renderer ports directly to playback instead
+                # noinspection PyProtectedMember
+                existing_renderer._client_register_and_connect_outputs(target_ports=True)
+            else:
+                new_renderer.start(client_connect_target_ports=True)
+                new_renderer.set_output_volume_db(config.HPIR_LEVEL)
+                new_renderer.set_output_mute(config.HPIR_MUTE)
+                sleep(_INITIALIZE_DELAY)
 
+                new_renderer.client_register_and_connect_inputs(existing_renderer.get_client_outputs())
+        except (ValueError, NotImplementedError, FileNotFoundError, RuntimeError) as e:
+            logger.error(e)
+            terminate_all(new_renderer)
+            raise InterruptedError
         return new_renderer
 
-    def terminate_all():
-        """Terminate all potentially spawned `SubProcess` and remote control clients."""
+    # noinspection DuplicatedCode
+    def terminate_all(additional_process=None):
+        """Terminate all (potentially) spawned child processes after muting the outputting client."""
+        try:
+            additional_process.terminate()
+            additional_process.join()
+        except (NameError, AttributeError):
+            pass
+        try:
+            if hp_eq.is_alive():
+                hp_eq.set_output_mute(True)
+            else:
+                renderer.set_output_mute(True)
+        except (NameError, AttributeError):
+            pass
         try:
             remote.terminate()
         except (NameError, AttributeError):
@@ -254,6 +327,11 @@ def main():
         except (NameError, AttributeError):
             pass
         try:
+            generator1.terminate()
+            generator1.join()
+        except (NameError, AttributeError):
+            pass
+        try:
             hp_eq.terminate()
             hp_eq.join()
         except (NameError, AttributeError):
@@ -261,7 +339,7 @@ def main():
         try:
             tracker.terminate()
             tracker.join()
-        except (NameError, AttributeError):
+        except (NameError, KeyError, AttributeError):
             pass
         try:
             renderer.terminate()
@@ -273,11 +351,19 @@ def main():
     name = __package__
 
     logger = process_logger.setup()
-    tracker = setup_tracker()
-    pre_renderer, generator = setup_pre_renderer()
-    renderer = setup_renderer(tracker, pre_renderer, generator)
-    player = setup_player(pre_renderer if (pre_renderer and pre_renderer.is_alive()) else renderer)
-    hp_eq = setup_hp_eq(renderer)
+    try:
+        tracker = setup_tracker()
+        pre_renderer, generator = setup_pre_renderer()
+        renderer = setup_renderer(existing_tracker=tracker, existing_pre_renderer=pre_renderer,
+                                  existing_generator=generator)
+        generator1 = setup_generator_1ch_replace(existing_renderer=renderer, existing_generator=generator)
+        player = setup_player(existing_renderer=pre_renderer if (pre_renderer and pre_renderer.is_alive())
+                              else renderer)
+        hp_eq = setup_hp_eq(existing_renderer=renderer)
+    except InterruptedError:
+        logger.error('application interrupted.')
+        terminate_all()
+        return logger  # terminate application
 
     # set tracker reference position at application start
     tracker.set_zero_position()
@@ -294,11 +380,10 @@ def main():
 
     # run remote interface until application is interrupted
     try:
-        remote.start([player, pre_renderer, generator, hp_eq, tracker, renderer])
+        remote.start(clients=[player, pre_renderer, generator, generator1, hp_eq, tracker, renderer])
     except KeyboardInterrupt:
         logger.error('interrupted by user.')
 
     # terminate application
     terminate_all()
-
     return logger

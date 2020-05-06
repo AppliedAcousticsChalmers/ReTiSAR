@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 __version__ = 'unknown'
 for line in open('ReTiSAR/__init__.py'):
@@ -10,21 +10,23 @@ setup(
     name='ReTiSAR',
     description='Real-Time Spherical Array Renderer for binaural reproduction in Python',
     keywords='binauralaudio signal-processing microphone-array-processing python 3d-audio',
+    url='https://github.com/AppliedAcousticsChalmers/ReTiSAR',
     version=__version__,
-
-    url='https://github.com/AppliedAcousticsChalmers/pyBinauralTest',
 
     author='Hannes Helmholz',
     author_email='hannes.helmholz@chalmers.se',
 
-    long_description=open('README.md').read(),
+    long_description=open('README.md', mode='r', encoding='utf-8').read(),
     long_description_content_type='text/markdown',
 
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Science/Research',
-        'Topic :: Multimedia :: Sound/Audio',
+        'Intended Audience :: Education',
+        'License :: Other/Proprietary License',
+        'Operating System :: MacOS',
         'Programming Language :: Python :: 3.7',
+        'Topic :: Multimedia :: Sound/Audio',
     ],
 
     python_requires='>=3.7',
@@ -36,22 +38,20 @@ setup(
         'pyfftw',
         'python-osc',
         'pyserial >= 3.4',
+        'pysofaconventions >= 0.1.5',
         'samplerate',
         'scipy',
         'soundfile >= 0.10.2',
-        'sound_field_analysis > 0.3',
+        'sound_field_analysis >= 2019.8.15',
         # 'psutil',  # necessary when adjusting process priority
     ],
-    # temporary fix until `sound_field_analysis > 0.3` is not available on PyPI
-    # from index outside of PyPI ... did not work so far
-    # `pip install . --extra-index-url https://github.com/AppliedAcousticsChalmers/sound_field_analysis-py/tarball/master#egg=sound_field_analysis`
-    # from local directory in development mode (before installing this package)
-    # `pip install -e ../sound_field_analysis-py/`
-    # from git repository (before installing this package)
-    # `pip install https://github.com/AppliedAcousticsChalmers/sound_field_analysis-py/tarball/master#egg=sound_field_analysis`
 
     extras_require={
-        'benchmark': ['pandas', 'jinja2', 'matplotlib'],
+        'benchmark': [
+            'jinja2',
+            'natsort',
+            'pandas',
+        ],
     },
 
     package_data={
@@ -60,3 +60,4 @@ setup(
 
     packages=find_packages(),
 )
+

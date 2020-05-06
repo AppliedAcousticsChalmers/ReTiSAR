@@ -1,7 +1,6 @@
 import logging
 import multiprocessing
 import os
-# noinspection PyCompatibility
 import queue
 
 import jack
@@ -83,7 +82,7 @@ class JackPlayer(JackClient):
 
                 # pay attention here to keep the same style as in JackClient...port_registration()
                 if isinstance(port, jack.OwnPort):  # only show for own ports
-                    self._logger.debug(['unregistered', 'registered'][register] + ' JACK port {}.'.format(port))
+                    self._logger.debug(f'{["unregistered", "registered"][register]} JACK port {port}.')
 
     def _init_player(self):
         """
@@ -106,25 +105,48 @@ class JackPlayer(JackClient):
         # print file information
         file_info = soundfile.info(self._file_name).__str__() \
             .split('\n', 1)[1].replace('\n', ', ')  # cut off name and reformat LF
-        self._logger.info('opening file "{}"\n --> {}'.format(os.path.relpath(self._file_name), file_info))
-        self._sf = soundfile.SoundFile(self._file_name)
+        self._logger.info(f'opening file "{os.path.relpath(self._file_name)}"\n --> {file_info}')
+        self._sf = soundfile.SoundFile(file=self._file_name, mode='r')
 
         if not self._sf.samplerate == self._client.samplerate:
-            self._logger.error('input samplerate of {} Hz does not match JACK samplerate of {} Hz.'.format(
-                self._sf.samplerate, self._client.samplerate))
-            raise ValueError('failed to create "{}" instance.'.format(self.name))
+            self._logger.error(f'input samplerate of {self._sf.samplerate} Hz does not match JACK samplerate of '
+                               f'{self._client.samplerate} Hz.')
+            raise ValueError(f'failed to create "{self.name}" instance.')
 
         # create output ports according to file channel number
         for ch in range(self._sf.channels):
-            self._client.outports.register('output_{0}'.format(ch + 1))
+            self._client.outports.register(f'output_{ch + 1}')
+
+        # get matching numpy dtype according to provided file subtype. Currently `soundfile.read()` only seems to have
+        # the types `float32`, `float64`, `int16` and `int32` implemented, hence the decision is very easy
+        dtype = np.float64 if self._sf.subtype.upper() == 'DOUBLE' else np.float32
+        # _SUBTYPE2DTYPE = {'PCM_16':  np.float16,
+        #                   'PCM_24':  np.float32,
+        #                   'PCM_32':  np.float32,
+        #                   'FLOAT':   np.float32,
+        #                   'DOUBLE':  np.float64,
+        #                   'ALAC_16': np.float16,
+        #                   'ALAC_20': np.float32,
+        #                   'ALAC_24': np.float32,
+        #                   'ALAC_32': np.float32, }
+        # try:
+        #     dtype = _SUBTYPE2DTYPE[self._sf.subtype]
+        # except KeyError:
+        #     raise NotImplementedError(f'numpy dtype according to subtype "{self._sf.subtype}" not yet implemented.')
+
+        if self._is_single_precision and dtype == np.float64:
+            dtype = np.float32
+        elif not self._is_single_precision and dtype == np.float32:
+            self._logger.warning(f'[INFO]  file playback processed in single precision according to file subtype '
+                                 f'"{self._sf.subtype}", even though double precision was requested.')
+            self._is_single_precision = True
 
         self._timeout = self._client.blocksize * self._buffer_length / self._client.samplerate
-        self._block_generator = self._sf.blocks(blocksize=self._client.blocksize, dtype=np.float32,
+        self._block_generator = self._sf.blocks(blocksize=self._client.blocksize, dtype=dtype,
                                                 always_2d=True, fill_value=0)
 
         # pre-fill queue
-        self._q.put_nowait(np.zeros((self._sf.channels, self._client.blocksize),
-                                    dtype=self._block_generator.gi_frame.f_locals['dtype']))
+        self._q.put_nowait(np.zeros((self._sf.channels, self._client.blocksize), dtype=dtype))
 
     def start(self):
         """
@@ -214,7 +236,7 @@ class JackPlayer(JackClient):
             self._logger.info('playback was already running.')
             return
 
-        self._logger.info('running file "{}" playback.'.format(os.path.basename(self._file_name)))
+        self._logger.info(f'running file "{os.path.basename(self._file_name)}" playback.')
         self._event_play.set()
 
     def stop(self, msg=''):
@@ -236,7 +258,7 @@ class JackPlayer(JackClient):
         if msg:
             self._logger.warning(msg)
         else:
-            self._logger.info('stopping file "{}" playback.'.format(os.path.basename(self._file_name)))
+            self._logger.info(f'stopping file "{os.path.basename(self._file_name)}" playback.')
 
         # fill output ports with zeros
         for port in self._client.outports:
@@ -266,7 +288,7 @@ class JackPlayer(JackClient):
 
             return output_td
 
-        except queue.Empty:
+        except (queue.Empty, OSError):
             if self._event_play.is_set():
                 lvl = logging.ERROR if not config.IS_DEBUG_MODE else logging.DEBUG
                 self._logger.log(lvl, 'JACK buffer is empty, maybe increase buffersize.')

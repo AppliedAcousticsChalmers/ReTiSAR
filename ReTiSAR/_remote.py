@@ -1,8 +1,9 @@
 import inspect
-import re
 import sys
 
 from pythonosc import dispatcher, osc_server
+
+from . import tools
 
 
 class OscRemote(object):
@@ -71,10 +72,10 @@ class OscRemote(object):
                 return
 
             # add mapping
-            dispatch.map('/{}/{}'.format(client_name, command), OscRemote.handle_function,
+            dispatch.map(f'{client_name}/{command}', OscRemote.handle_function,
                          client, function_name, self._logger)
             if is_reversible:
-                dispatch.map('/{}/{}'.format(command, client_name), OscRemote.handle_function,
+                dispatch.map(f'{command}/{client_name}', OscRemote.handle_function,
                              client, function_name, self._logger)
 
         # generate mapping for all clients
@@ -84,10 +85,7 @@ class OscRemote(object):
                 continue
 
             # prepare simplified client name as OSC target
-            client_name = client.name
-            if client_name.startswith(__package__):  # cut package name
-                client_name = client_name[len(__package__):]
-            client_name = re.sub('\W+', '', client_name).lower()  # delete all non-alphanumeric characters
+            client_name = tools.transform_into_osc_target(client.name)
 
             add_mapping('mute', 'set_output_mute')  # see `JackClient`
             add_mapping('volume', 'set_output_volume_db')  # see `JackClient`
@@ -107,7 +105,7 @@ class OscRemote(object):
 
         # start OSC server
         self._server = osc_server.ThreadingOSCUDPServer(('127.0.0.1', self._port), dispatch)
-        log_str = 'listening to OSC messages at {} ...'.format(self._server.server_address)
+        log_str = f'listening to OSC messages at {self._server.server_address} ...'
         self._logger.info(log_str) if self._logger else print(log_str)
 
         # run OSC server and block further execution, keeping the application alive until the server is released
@@ -126,8 +124,9 @@ class OscRemote(object):
         self._server.shutdown()
         self._server = None
 
+    # noinspection PyUnusedLocal
     @staticmethod
-    def handle_terminate(_, references):
+    def handle_terminate(_, references, *parameters):
         """
         Call the terminate function of this instance to shutdown the application.
 
@@ -137,6 +136,8 @@ class OscRemote(object):
             OSC target
         references : list of object
             instance, in this case a reference to itself
+        parameters : any
+            ignored parameters
         """
         # noinspection PyUnresolvedReferences
         self = references[0]
@@ -168,13 +169,13 @@ class OscRemote(object):
 
         function_parameters_count = len(inspect.signature(getattr(client, function_name)).parameters)
         if len(parameters) > function_parameters_count:
-            log_str = 'skipping overhang OSC parameters "{}".'.format(
-                ', '.join(str(p) for p in parameters[function_parameters_count:]))
+            log_str = f'skipping overhang OSC parameters "' \
+                f'{", ".join(str(p) for p in parameters[function_parameters_count:])}".'
             logger.warning(log_str) if logger else print(log_str, file=sys.stderr)
             parameters = parameters[:function_parameters_count]
 
         if len(parameters) == 0:
-            # log_str = 'calling ... {}.{}()'.format(type(client).__name__, function_name)
+            # log_str = f'calling ... {type(client).__name__}.{function_name}()'
             # logger.info(log_str) if logger else print(log_str)
             getattr(client, function_name)()
         else:

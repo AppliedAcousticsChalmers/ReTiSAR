@@ -1,22 +1,26 @@
 name: ReTiSAR
 channels:
-  - defaults
+  - defaults  # prefer installing packages from conda-main over conda-forge, will install Intel MKL for numpy)
+  - conda-forge  # preferring conda-forge would install OpenBLAS for numpy
 dependencies:
-  - jinja2
+  - cffi  # for jack-client/samplerate/pysoundfile from conda
   - matplotlib
+  - netCDF4  # for pysofaconventions from conda
   - numpy >= 1.15.4
-  - pandas
   - pip
-  # - 'psutil'  # necessary when adjusting process priority
+#  - psutil  # for adjusting process priority, currently not used
+  - pycparser  # for jack-client/samplerate/pysoundfile from conda
+  - pyfftw
   - pyserial >= 3.4
-  - python >= 3.6
+  - pysoundfile >= 0.10.2  # on Windows you need to install soundfile via pip
+  - python >= 3.7
   - scipy
   - pip:
     - jack-client >= 0.4.4
-    - pyfftw  # alo available in conda-forge
     - python-osc
+    - pysofaconventions >= 0.1.5
     - samplerate
-    # - sound-field-analysis > 0.3  # use repository as long as PyPI package is not updated
+#    - sound-field-analysis >= 2019.8.15  # use repository as long as PyPI package is not updated
+#    - -e ../sound_field_analysis-py/
     - "https://github.com/AppliedAcousticsChalmers/sound_field_analysis-py/tarball/master#egg=sound_field_analysis"
-    - soundfile >= 0.10.2  # also available in conda-forge as pysoundfile
     - -e .

@@ -2,10 +2,10 @@ from copy import copy
 
 import numpy as np
 import pyfftw
-from scipy import signal
+import sound_field_analysis as sfa
 
-from . import config, HeadTracker, tools
-from ._filter_set import FilterSetMiro, FilterSetMultiChannel, FilterSetShConfig
+from . import Compensation, config, HeadTracker, tools
+from ._filter_set import FilterSetMiro, FilterSetMultiChannel, FilterSetShConfig, FilterSetSofa
 
 
 class Convolver(object):
@@ -51,13 +51,17 @@ class Convolver(object):
         """
         if not block_length:
             convolver = Convolver(filter_set)
-        elif type(filter_set) == FilterSetMultiChannel\
-                or (type(filter_set) == FilterSetMiro and filter_set.get_sh_configuration().arir_config):
+        elif type(filter_set) == FilterSetMultiChannel:
             convolver = OverlapSaveConvolver(filter_set, block_length)
-        elif type(filter_set) == FilterSetMiro and not filter_set.get_sh_configuration().arir_config:
-            convolver = AdjustableShConvolver(filter_set, block_length, source_positions, shared_tracker_data)
         else:
-            convolver = AdjustableFdConvolver(filter_set, block_length, source_positions, shared_tracker_data)
+            sh_config = filter_set.get_sh_configuration()
+            if isinstance(filter_set, (FilterSetMiro, FilterSetSofa)) and sh_config:
+                if sh_config.arir_config:
+                    convolver = OverlapSaveConvolver(filter_set, block_length)
+                else:
+                    convolver = AdjustableShConvolver(filter_set, block_length, source_positions, shared_tracker_data)
+            else:
+                convolver = AdjustableFdConvolver(filter_set, block_length, source_positions, shared_tracker_data)
 
         # prevent running debugging help function in case of `AdjustableShConvolver` (needs to be invoked after
         # `AdjustableShConvolver.prepare_renderer_sh_processing()` instead!)
@@ -82,20 +86,21 @@ class Convolver(object):
         self._irfft = None
 
         # do not run if called by an inheriting class
-        if type(self) is Convolver:
+        if type(self) is Convolver:  # do not replace with `isinstance()`
             self._filter.calculate_filter_blocks_fd(None)
 
     def __copy__(self):
         _filter = copy(self._filter)
-        _filter.load(None, is_prevent_logging=True)
+        _filter.load(block_length=None, is_prevent_logging=True,
+                     is_single_precision=self._filter.get_dirac_td().dtype == np.float32)
         new = type(self)(_filter)
         new.__dict__.update(self.__dict__)
         return new
 
     def __str__(self):
-        return '[ID={}, _filter={}, _is_passthrough={}, _rfft=shape{}--shape{}, _irfft=shape{}--shape{}]'.format(
-            id(self), self._filter, self._is_passthrough, self._rfft.input_shape, self._rfft.output_shape,
-            self._irfft.input_shape, self._irfft.output_shape)
+        return f'[ID={id(self)}, _filter={self._filter}, _is_passthrough={self._is_passthrough}, ' \
+               f'_rfft=shape{self._rfft.input_shape}--shape{self._rfft.output_shape}, ' \
+               f'_irfft=shape{self._irfft.input_shape}--shape{self._irfft.output_shape}]'
 
     def init_fft_optimize(self, logger=None):
         """
@@ -106,7 +111,7 @@ class Convolver(object):
         logger : logging.Logger, optional
             instance to provide identical logging behaviour as the parent process
         """
-        log_str = 'initializing FFTW DFT optimization ...' if config.IS_PYFFTW_MODE else\
+        log_str = 'initializing FFTW DFT optimization ...' if config.IS_PYFFTW_MODE else \
             'skipping FFTW DFT optimization.'
         logger.info(log_str) if logger else print(log_str)
 
@@ -159,14 +164,16 @@ class Convolver(object):
 
         # generate input blocks
         if not input_count:  # 0 or None
-            input_count = self._rfft.input_shape[-2]
+            input_count = self._rfft.input_shape[-2] if config.IS_PYFFTW_MODE else self._filter.get_dirac_td().shape[-2]
 
         # noinspection PyUnresolvedReferences
-        block_length = self._rfft.input_shape[-1] if type(self) is Convolver else self._block_length
+        # do not replace with `isinstance()` because of inheritance!
+        block_length = self._rfft.input_shape[-1] if (config.IS_PYFFTW_MODE and type(self) is Convolver) \
+            else self._block_length
         if is_generate_noise:
-            ip = tools.generate_noise((input_count, block_length))  # white noise
+            ip = tools.generate_noise((input_count, block_length), dtype=self._filter.get_dirac_td().dtype)  # white
         else:
-            ip = np.zeros((input_count, block_length))
+            ip = np.zeros((input_count, block_length), dtype=self._filter.get_dirac_td().dtype)
             ip[:, 0] = 1  # dirac impulse
 
         # calculate filtered blocks
@@ -185,6 +192,7 @@ class Convolver(object):
         # transform back into time domain
         return self._irfft(result_fd) if config.IS_PYFFTW_MODE else np.fft.irfft(result_fd)
 
+    # noinspection PyProtectedMember
     def get_input_channel_count(self):
         """
         Returns
@@ -192,8 +200,10 @@ class Convolver(object):
         int
             number of processed input channels
         """
-        # noinspection PyProtectedMember
-        return self._filter._irs_td.shape[0]
+        if self._filter._is_hpir:
+            return self._filter._irs_td.shape[1]
+        else:
+            return self._filter._irs_td.shape[0]
 
     def get_output_channel_count(self):
         """
@@ -234,8 +244,6 @@ class OverlapSaveConvolver(Convolver):
         output channels; `_block_length` (+1 depending on even or uneven length)]
     _input_block_td : numpy.ndarray
         time domain input samples contained in a shifting buffer of size [number of input channels; 2 * `_block_length`]
-    _input_subsonic : tuple of numpy.ndarray or None
-        subsonic highpass filter (b and a) coefficients applied to the input signals
     """
 
     def __init__(self, filter_set, block_length):
@@ -248,76 +256,31 @@ class OverlapSaveConvolver(Convolver):
         block_length : int
             system wide time domain audio block size
         """
-        super(OverlapSaveConvolver, self).__init__(filter_set)
+        super().__init__(filter_set)
         self._block_length = block_length
         self._input_block_td = None
-        self._input_subsonic = None, None
 
         # calculate filter in frequency domain
         self._filter.calculate_filter_blocks_fd(self._block_length)
-        self._blocks_fd = np.zeros_like(self._filter.get_dirac_blocks_fd())  # also inherit `dtype`
+        self._blocks_fd = np.zeros_like(self._filter.get_dirac_blocks_fd())  # also inherit dtype
 
         # do not run if called by an inheriting class
-        if type(self) is OverlapSaveConvolver:
+        if type(self) is OverlapSaveConvolver:  # do not replace with `isinstance()`
             # reserve input block buffer according to input channel count
-            self._input_block_td = np.zeros((self._blocks_fd.shape[-2], self._block_length * 2))
+            self._input_block_td = np.zeros((self._blocks_fd.shape[-2], self._block_length * 2),
+                                            dtype=self._filter.get_dirac_td().dtype)
 
     def __copy__(self):
         _filter = copy(self._filter)
-        _filter.load(self._block_length, is_prevent_logging=True)
+        _filter.load(block_length=self._block_length, is_prevent_logging=True,
+                     is_single_precision=self._filter.get_dirac_td().dtype == np.float32)
         new = type(self)(_filter, self._block_length)
         new.__dict__.update(self.__dict__)
         return new
 
     def __str__(self):
-        return '[{}, _block_length={}, _blocks_fd=shape{}, _input_block_td=shape{}]'.format(
-            super(OverlapSaveConvolver, self).__str__()[1:-1], self._block_length, self._blocks_fd.shape,
-            self._input_block_td.shape)
-
-    def init_subsonic(self, cutoff_freq, fs, logger=None, is_iir=True):
-        """
-        Initialize subsonic input filter by calculating IIR or FIR filter coefficients.
-
-        Parameters
-        ----------
-        cutoff_freq : float
-            cutoff frequency of generated highpass filter
-        fs : int
-            sampling frequency of generated filter
-        logger : logging.Logger, optional
-            instance to provide identical logging behaviour as the parent process
-        is_iir : bool, optional
-            if IIR filter should be generated, otherwise a minimal phase FIR filter will be generated
-        """
-        if is_iir:
-            log_str = 'pre-calculating subsonic IIR input filter components ...'
-            logger.info(log_str) if logger else print(log_str)
-
-            b, a = tools.generate_highpass_td(True, fs, cutoff_freq, iir_order=4)
-            self._input_subsonic = b, a
-
-            # generate plot
-            _, b_a_fd = signal.freqz(b, a, int(self._block_length/2), whole=False, fs=fs)
-            tools.export_plot(tools.plot_ir_and_tf(b_a_fd[np.newaxis, :], fs), 'subsonic', logger=logger)
-
-        else:
-            log_str = 'pre-calculating subsonic linear phase FIR input filter components ...'
-            logger.info(log_str) if logger else print(log_str)
-
-            b, _ = tools.generate_highpass_td(False, fs, cutoff_freq, fir_samples=self._block_length * 2)
-            # shift by block length (see arrangement `_filter_block_shift_and_convert_input`
-            b = np.roll(b, self._block_length)
-
-            # rfft not replaced by `pyfftw` since it is not executed in real-time
-            b_fd = np.fft.rfft(b)[np.newaxis, :]
-            self._input_subsonic = b_fd, None
-
-            # generate plot
-            tools.export_plot(tools.plot_ir_and_tf(b_fd, fs), 'subsonic', logger=logger)
-
-        # repeat running debugging help function with subsonic filter
-        if config.IS_DEBUG_MODE:
-            self._debug_filter_block(None)
+        return f'[{super().__str__()[1:-1]}, _block_length={self._block_length}, ' \
+               f'_blocks_fd=shape{self._blocks_fd.shape}, _input_block_td=shape{self._input_block_td.shape}]'
 
     def init_fft_optimize(self, logger=None):
         """
@@ -328,7 +291,7 @@ class OverlapSaveConvolver(Convolver):
         logger : logging.Logger, optional
             instance to provide identical logging behaviour as the parent process
         """
-        super(OverlapSaveConvolver, self).init_fft_optimize(logger)
+        super().init_fft_optimize(logger)
         if not config.IS_PYFFTW_MODE:
             return
 
@@ -361,8 +324,7 @@ class OverlapSaveConvolver(Convolver):
             block of filtered time domain output samples of size [number of output channels; `_block_length`]
         """
         # transform into frequency domain
-        input_block_fd = self._filter_block_shift_and_convert_input(self._input_block_td, input_block_td, self._rfft,
-                                                                    self._input_subsonic)
+        input_block_fd = self._filter_block_shift_and_convert_input(self._input_block_td, input_block_td, self._rfft)
 
         if self._is_passthrough:
             # discard higher inputs than there are existing outputs
@@ -378,7 +340,7 @@ class OverlapSaveConvolver(Convolver):
         return output_block_td
 
     @staticmethod
-    def _filter_block_shift_and_convert_input(buffer_block_td, input_block_td, rfft, subsonic_coefficients):
+    def _filter_block_shift_and_convert_input(buffer_block_td, input_block_td, rfft):
         """
         Parameters
         ----------
@@ -396,25 +358,12 @@ class OverlapSaveConvolver(Convolver):
             block of complex one-sided input frequency spectra of size [number of input channels; `_block_length` (+1
             depending on even or uneven length)]
         """
-        # # set new input to beginning of stored blocks (after shifting forwards)
-        # buffer_block_td[:, input_block_td.shape[1]:] = buffer_block_td[:, :input_block_td.shape[1]]
-        # buffer_block_td[:, :input_block_td.shape[1]] = input_block_td
-
         # set new input to end of stored blocks (after shifting backwards)
         buffer_block_td[:, :input_block_td.shape[1]] = buffer_block_td[:, input_block_td.shape[1]:]
         buffer_block_td[:, input_block_td.shape[1]:] = input_block_td
 
-        # TODO: check implementation, this should be done just on `input_block_td` beforehand?
-        if subsonic_coefficients[1] is not None:
-            # apply IIR subsonic
-            buffer_block_td = signal.lfilter(subsonic_coefficients[0], subsonic_coefficients[1], buffer_block_td)
-
         # transform stored blocks into frequency domain
         buffer_block_fd = rfft(buffer_block_td) if config.IS_PYFFTW_MODE else np.fft.rfft(buffer_block_td)
-
-        if subsonic_coefficients[1] is None and subsonic_coefficients[0] is not None:
-            # apply FIR subsonic
-            buffer_block_fd *= subsonic_coefficients[0]
 
         return buffer_block_fd
 
@@ -459,17 +408,14 @@ class OverlapSaveConvolver(Convolver):
         # transform first block back into time domain
         first_block_td = irfft(buffer_blocks_fd[0]) if config.IS_PYFFTW_MODE else np.fft.irfft(buffer_blocks_fd[0])
 
-        # shift blocks forwards
+        # check if partitioned convolution was done
         if buffer_blocks_fd.shape[0] > 1:
-            # since `buffer_blocks_fd` is assigned a new copy of an ndarray, it needs to be returned
+            # shift blocks forwards
             buffer_blocks_fd = np.roll(buffer_blocks_fd, -1, axis=0)
+            # since `buffer_blocks_fd` is assigned a new copy of an ndarray, it needs to be returned
 
         # set last block to zero
         buffer_blocks_fd[-1] = 0.0
-
-        # remove 1st singular dimension and return relevant first half of the time domain data
-        # return first_block_td[0, :, :int(first_block_td.shape[-1] / 2)], buffer_blocks_fd
-        # half of 1st block is not in C-order, but copy() did not have a performance impact
 
         # remove 1st singular dimension and return relevant second half of the time domain data
         return first_block_td[0, :, int(first_block_td.shape[-1] / 2):], buffer_blocks_fd
@@ -523,7 +469,7 @@ class AdjustableFdConvolver(OverlapSaveConvolver):
         ValueError
             in case no `source_positions` are given
         """
-        super(AdjustableFdConvolver, self).__init__(filter_set, block_length)
+        super().__init__(filter_set, block_length)
         self._is_crossfade = True
 
         if not source_positions:
@@ -535,7 +481,8 @@ class AdjustableFdConvolver(OverlapSaveConvolver):
         self._blocks_fd = self._blocks_fd[:, :1]
 
         # discard higher dimensions than there are existing inputs
-        self._input_block_td = np.zeros((len(source_positions), self._block_length * 2))
+        self._input_block_td = np.zeros((len(source_positions), self._block_length * 2),
+                                        dtype=self._filter.get_dirac_td().dtype)
 
         # calculate COSINE-Square cross-fade windows
         self._window_out_td = np.arange(self._block_length, dtype=self._input_block_td.dtype)
@@ -548,15 +495,16 @@ class AdjustableFdConvolver(OverlapSaveConvolver):
 
     def __copy__(self):
         _filter = copy(self._filter)
-        _filter.load(self._block_length, is_prevent_logging=True)
+        _filter.load(block_length=self._block_length, is_prevent_logging=True,
+                     is_single_precision=self._filter.get_dirac_td().dtype == np.float32)
         new = type(self)(_filter, self._block_length, self._sources_deg, self._tracker_deg)
         new.__dict__.update(self.__dict__)
         return new
 
     def __str__(self):
-        return '[{},  _tracker_deg=len({}), _sources_deg=shape{}, _is_crossfade={}, _window_td=shape{}]'.format(
-            super(AdjustableFdConvolver, self).__str__()[1:-1], len(self._tracker_deg), self._sources_deg.shape,
-            self._is_crossfade, self._window_out_td.shape)
+        return f'[{super().__str__()[1:-1]},  _tracker_deg=len({len(self._tracker_deg)}), ' \
+               f'_sources_deg=shape{self._sources_deg.shape}, _is_crossfade={self._is_crossfade}, ' \
+               f'_window_td=shape{self._window_out_td.shape}]'
 
     def filter_block(self, input_block_td):
         """
@@ -577,11 +525,10 @@ class AdjustableFdConvolver(OverlapSaveConvolver):
             block of filtered time domain output samples of size [number of output channels; `_block_length`]
         """
         if self._is_passthrough:
-            return super(AdjustableFdConvolver, self).filter_block(input_block_td)
+            return super().filter_block(input_block_td)
 
         # transform into frequency domain
-        input_block_fd = self._filter_block_shift_and_convert_input(self._input_block_td, input_block_td, self._rfft,
-                                                                    self._input_subsonic)
+        input_block_fd = self._filter_block_shift_and_convert_input(self._input_block_td, input_block_td, self._rfft)
         filters_blocks_fd = self._get_current_filters_fd()
 
         # block-wise complex multiplication into current buffer
@@ -687,10 +634,10 @@ class AdjustableFdConvolver(OverlapSaveConvolver):
 
         azims_deg, elevs_deg = self._calculate_individual_directions()
         # for s in range(azims_deg.shape[0]):
-        #     print('source {} AZIM head {:>+6.1f} deg, source relative {:>3.0f} deg'.format(
-        #         s, self._tracker_deg[HeadTracker.DataIndex.AZIM], azims_deg[s]))
-        #     print('source {} ELEV head {:>+6.1f} deg, source relative {:>3.0f} deg'.format(
-        #         s, self._tracker_deg[HeadTracker.DataIndex.ELEV], elevs_deg[s]))
+        #     print(f'source {s} AZIM head {self._tracker_deg[HeadTracker.DataIndex.AZIM]:>+6.1f} deg, '
+        #           f'source relative {azims_deg[s]:>3.0f} deg')
+        #     print(f'source {s} ELEV head {self._tracker_deg[HeadTracker.DataIndex.ELEV]:>+6.1f} deg, '
+        #           f'source relative {elevs_deg[s]:>3.0f} deg')
 
         # stack for all sources
         return np.stack([self._filter.get_filter_blocks_fd(azim_deg, elev_deg)
@@ -755,7 +702,7 @@ class AdjustableShConvolver(AdjustableFdConvolver):
         NotImplementedError
             in case more then one `source_positions` are given
         """
-        super(AdjustableShConvolver, self).__init__(filter_set, block_length, source_positions, shared_tracker_data)
+        super().__init__(filter_set, block_length, source_positions, shared_tracker_data)
 
         if self._sources_deg.shape[0] > 1:
             raise NotImplementedError('more then one virtual source position given, which is not supported yet.')
@@ -768,20 +715,21 @@ class AdjustableShConvolver(AdjustableFdConvolver):
 
     def __copy__(self):
         # _filter = copy(self._filter)
-        # _filter.load(self._block_length, is_prevent_logging=True)
+        # _filter.load(block_length=self._block_length, is_prevent_logging=True,
+        #              is_single_precision=self._filter.get_dirac_td().dtype == np.float32)
         # new = type(self)(_filter, self._block_length, self._sources_deg, self._tracker_deg)
         # new.__dict__.update(self.__dict__)
         # # this is supposed to be the filter of the pre-renderer !!!
         # new.prepare_sh_processing(_filter.get_sh_configuration(), 0)
         # return new
-        raise NotImplementedError('This implementation was not been tested so far.')
+        raise NotImplementedError('This implementation was not tested so far.')
 
     def __str__(self):
-        return '[{}, _sh_m=shape{}, _sh_m_rev_id=shape{}, _sh_bases_weighted=shape{}]'.format(
-            super(AdjustableFdConvolver, self).__str__()[1:-1], self._sh_m.shape, self._sh_m_rev_id.shape,
-            self._sh_bases_weighted.shape)
+        return f'[{super().__str__()[1:-1]}, _sh_m=shape{self._sh_m.shape}, ' \
+               f'_sh_m_rev_id=shape{self._sh_m_rev_id.shape}, _sh_bases_weighted=shape{self._sh_bases_weighted.shape}]'
 
-    def prepare_sh_processing(self, input_sh_config, amp_limit_db, logger=None):
+    # noinspection PyProtectedMember
+    def prepare_sh_processing(self, input_sh_config, mrf_limit_db, compensation_type, logger=None):
         """
         Calculate components which can be prepared before spherical harmonic processing in real-time. This contains
         calculating all spherical harmonics orders, coefficients and base functions. Also a modal radial filter
@@ -792,45 +740,33 @@ class AdjustableShConvolver(AdjustableFdConvolver):
         input_sh_config : FilterSetShConfig
             combined filter configuration with all necessary information to transform an incoming audio block into
             spherical harmonics sound field coefficients in real-time
-        amp_limit_db : int
+        mrf_limit_db : int
             maximum modal amplification limit in dB
+        compensation_type : str or Compensation.Type
+            type of spherical harmonics processing compensation technique
         logger : logging.Logger, optional
             instance to provide identical logging behaviour as the parent process
         """
-
-        def _calc_reversed_m_ids(max_order):
-            """
-            Parameters
-            ----------
-            max_order : int
-                maximum spherical harmonics order
-
-            Returns
-            -------
-            list of int
-                set of reversed spherical harmonics orders indices of size [number according to `max_order`]
-            """
-            m_ids = list(range(max_order * (max_order + 2) + 1))
-            for o in range(max_order + 1):
-                id_start = o ** 2
-                id_end = id_start + o * 2 + 1
-                m_ids[id_start:id_end] = reversed(m_ids[id_start:id_end])
-            return m_ids
-
         # prepare attributes
         self._sh_m = input_sh_config.sh_m.copy()  # copy to ensure C-order
-        # noinspection PyProtectedMember
-        self._sh_m_rev_id = _calc_reversed_m_ids(self._filter._sh_max_order)
+        self._sh_m_rev_id = sfa.sph.reverseMnIds(self._filter._sh_max_order)
         self._sh_bases_weighted = input_sh_config.sh_bases_weighted.copy()  # copy to ensure C-order
         self._last_sh_azim_nm = np.zeros((self._sh_bases_weighted.shape[0], 1, 1), dtype=self._sh_bases_weighted.dtype)
 
         # prepare block buffers
-        self._filter.calculate_filter_blocks_nm(logger=logger)
-        self._filter.apply_radial_filter(input_sh_config.arir_config, amp_limit_db, logger=logger)
+        self._filter.calculate_filter_blocks_nm()
+
+        # generate specified compensations based on one block length
+        comp_nm = Compensation.generate_by_type([compensation_type, Compensation.Type.MRF], self._filter,
+                                                arir_config=input_sh_config.arir_config, amp_limit_db=mrf_limit_db,
+                                                nfft=None, nfft_padded=self._input_block_td.shape[-1], logger=logger)
+        # apply compensations
+        self._filter._irs_blocks_nm *= comp_nm
 
         # adjust buffer block sizes according to array configuration
         arir_channel_count = input_sh_config.sh_bases_weighted.shape[-1]
-        self._input_block_td = np.zeros((arir_channel_count, self._block_length * 2))
+        self._input_block_td = np.zeros((arir_channel_count, self._block_length * 2),
+                                        dtype=self._filter.get_dirac_td().dtype)
 
         # catch up on running debugging help function in case of `AdjustableShConvolver`
         if config.IS_DEBUG_MODE:
@@ -863,35 +799,13 @@ class AdjustableShConvolver(AdjustableFdConvolver):
         numpy.ndarray
             block of filtered time domain output samples of size [number of output channels; `_block_length`]
         """
-
-        def _spat_ft(block_fd, sh_bases_weighted):
-            """
-            Spatial Fourier transform optimized for periodic calculation in real time.
-
-            Parameters
-            ----------
-            block_fd : numpy.ndarray
-                block of one-sided complex frequency spectra of size [number of input channels; block length (+1
-                depending on even or uneven length)]
-            sh_bases_weighted : numpy.ndarray
-                spherical harmonic bases weighted by grid weights of spatial sampling points of size [number according
-                to `sh_max_order`; number of input channels]
-
-            Returns
-            -------
-            numpy.ndarray
-                block of complex spherical harmonics coefficients of size [number according to `sh_order`; block length
-                (+1 depending on even or uneven length)]
-            """
-            return np.dot(sh_bases_weighted, block_fd)
-
         if self._is_passthrough:
-            return super(AdjustableShConvolver, self).filter_block(input_block_td)
+            return super().filter_block(input_block_td)
 
         # transform into frequency domain and sh-coefficients
-        input_block_nm = _spat_ft(self._filter_block_shift_and_convert_input(self._input_block_td, input_block_td,
-                                                                             self._rfft, self._input_subsonic),
-                                  self._sh_bases_weighted)
+        input_block_nm = sfa.process.spatFT_RT(
+            self._filter_block_shift_and_convert_input(self._input_block_td, input_block_td, self._rfft),
+            self._sh_bases_weighted)
 
         # # _TODO: implement block-wise processing if filter is longer
         # for filter_block_nm, block_nm in zip(self._filter.get_filter_blocks_nm(), self._blocks_nm):
@@ -905,7 +819,7 @@ class AdjustableShConvolver(AdjustableFdConvolver):
 
         # get head-tracker position (neglect elevation)
         azim_rad, _ = self._calculate_individual_directions()
-        sh_azim_nm = np.exp(-1j * self._sh_m * azim_rad)[:, np.newaxis, np.newaxis]
+        sh_azim_nm = np.exp(self._blocks_fd.dtype.type(-1j) * self._sh_m * azim_rad)[:, np.newaxis, np.newaxis]
 
         # calculation back into frequency domain into current buffer, after applying rotation coefficients
         self._blocks_fd[0, 0] = np.sum(input_block_nm * sh_azim_nm, axis=0)
@@ -937,7 +851,7 @@ class AdjustableShConvolver(AdjustableFdConvolver):
             rotation elevation angle in radians (was wrapped to be between -180 and 179) of size [number of sources]
         """
         # noinspection PyProtectedMember
-        azims_deg, elevs_deg = super(AdjustableShConvolver, self)._calculate_individual_directions()
+        azims_deg, elevs_deg = super()._calculate_individual_directions()
         # inverse values since were not rotating virtual sources, but an actual sound field
         return np.deg2rad(-azims_deg), np.deg2rad(-elevs_deg)
 
@@ -955,7 +869,7 @@ class AdjustableShConvolver(AdjustableFdConvolver):
             actually realized crossfade state
         """
         try:
-            super(AdjustableShConvolver, self).set_crossfade(new_state)
+            super().set_crossfade(new_state)
         except AttributeError:
             pass
 

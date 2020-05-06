@@ -37,7 +37,7 @@ def main():
     benchmarking client, should be started by this application."""
     _FILTER_FILES = tools.get_absolute_from_relative_package_path(
         ['res/HpIR/test128_44.wav', 'res/HpIR/test512_44.wav', 'res/HpIR/test4k_44.wav', 'res/mRIR/Stereo_RIR_44.wav'])
-    # _FILTER_FILES = config.get_absolute_from_relative_package_path(['res/mRIR/Stereo_RIR_44.wav'])
+    # _FILTER_FILES = tools.get_absolute_from_relative_package_path(['res/mRIR/Stereo_RIR_44.wav'])
     """List of FIR filter files to run benchmarks on."""
     _FILTER_FILE_TYPE = 'FIR_MULTICHANNEL'  # 1 convolution per channel, see `FilterSet.Type`
     """Type of FIR filter files to run benchmarks on."""
@@ -61,19 +61,19 @@ def main():
     if config.BENCHMARK_MODE == 'PARALLEL_CLIENTS'\
             and resource.getrlimit(resource.RLIMIT_NOFILE)[0] < config.PROCESS_FILE_LIMIT_MIN:
         import sys
-        print('maximum number of open file descriptors for the current process is smaller then {0}.\n'
-              ' --> execute `ulimit -n {0}` in a terminal to manually raise the value!\n'
-              'application interrupted.'.format(config.PROCESS_FILE_LIMIT_MIN), file=sys.stderr)
+        print(f'maximum number of open file descriptors for the current process is smaller then '
+              f'{config.PROCESS_FILE_LIMIT_MIN}.\n --> execute `ulimit -n {config.PROCESS_FILE_LIMIT_MIN}` in a '
+              f'terminal to manually raise the value!\napplication interrupted.', file=sys.stderr)
         sys.exit(1)
 
     # use package and file name as _client name
-    name = __package__ + os.path.basename(__file__).strip('.py')
+    name = f'{__package__}{os.path.basename(__file__).strip(".py")}'
     if config.BENCHMARK_MODE == 'PARALLEL_CONVOLVERS':
-        name += '_convolvers'
+        name = f'{name}_convolvers'
     elif config.BENCHMARK_MODE == 'PARALLEL_CLIENTS':
-        name += '_clients'
+        name = f'{name}_clients'
     else:
-        raise ValueError('unknown type of {}.'.format(config.BENCHMARK_MODE))
+        raise ValueError(f'unknown type of {config.BENCHMARK_MODE}.')
 
     # prepare logger
     logger = process_logger.setup(name)
@@ -81,8 +81,8 @@ def main():
     # create client instance to start JACK server, if it is not running
     if _IS_START_OWN_JACK_SERVER:
         logger.info('starting background client ...')
-        background_client = JackClient(name + '-bc', is_main_client=True, is_disable_file_logger=True,
-                                       is_disable_logger=True)
+        background_client = JackClient(name=f'{name}-bc', is_main_client=True,
+                                       is_disable_file_logger=True, is_disable_logger=True)
         background_client.start()
     else:
         logger.warning('skipping creation of a background client. Please make sure you have the JACK server running '
@@ -91,10 +91,17 @@ def main():
     # run benchmark and capture run time
     run_time = time.time()
     # noinspection PyUnboundLocalVariable
-    results = _run(logger, name, config.BENCHMARK_MODE, _FILTER_FILES, _FILTER_FILE_TYPE, _BLOCK_LENGTHS, _REPETITIONS,
-                   _JACK_INSTANCES_LIMIT)
+    results, exit_state = _run(logger=logger, name=name, mode=config.BENCHMARK_MODE, filter_files=_FILTER_FILES,
+                               filter_file_type=_FILTER_FILE_TYPE, block_lengths=_BLOCK_LENGTHS,
+                               repetitions=_REPETITIONS, start_time=run_time,
+                               jack_instances_limit=_JACK_INSTANCES_LIMIT)
+
+    # log runtime
     run_time = time.strftime("%Hh%Mm%Ss", time.gmtime(time.time() - run_time))  # as formatted string
-    logger.info('... running benchmark completed in {}.'.format(run_time))
+    if exit_state:
+        logger.error(f'... benchmark interrupted after {run_time}.')
+    else:
+        logger.info(f'... benchmark completed in {run_time}.')
 
     # terminate background client
     if _IS_START_OWN_JACK_SERVER:
@@ -104,33 +111,38 @@ def main():
         background_client.join(2)
         background_client.close()
 
+    if exit_state:
+        # end application
+        return logger
+
     # collect overall benchmark configuration and runtime information
-    title = '{} repetitions, {} channels, {} runtime'.format(_REPETITIONS, 2, run_time)
+    title = f'{_REPETITIONS} repetitions, {2} channels, {run_time} runtime'
     if _JACK_INSTANCES_LIMIT:
-        title = '{} clients limit, {}'.format(_JACK_INSTANCES_LIMIT, title)
+        title = f'{_JACK_INSTANCES_LIMIT} clients limit, {title}'
 
     # generate and save HTML file
     html_file = process_logger.setup_logfile(name, 'html')
-    logger.info('writing results to "{}" ...'.format(os.path.relpath(html_file)))
+    logger.info(f'writing results to "{os.path.relpath(html_file)}" ...')
     tools.export_html(html_file, results.style.apply(_table_highlight_limit, axis=1).render(), title=title)
 
     # generate and save plots
     results_limits = _get_table_by_query_equal(results, 'instances_is_limit', 1)
     plot = _generate_plot(results_limits, title)
     png_file = process_logger.setup_logfile(name, 'png')
-    logger.info('writing results to "{}" ...'.format(os.path.relpath(png_file)))
+    logger.info(f'writing results to "{os.path.relpath(png_file)}" ...')
     plot.savefig(png_file, dpi=300)
     pdf_file = process_logger.setup_logfile(name, 'pdf')
-    logger.info('writing results to "{}" ...'.format(os.path.relpath(pdf_file)))
+    logger.info(f'writing results to "{os.path.relpath(pdf_file)}" ...')
     plot.savefig(pdf_file)
 
     # end application
-    logger.info('also see results in "{}".'.format(os.path.relpath(logger.file)))
+    logger.info(f'also see results in "{os.path.relpath(logger.file)}".')
     logger.info('... benchmark ended.')
     return logger
 
 
-def _run(logger, name, mode, filter_files, filter_file_type, block_lengths, repetitions, jack_instances_limit=0):
+def _run(logger, name, mode, filter_files, filter_file_type, block_lengths, repetitions, start_time,
+         jack_instances_limit=0):
     """
     Run benchmark loop for the provided configuration. All combinations of parameters are tested, hence the time to run
     grows rapidly, especially when instantiating a high number of clients at bigger block lengths.
@@ -160,6 +172,8 @@ def _run(logger, name, mode, filter_files, filter_file_type, block_lengths, repe
     -------
     pandas.DataFrame
         generated data table
+    bool
+        exit state, True in case process got interrupted
     """
     # prepare empty data table
     results = pd.DataFrame()
@@ -167,9 +181,11 @@ def _run(logger, name, mode, filter_files, filter_file_type, block_lengths, repe
     # prepare benchmarking loop
     instances = []
     finished = False
+    interrupted = False
     block_lengths_backup = block_lengths.copy()
+    filter_files_backup = filter_files.copy()
 
-    while not finished:
+    while not finished and not interrupted:
         try:
             # test all desired filter lengths
             while len(filter_files) > 0:
@@ -193,10 +209,10 @@ def _run(logger, name, mode, filter_files, filter_file_type, block_lengths, repe
                         # It turned out for parallel JACK clients the occurring dropouts do not change
                         # systematically, if no delay is used.
                         sleep_time = 0
-                    logger.info('using sleep time of {:.0f} ms.'.format(sleep_time * 1000))
+                    logger.info(f'using sleep time of {sleep_time * 1000:.0f} ms.')
 
                     # test multiple times for average
-                    for _ in range(repetitions):
+                    for r in range(repetitions):
 
                         # continuously start instances
                         instances = []
@@ -207,15 +223,15 @@ def _run(logger, name, mode, filter_files, filter_file_type, block_lengths, repe
                             # test for JACK client limit
                             if mode == 'PARALLEL_CLIENTS'\
                                     and jack_instances_limit and instances_n >= jack_instances_limit:
-                                logger.warning('reached JACK client limit at {}, benchmark skipped.'.format(
-                                    jack_instances_limit))
+                                logger.warning(
+                                    f'reached JACK client limit at {jack_instances_limit}, benchmark skipped.')
 
                                 instances_is_limit = True
 
                             # instantiate client (only one in case of `Mode.PARALLEL_CONVOLVERS`
                             elif mode == 'PARALLEL_CLIENTS' or instances_n == 0:
                                 # create client instance
-                                instances.append(_create_client('{}-c{:03d}'.format(name, instances_n),
+                                instances.append(_create_client(f'{name}-c{instances_n:03d}',
                                                                 filter_file, filter_file_type, block_len))
 
                             # add convolver instance
@@ -248,12 +264,18 @@ def _run(logger, name, mode, filter_files, filter_file_type, block_lengths, repe
                                                                            load_mean),
                                                      ignore_index=True)
 
-                            logger.log(lvl, 'dropouts at n={} with mean={} {} at load={:.0f}.'.format(
-                                instances_n, dropouts_mean, dropouts_n, load_mean))
+                            logger.log(lvl, f'dropouts at n={instances_n} with mean={dropouts_mean} {dropouts_n} '
+                                            f'at load={load_mean:.0f}.')
 
                         # log instance number limit
-                        logger.warning('was not able to run n={} with block={} of filter={} at fs={}.'.format(
-                            instances_n, block_len, filter_len, filter_fs))
+                        logger.warning(f'[{time.strftime("%Hh%Mm%Ss", time.gmtime(time.time() - start_time))}]  '
+                                       f'filter {len(filter_files_backup) - len(filter_files) + 1}'
+                                       f'/{len(filter_files_backup)}, '
+                                       f'block length {len(block_lengths_backup) - len(block_lengths) + 1}'
+                                       f'/{len(block_lengths_backup)}, '
+                                       f'repetition {r + 1}/{repetitions}\n'
+                                       f' --> was not able to run n={instances_n} with block={block_len} of '
+                                       f'filter={filter_len} at fs={filter_fs}.')
 
                         # terminate all started instances
                         logger.info('terminating created instances ...')
@@ -272,13 +294,23 @@ def _run(logger, name, mode, filter_files, filter_file_type, block_lengths, repe
 
         except jack.JackError:
             # noinspection PyUnboundLocalVariable
-            logger.error('JACK error with block={} of filter={} at fs={}.'.format(block_len, filter_len, filter_fs))
+            logger.error(f'JACK error with block={block_len} of filter={filter_len} at fs={filter_fs}.')
             logger.info('benchmark for these settings will be repeated and then continued.')
+        except ValueError as e:
+            # end benchmarking
+            interrupted = True
+            logger.error(f'{e}\n --> set JACK server sampling frequency identical to audio file!'
+                         if 'resampling' in e.args[0] else e)
+        except KeyboardInterrupt:
+            # end benchmarking
+            interrupted = True
+            logger.error('interrupted by user.')
+        finally:
             logger.info('terminating created instances ...')
             _terminate_all_clients(instances)
             print(tools.SEPARATOR)
 
-    return results
+    return results, interrupted
 
 
 def _create_client(name, filter_file, filter_type, block_len):
@@ -301,7 +333,9 @@ def _create_client(name, filter_file, filter_type, block_len):
     JackRendererBenchmark
         generated instance
     """
-    r = JackRendererBenchmark(name, block_len, filter_file, filter_type, is_prevent_resampling=True,
+    r = JackRendererBenchmark(name=name, block_length=block_len, filter_name=filter_file, filter_type=filter_type,
+                              is_single_precision=config.IS_SINGLE_PRECISION, ir_trunc_db=None,
+                              is_prevent_resampling=True, is_detect_clipping=False, is_measure_levels=False,
                               is_main_client=False, is_disable_file_logger=True, is_disable_logger=True)
 
     # connect to system recording and playback ports
@@ -404,10 +438,15 @@ def _terminate_all_clients(instances):
         all currently instantiated JACK clients
     """
     time.sleep(.5)  # needed to not crash when terminating clients
-    for i in instances:
+    # noinspection PyTypeChecker
+    while len(instances):
+        # noinspection PyUnresolvedReferences
+        i = instances[0]
         i.terminate()
         i.join(2)  # needed to not crash when terminating clients  # needed to not crash when terminating clients
         i.close()
+        # noinspection PyUnresolvedReferences
+        instances.remove(i)
 
 
 def _table_highlight_limit(entry):
@@ -448,7 +487,7 @@ def _get_table_by_query_equal(table, column_name, value):
     pandas.DataFrame
         data set with applied query condition
     """
-    return table.copy().query('{}=={}'.format(column_name, value))
+    return table.copy().query(f'{column_name}=={value}')
 
 
 def _generate_plot(results_limits, title=None):
@@ -494,7 +533,7 @@ def _generate_plot(results_limits, title=None):
     figure = plt.figure()
     for _, group in results_grouped:
         group_index += 1
-        label = '{} samples @ {:.1f} kHz'.format(group.filter_len.iloc[0], group.filter_fs.iloc[0] / 1000)
+        label = f'{group.filter_len.iloc[0]} samples @ {group.filter_fs.iloc[0] / 1000:.1f} kHz'
 
         # collect median values for each 'block_len'
         x = []
@@ -509,7 +548,7 @@ def _generate_plot(results_limits, title=None):
 
         # plot median values as text
         for x, y in zip(x, y):
-            plt.annotate('{:.0f}'.format(y), (x, _PLOT_Y_MIN),
+            plt.annotate(f'{y:.0f}', (x, _PLOT_Y_MIN),
                          xytext=(0, _GROUP_TEXT_SPACING_Y * (group_index - len(results_grouped))),
                          textcoords='offset points', ha='center', va='top', annotation_clip=False, color=color)
 

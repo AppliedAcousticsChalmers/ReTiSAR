@@ -2,6 +2,7 @@ import inspect
 import os
 
 import matplotlib.pyplot as plt
+import natsort
 import numpy as np
 import pandas as pd
 from scipy.optimize import fmin
@@ -38,7 +39,7 @@ from . import *
 #     _SIGNAL_OUT_FILE = tools.get_absolute_from_relative_package_path(_SIGNAL_OUT_FILE)
 #
 #     # prepare logger
-#     name = __package__ + os.path.basename(__file__).strip('.py')
+#     name = f'{__package__}{os.path.basename(__file__).strip(".py")}'
 #     logger = process_logger.setup(name)
 #
 #     # read recorded files
@@ -86,22 +87,18 @@ def main():
     _CMP_FILES_DIR = 'res/validation'
     """Path of directory being scanned for comparative impulse response sets."""
     _TRUNC_VOLUME_DB = -100
+    # _TRUNC_VOLUME_DB = 0
     """Volume in dB the shorter impulse response set will be truncated to before comparison after it reached the last
     sample over the specified level."""
-    _REF_TRUNC_SAMPLES = 512
-    """Number of samples of end of the reference impulse response set that will be ignored when analysing the 
-    truncation length by `_TRUNC_VOLUME_DB`.
-    
-    This is used since the reference implementation of `sound_field_analysis-py` generates impulse responses which have
-    a small rise at the very end of the response."""
     _IS_REF_NORM_INDIVIDUALLY = True
+    # _IS_REF_NORM_INDIVIDUALLY = False
     """If reference IR channels should be normalized individually for better comparability of RMS error."""
     # ----------------------------------------
     # END:     DEFINE VALIDATION CONFIGURATION
     # ----------------------------------------
 
     # prepare logger
-    name = __package__ + os.path.basename(__file__).strip('.py')
+    name = f'{__package__}{os.path.basename(__file__).strip(".py")}'
     logger = process_logger.setup(name)
 
     # prepare empty data table
@@ -110,61 +107,61 @@ def main():
     # check provided comparative IRs azimuth offset
     cmp_azimuth_offset = config.SOURCE_POSITIONS
     if len(cmp_azimuth_offset) > 1:
-        logger.error('given comparative IRs azimuth offset "{}" does not contain one position tuple.'.format(
-            cmp_azimuth_offset))
+        logger.error(
+            f'given comparative IRs azimuth offset "{cmp_azimuth_offset}" does not contain one position tuple.')
         return logger
     elif len(cmp_azimuth_offset) == 1 and cmp_azimuth_offset[0][0]:
         cmp_azimuth_offset = cmp_azimuth_offset[0][0]  # only keep azimuth of first tuple
-        logger.warning('[INFO]  considering azimuth offset {} degree with all comparative IRs ...'.format(
-            cmp_azimuth_offset))
+        logger.warning(f'[INFO]  considering azimuth offset {cmp_azimuth_offset} degree with all comparative IRs ...')
     else:
         cmp_azimuth_offset = 0
 
     # check provided reference IR
     ref_file = tools.get_absolute_from_relative_package_path(config.VALIDATION_MODE)
     if not os.path.isfile(ref_file):
-        logger.error('given reference IR "{}" not found.'.format(ref_file))
+        logger.error(f'given reference IR "{ref_file}" not found.')
         return logger
 
     # load reference IR set and normalize
     ref_set = FilterSet.create_instance_by_type(ref_file, FilterSet.Type.HRIR_SSR)
-    if _IS_REF_NORM_INDIVIDUALLY:
-        ref_set.load(block_length=None, logger=logger, is_prevent_resampling=True, is_normalize_individually=True)
-    else:
-        ref_set.load(block_length=None, logger=logger, is_prevent_resampling=True, is_normalize=True)
+    ref_set.load(block_length=None, is_single_precision=False, logger=logger, is_prevent_resampling=True,
+                 is_normalize=True, is_normalize_individually=_IS_REF_NORM_INDIVIDUALLY)
     fs = ref_set._fs
 
     # load and analyze all comparative IR sets
     _CMP_FILES_DIR = tools.get_absolute_from_relative_package_path(_CMP_FILES_DIR)
-    for cmp_file, cmp_azimuth in zip(*_parse_files_and_azimuth(_CMP_FILES_DIR, 'Impulse', '.wav', cmp_azimuth_offset)):
+    try:
+        cmp_files = _parse_files_and_azimuth(path=_CMP_FILES_DIR, file_name_start='rec', file_name_end='.wav',
+                                             azimuth_offset_deg=cmp_azimuth_offset, is_reversed=False)
+    except ValueError as e:
+        logger.error(e)
+        return logger
+    if not len(cmp_files[0]):
+        logger.error(f'given comparative IR sets in "{os.path.relpath(_CMP_FILES_DIR)}" not found.')
+        return logger
+
+    for cmp_file, cmp_azimuth in zip(*cmp_files):
         print(tools.SEPARATOR)
 
         # load current comparative IR set
         cmp_file = tools.get_absolute_from_relative_package_path(cmp_file)
         cmp_set = FilterSet.create_instance_by_type(cmp_file, FilterSet.Type.HRIR_SSR)
-        cmp_set.load(block_length=None, logger=logger, is_prevent_resampling=True, is_normalize=False, check_fs=fs)
+        cmp_set.load(block_length=None, is_single_precision='SP' in cmp_file.upper(), logger=logger,
+                     is_prevent_resampling=True, is_normalize=False, check_fs=fs, is_prevent_logging=True)
 
         # only keep IRs
-        logger.info('selecting IRs from head orientation azimuth {:.1f} deg, elevation {:.1f} deg.'.format(
-            cmp_azimuth, 0))
+        logger.info(f'selecting IRs from head orientation azimuth {cmp_azimuth:.1f} deg, elevation {0:.1f} deg.')
         ref_ir = ref_set.get_filter_td(azim_deg=cmp_azimuth, elev_deg=0)
         cmp_ir = cmp_set.get_filter_td()
         if ref_ir.shape[0] != cmp_ir.shape[0]:
-            logger.error('given IRs have different number of channels ({} and {}).'.format(
-                ref_ir.shape[0], cmp_ir.shape[0]))
+            logger.error(f'given IRs have different number of channels ({ref_ir.shape[0]} and {cmp_ir.shape[0]}).')
             return logger
 
         # truncate shorter filter
         if ref_ir.shape[-1] < cmp_ir.shape[-1]:
-            if _REF_TRUNC_SAMPLES:
-                # ignore last samples of reference IR
-                ref_ir = ref_ir[:, :-_REF_TRUNC_SAMPLES]
-                logger.info('ignored "{}" last {}.'.format(
-                    os.path.relpath(ref_file), tools.get_pretty_delay_str(_REF_TRUNC_SAMPLES, fs)))
-
-            ref_ir = _trunc_ir_out(ref_file, ref_ir, fs, _TRUNC_VOLUME_DB, logger=logger)
+            ref_ir = _trunc_ir(ir=ref_ir, cutoff_db=_TRUNC_VOLUME_DB, fs=fs, file_name=ref_file, logger=logger)
         else:
-            cmp_ir = _trunc_ir_out(cmp_file, cmp_ir, fs, _TRUNC_VOLUME_DB, logger=logger)
+            cmp_ir = _trunc_ir(ir=cmp_ir, cutoff_db=_TRUNC_VOLUME_DB, fs=fs, file_name=cmp_file, logger=logger)
 
         # get time alignment, check for being identical for every channel
         cmp_corr_n = np.zeros(ref_ir.shape[0], dtype=np.int32)
@@ -179,18 +176,16 @@ def main():
             _ARIR_RADIUS = 0.08749999850988388  # in meters, from 'res/ARIR/CR1_VSA_110RS_L_struct'
             delay = ((cmp_corr_n[0] - cmp_corr_n[1]) / 2) / fs  # in seconds
             angle = delay * tools.SPEED_OF_SOUND / _ARIR_RADIUS  # before inverse sine
-            log_str = 'time alignment is not identical for all channels ({}).\n' \
-                      ' --> i.e. as per ear offset resulting from horizontal head rotation ({}).\n' \
-                      ' --> i.e. with {:.1f} cm head / array radius'. \
-                format(tools.get_pretty_delay_str(cmp_corr_n, fs),
-                       tools.get_pretty_delay_str((cmp_corr_n[0] - cmp_corr_n[1]) / 2, fs),
-                       _ARIR_RADIUS * 100)
+            log_str = f'time alignment is not identical for all channels ' \
+                      f'({tools.get_pretty_delay_str(cmp_corr_n, fs)}).\n' \
+                      f' --> i.e. as per ear offset resulting from horizontal head rotation ' \
+                      f'({tools.get_pretty_delay_str((cmp_corr_n[0] - cmp_corr_n[1]) / 2, fs)}).\n' \
+                      f' --> i.e. with {_ARIR_RADIUS * 100:.1f} cm head / array radius'
             if np.abs(angle) > 1:
-                logger.error(log_str + ' such a large offset could not be explained by an azimuth rotation.')
+                logger.error(f'{log_str} such a large offset could not be explained by an azimuth rotation.')
             else:
-                logger.error(
-                    log_str + ' might be explained by an azimuth rotation offset of approx. {:.1f} deg.'.format(
-                        np.rad2deg(np.arcsin(angle))))
+                logger.error(f'{log_str} might be explained by an azimuth rotation offset of approx. '
+                             f'{np.rad2deg(np.arcsin(angle)):.1f} deg.')
 
             # # generate plot to visualize different time alignment
             # ir_plot = np.vstack(
@@ -201,14 +196,16 @@ def main():
             # for ch in range(len(cmp_corr_n)):
             #     ir_plot = np.vstack([ref_ir[ch, :256], cmp_ir[ch, cmp_corr_n[ch]:cmp_corr_n[ch] + 256]])
             #     tools.export_plot(tools.plot_ir_and_tf(ir_plot, fs, is_share_y=False),
-            #                       'corr_mismatch_ch{}'.format(ch), logger=logger)
+            #                       f'corr_mismatch_ch{ch}', logger=logger)
 
             return logger
 
         # align and truncate to reference IR
         cmp_ir = cmp_ir[:, cmp_corr_n:cmp_corr_n + ref_ir.shape[-1]].copy()
-        logger.info('time aligned "{}" to {}.'.format(
-            os.path.relpath(cmp_file), tools.get_pretty_delay_str(cmp_corr_n, fs)))
+        logger.info(f'time aligned "{os.path.relpath(cmp_file)}" to {tools.get_pretty_delay_str(cmp_corr_n, fs)}.')
+
+        def _calculate_rms_error(scale, ir_scaled, ir):
+            return tools.calculate_rms(ir - (scale * ir_scaled))
 
         # stack channels for equal level alignment
         ref_ir_stack = np.hstack([ch for ch in ref_ir])
@@ -217,38 +214,44 @@ def main():
         cmp_scale = fmin(func=_calculate_rms_error, x0=1, args=(cmp_ir_stack, ref_ir_stack),
                          disp=False, full_output=True)
         cmp_scale_db = 20 * np.log10(cmp_scale[0][0])
-        logger.info('level aligned "{}" by {:+.2f} dB.\n'
-                    ' --> current function value: {:f}, iterations: {:d}, function evaluations: {:d}.'.
-                    format(os.path.relpath(cmp_file), cmp_scale_db, cmp_scale[1], cmp_scale[2], cmp_scale[3]))
+        logger.info(f'level aligned "{os.path.relpath(cmp_file)}" by {cmp_scale_db:+.1f} dB.\n'
+                    f' --> current function value: {cmp_scale[1]:f}, iterations: {cmp_scale[2]:d}, '
+                    f'function evaluations: {cmp_scale[3]:d}.')
         # only keep RMS fit result
         cmp_scale = cmp_scale[0]
         cmp_ir *= cmp_scale
 
         # calculate difference
         diff_ir = ref_ir - cmp_ir
-        diff_rms = 20 * np.log10(tools.calculate_rms(diff_ir))
-        diff_ir[np.nonzero(diff_ir == 0)] = np.nan  # prevent zeros
-        diff_max = np.nanmax(20 * np.log10(np.abs(diff_ir)), axis=-1)  # ignore NaNs
-        logger.info('calculated RMS difference is {} dBFS.'.format(
-            np.array2string(diff_rms, precision=2)))
+        diff_rms = tools.calculate_rms(diff_ir, is_level=True)
+        logger.info(f'calculated RMS difference is {np.array2string(diff_rms, precision=1, floatmode="fixed")} dBFS.')
+        diff_max = tools.calculate_peak(diff_ir, is_level=True)
+        logger.info(f'calculated MAX difference is {np.array2string(diff_max, precision=2, floatmode="fixed")} dBFS.')
 
         # plot difference (cut file extension as name)
         name = os.path.splitext(os.path.relpath(cmp_file))[0]
-        tools.export_plot(_plot_result(ref_ir, cmp_ir), name, logger=logger, file_type='png+pdf')
+        tools.export_plot(_plot_result(ref_ir, cmp_ir), name=name, logger=logger, file_type='pdf')
+        # # plot weighted difference
+        # tools.export_plot(tools.plot_ir_and_tf(np.abs(diff_ir / ref_ir), fs=fs, is_etc=True),
+        #                   name=name, logger=logger, file_type='png')
 
         # save results
         results = results.append(_generate_table_entry(os.path.relpath(cmp_file), cmp_azimuth, cmp_corr_n,
-                                                       np.array2string(cmp_scale_db, precision=2),
-                                                       np.array2string(diff_rms, precision=2),
-                                                       np.array2string(diff_max, precision=2)), ignore_index=True)
+                                                       np.array2string(cmp_scale_db, precision=1, floatmode='fixed'),
+                                                       np.array2string(diff_rms, precision=1, floatmode='fixed'),
+                                                       np.array2string(diff_max, precision=2, floatmode='fixed')),
+                                 ignore_index=True)
 
     print(tools.SEPARATOR)
     # generate and save HTML file
     # noinspection PyUnboundLocalVariable
-    html_title = '"{}" reference, {:d} Hz, {:d} samples (truncated at {:.1f} dB)'.\
-        format(os.path.relpath(ref_file), fs, ref_ir.shape[-1], _TRUNC_VOLUME_DB)
-    html_file = os.path.join(_CMP_FILES_DIR, os.path.splitext(os.path.basename(ref_file))[0] + os.path.extsep + 'html')
-    logger.info('writing results to "{}" ...'.format(os.path.relpath(html_file)))
+    html_title = f'"{os.path.relpath(ref_file)}" reference, {fs:d} Hz, {ref_ir.shape[-1]:d} samples'
+    if _TRUNC_VOLUME_DB:
+        html_title = f'{html_title} (truncated at {_TRUNC_VOLUME_DB:.1f} dB)'
+    else:
+        html_title = f'{html_title} (not truncated)'
+    html_file = os.path.join(_CMP_FILES_DIR, f'{os.path.splitext(os.path.basename(ref_file))[0]}{os.path.extsep}html')
+    logger.info(f'writing results to "{os.path.relpath(html_file)}" ...')
     tools.export_html(html_file, results.style.render(), title=html_title)
 
     # end application
@@ -256,39 +259,88 @@ def main():
     return logger
 
 
-def _parse_files_and_azimuth(path, starting, ending, azimuth_offset=0):
+def _parse_files_and_azimuth(path, file_name_start, file_name_end, azimuth_offset_deg=0, is_reversed=False):
+    """
+    Gather all files according to provided name scheme contained in provided path. Out of the individual filenames an
+    azimuth specifying the recorded head rotation is parsed.
+
+    Parameters
+    ----------
+    path : str
+        path to directory that will be analysed
+    file_name_start : str
+        begin of file names that will be analysed
+    file_name_end : str
+        end of file names that will be analysed
+    azimuth_offset_deg : float, optional
+        azimuth offset in degrees that is added to the parsed azimuth from the file name
+    is_reversed : bool, optional
+        if matched file names should be inversely sorted
+
+    Returns
+    -------
+    tuple of list of str and list of float
+        list of all matched file names and the according azimuths including the provided offset
+    """
     files = []
-    azimuths = []
+    azimuths_deg = []
     for r, _, f in os.walk(path):
-        for file in f:
-            if file.startswith(starting) and file.endswith(ending):
+        for file in natsort.natsorted(f, reverse=is_reversed):
+            if file.startswith(file_name_start) and file.endswith(file_name_end):
                 files.append(os.path.join(r, file))
-                azimuths.append(float(file.strip(ending).split('_')[-1]) + azimuth_offset)
-    # return files[:1], azimuths[:1]
-    return files, azimuths
+                # parse azimuth out of comparative IR
+                az = [s.strip('deg') for s in file.split('_') if 'deg' in s]
+                if not len(az) or len(az) > 1:
+                    raise ValueError(f'azimuth value in comparative IR set name "{file}" not found.')
+                azimuths_deg.append(float(az[0]) + azimuth_offset_deg)
+    # return files[:1], azimuths_deg[:1]
+    return files, azimuths_deg
 
 
-def _trunc_ir_out(file_name, ir, fs, volume, logger):
+def _trunc_ir(ir, cutoff_db, fs, file_name, logger):
+    """
+    Truncate impulse response set at the given cutoff level. The new length is calculated by all channels having
+    decayed to the provided level relative under global peak.
+
+    Parameters
+    ----------
+    ir : numpy.ndarray
+        loaded impulse response set of size [number of channels; number of samples]
+    cutoff_db : float
+        truncation level in dB relative under global peak
+    fs : int
+        loaded impulse response set sampling frequency
+    file_name : str
+        file name for better logging behaviour
+    logger : logging.Logger
+        instance to provide identical logging behaviour as the parent process
+
+    Returns
+    -------
+    numpy.ndarray
+        truncated impulse response set of size [number of channels; number of samples]
+    """
     # get level under peak as amplitude
-    amp_trunc = np.abs(ir).max() * 10 ** (volume / 20)
+    amp_trunc = np.abs(ir).max() * 10 ** (cutoff_db / 20)
 
+    # get first sample over cutout amplitude from the front
+    n_trunc = np.argmax(np.abs(ir) > amp_trunc) - 1
     # get first sample over cutout amplitude from the back
     n_trunc_rev = np.argmax(np.flip(np.abs(ir), axis=-1) > amp_trunc) - 1
 
     # truncate IR if index found
     if n_trunc_rev > 0:
         ir = ir[:, :-n_trunc_rev]
-        logger.info('truncated "{}" to {} dB under peak at {}.'.format(
-            os.path.relpath(file_name), -volume, tools.get_pretty_delay_str(ir.shape[-1], fs)))
-    else:
-        logger.info('kept "{}" at {}.'.format(
-            os.path.relpath(file_name), tools.get_pretty_delay_str(ir.shape[-1], fs)))
+        logger.info(f'truncated back of "{os.path.relpath(file_name)}" to {-cutoff_db} dB under peak at '
+                    f'{tools.get_pretty_delay_str(ir.shape[-1], fs)}.')
+    if n_trunc > 0:
+        ir = ir[:, n_trunc:]
+        logger.info(f'truncated front of "{os.path.relpath(file_name)}" to {-cutoff_db} dB under peak at '
+                    f'{tools.get_pretty_delay_str(n_trunc, fs)}.')
+    elif n_trunc_rev <= 0:
+        logger.info(f'kept "{os.path.relpath(file_name)}" at {tools.get_pretty_delay_str(ir.shape[-1], fs)}.')
 
     return ir
-
-
-def _calculate_rms_error(scale, ir_scaled, ir):
-    return tools.calculate_rms(ir - (scale * ir_scaled))
 
 
 def _plot_result(ref_ir, cmp_ir, compare_frame_samples=128):
@@ -299,7 +351,7 @@ def _plot_result(ref_ir, cmp_ir, compare_frame_samples=128):
         time domain (real) reference data
     cmp_ir : numpy.ndarray
         time domain (real) comparative data
-    compare_frame_samples : int
+    compare_frame_samples : int, optional
         number of samples that should be plotted IR around peak (reference is 0th order)
 
     Returns
@@ -307,54 +359,104 @@ def _plot_result(ref_ir, cmp_ir, compare_frame_samples=128):
     matplotlib.figure.Figure
         generated plot
     """
+
+    def _remove_inner_tick_labels(ax, row, col):
+        xlabels = ax[row, col].get_xticklabels()
+        if row < diff_ir.shape[0] - 1:
+            xlabels = []  # remove all elements
+        else:
+            # if col < _N_COLS - 1:
+            #     xlabels[-1] = ''  # remove highest element
+            if col > 0:
+                xlabels[0] = ''  # remove lowest element
+        ax[row, col].set_xticklabels(xlabels)
+
+        ylabels = ax[row, col].get_yticklabels()
+        if 0 < col < _N_COLS - 1:
+            ylabels = []  # remove all elements
+        else:
+            if row < diff_ir.shape[0] - 1:
+                ylabels[0] = ''  # remove lowest element
+            if row > 0:
+                ylabels[-1] = ''  # remove highest element
+        ax[row, col].set_yticklabels(ylabels)
+
+    _N_COLS = 2
+    _LIM_PEAK_Y = [-1, 1]
+    _LIM_ETC_Y = [-140, 0]
+    _STEP_ETC_Y = 20
+    _STEP_TD_X = 4096
+
     # calculate difference
     diff_ir = ref_ir - cmp_ir
+    x = np.arange(0, diff_ir.shape[-1])
+    ref_etc = ref_ir.copy()
 
     # prevent zeros
     diff_ir[np.nonzero(diff_ir == 0)] = np.nan
+    ref_etc[np.nonzero(ref_etc == 0)] = np.nan
     # transform td data into logarithmic scale
     diff_ir = 20 * np.log10(np.abs(diff_ir))
+    ref_etc = 20 * np.log10(np.abs(ref_etc))
 
-    fig, axes = plt.subplots(nrows=diff_ir.shape[0], ncols=2, squeeze=False,
-                             sharex='col', sharey='col')
+    fig, axes = plt.subplots(nrows=diff_ir.shape[0], ncols=_N_COLS, squeeze=False)
     for ch in range(diff_ir.shape[0]):
         # select color and plot string
-        color = 'C{:d}'.format(ch)
+        color = f'C{ch:d}'
         legend_str = [r'$E_{%s,%s}$' % ('R' if ch else 'L', s) for s in ['ref', 'cmp']]
 
-        # plot difference
-        axes[ch, 0].plot(np.arange(0, len(diff_ir[ch])), diff_ir[ch], linewidth=.5, color=color)
-        axes[ch, 0].set_xlim(-1, len(diff_ir[ch]) + 1)
+        # plot difference comparison
+        axes[ch, 0].plot(x, ref_etc[ch], linewidth=.5, alpha=.1, color='black')
+        axes[ch, 0].plot(x, diff_ir[ch], linewidth=.5, color=color)
+
         if ch == diff_ir.shape[0] - 1:
             axes[ch, 0].set_xlabel('Samples')
-        axes[ch, 0].set_ylabel(r'$20*log| $%s$ \,-\, $%s$ |$ in dBFS' % (legend_str[0], legend_str[1]))
-        axes[ch, 0].tick_params(direction='in', top=True, bottom=True, left=True, right=True)
+        axes[ch, 0].set_ylabel(rf'ETC $|${legend_str[0]}$ \,-\, ${legend_str[1]}$|$  / dBFS')
+        axes[ch, 0].tick_params(which='both', direction='in', top=True, bottom=True, left=True, right=True)
+        axes[ch, 0].set_xticks(np.arange(0, x.max() + 1, _STEP_TD_X), minor=False)
+        axes[ch, 0].grid(True, which='major', axis='x', alpha=.25)
+        axes[ch, 0].set_yticks(np.arange(_LIM_ETC_Y[0], _LIM_ETC_Y[1] + _STEP_ETC_Y / 2, _STEP_ETC_Y / 2), minor=True)
+        axes[ch, 0].set_yticks(np.arange(_LIM_ETC_Y[0], _LIM_ETC_Y[1] + _STEP_ETC_Y, _STEP_ETC_Y), minor=False)
+        axes[ch, 0].grid(True, which='both', axis='y', alpha=.1)
+        axes[ch, 0].set_xlim(0, x.max())
+        axes[ch, 0].set_ylim(*_LIM_ETC_Y)
+        # axes[ch, 0].set_zorder(-1)
 
         # get plot range from peak position
-        peak_n = np.argmax(np.abs(ref_ir), axis=-1)
-        peak_range = peak_n.mean()
-        peak_range = np.array([peak_range, peak_range + compare_frame_samples])
-        peak_range = np.round(peak_range - min([compare_frame_samples / 2, peak_n.mean()]))
-        if (peak_n < peak_range[0]).any() or (peak_n > peak_range[1]).any():
-            raise ValueError('IR peaks {} outside of given comparison plot frame {}.'.format(
-                np.array2string(peak_n),  np.array2string(peak_range)))
+        peak_n = np.argmax(np.max(np.abs(ref_ir), axis=-0))
+        peak_range = np.array([peak_n, peak_n + compare_frame_samples])
+        peak_range = np.round(peak_range - min([compare_frame_samples / 2, peak_n]))
 
         # plot comparison around peak
-        axes[ch, 1].plot(np.arange(0, len(ref_ir[ch])), ref_ir[ch], linewidth=1.5, color='black')
-        axes[ch, 1].plot(np.arange(0, len(cmp_ir[ch])), cmp_ir[ch], linewidth=1.5, linestyle='--', color=color)
-        axes[ch, 1].set_xlim(*peak_range)
+        axes[ch, 1].plot(x, ref_ir[ch], linewidth=1, color='black')
+        axes[ch, 1].plot(x, cmp_ir[ch], linewidth=1.5, alpha=.75, linestyle='--', color=color)
         if ch == diff_ir.shape[0] - 1:
             axes[ch, 1].set_xlabel('Samples')
         axes[ch, 1].set_ylabel('Amplitude')
-        axes[ch, 1].tick_params(direction='in', top=True, bottom=True, left=True, right=True)
+        axes[ch, 1].tick_params(which='both', direction='in', top=True, bottom=True, left=True, right=True)
         axes[ch, 1].tick_params(axis='y', labelright=True, labelleft=False)
+        axes[ch, 1].set_xticks(np.arange(peak_n - (compare_frame_samples / 2), peak_n + (compare_frame_samples / 2) +
+                                         1, compare_frame_samples / 4), minor=False)
+        axes[ch, 1].set_xticks(np.arange(peak_range[0], peak_range[1], 1), minor=True)
+        axes[ch, 1].set_yticks(np.arange(_LIM_PEAK_Y[0], _LIM_PEAK_Y[1] + .5, .5), minor=False)
+        axes[ch, 1].grid(True, which='major', axis='y', alpha=.1)
         axes[ch, 1].yaxis.set_label_position('right')
+        axes[ch, 1].set_xlim(*peak_range)
+        axes[ch, 1].set_ylim(*_LIM_PEAK_Y)
+        # axes[ch, 1].set_zorder(-1)
 
         # plot legend
         axes[ch, 1].legend(legend_str, loc='lower right', ncol=2, fontsize='x-small')
 
     # remove layout margins
     fig.tight_layout(pad=0)
+    # adjust between subplot distances
+    plt.subplots_adjust(wspace=0, hspace=0)
+
+    # adjust axes tick labels
+    for ch in range(diff_ir.shape[0]):
+        _remove_inner_tick_labels(axes, ch, 0)
+        _remove_inner_tick_labels(axes, ch, 1)
 
     return fig
 

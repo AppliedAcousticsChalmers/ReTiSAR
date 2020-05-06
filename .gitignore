@@ -4,8 +4,12 @@ __pycache__/
 *$py.class
 
 # logging files
-/log/
-/ReTiSAR/dev/
+log/
+res/benchmarks/*/*.html
+*.log
+*.png
+*.bin
+dev/
 
 # OSX specific settings
 .DS_Store

@@ -34,17 +34,23 @@ class JackGenerator(JackClient):
         generator_type : str or Generator.Type
             type of audio signal generator
         """
-        super(JackGenerator, self).__init__(name, block_length=block_length, *args, **kwargs)
+        super().__init__(name, block_length=block_length, *args, **kwargs)
+        if self._is_single_precision:
+            self._logger.info(f'single precision ignored since performance of noise generation is better in double '
+                              f'precision.')
+            self._is_single_precision = False
 
-        self._generator = Generator.create_instance_by_type(generator_type, output_count)
+        dtype = np.float32 if self._is_single_precision else np.float64
+        self._generator = Generator.create_instance_by_type(generator_type=generator_type, output_count=output_count,
+                                                            dtype=dtype)
 
         if config.IS_DEBUG_MODE:
             self._debug_generate_block()
 
         # plot
         gen = self._generator.generate_block(self._client.blocksize)
-        name = '{}_{:d}_{:d}ch_{}'.format(self._logger.name, block_length, output_count, generator_type)
-        tools.export_plot(tools.plot_ir_and_tf(gen[:8], self._client.samplerate, is_label_y=True, is_share_y=True),
+        name = f'{self._logger.name}_{generator_type}_{block_length}_{output_count}ch'
+        tools.export_plot(tools.plot_ir_and_tf(gen[:8], self._client.samplerate, set_fd_db_y=50, step_db_y=10),
                           name, logger=self._logger)
 
     def start(self, client_connect_target_ports=True):
@@ -57,7 +63,7 @@ class JackGenerator(JackClient):
         client_connect_target_ports : jack.Ports or bool, optional
             see `_client_register_and_connect_outputs()` for documentation
         """
-        super(JackGenerator, self).start()
+        super().start()
 
         self._logger.debug('activating JACK client ...')
         self._client.activate()
@@ -78,7 +84,7 @@ class JackGenerator(JackClient):
             self._client_register_outputs(self._generator._output_count)
 
         # noinspection PyProtectedMember
-        super(JackGenerator, self)._client_register_and_connect_outputs(target_ports)
+        super()._client_register_and_connect_outputs(target_ports)
 
     def _debug_generate_block(self):
         """
@@ -138,7 +144,7 @@ class Generator(object):
         IMPULSE_DIRAC = auto()
 
     @staticmethod
-    def create_instance_by_type(generator_type, output_count):
+    def create_instance_by_type(generator_type, output_count, dtype):
         """
         Parameters
         ----------
@@ -146,6 +152,8 @@ class Generator(object):
             type of audio signal generator
         output_count : int
             number of channels to generate
+        dtype : str or numpy.dtype or type
+            data type to generate
 
         Returns
         -------
@@ -159,25 +167,28 @@ class Generator(object):
         """
         _type = tools.transform_into_type(generator_type, Generator.Type)
         if _type is Generator.Type.IMPULSE_DIRAC:
-            return GeneratorImpulse(output_count)
+            return GeneratorImpulse(output_count=output_count, dtype=dtype)
         elif _type is Generator.Type.NOISE_WHITE:
-            return GeneratorNoise(output_count)
+            return GeneratorNoise(output_count=output_count, dtype=dtype)
         elif _type is Generator.Type.NOISE_IIR_PINK:
-            return GeneratorNoiseIir(output_count)
+            return GeneratorNoiseIir(output_count=output_count, dtype=dtype)
         elif _type in [Generator.Type.NOISE_AR_PURPLE, Generator.Type.NOISE_AR_BLUE,
                        Generator.Type.NOISE_AR_PINK, Generator.Type.NOISE_AR_BROWN]:
-            return GeneratorNoiseAr(output_count, _type)
+            return GeneratorNoiseAr(output_count=output_count, dtype=dtype, power=_type)
         else:
-            raise ValueError('unknown generator type "{}", see `JackGenerator.Type` for reference!'.format(_type))
+            raise ValueError(f'unknown generator type "{_type}", see `JackGenerator.Type` for reference!')
 
-    def __init__(self, output_count):
+    def __init__(self, output_count, dtype):
         """
         Parameters
         ----------
         output_count : int
             number of channels to generate
+        dtype : str or numpy.dtype or type
+            data type to generate
         """
         self._output_count = output_count
+        self._dtype = dtype
 
     def generate_block(self, block_length, is_transposed=None):
         """
@@ -226,7 +237,7 @@ class GeneratorImpulse(Generator):
         if is_transposed:
             shape = shape[::-1]  # invert
 
-        impulse = np.zeros(shape)
+        impulse = np.zeros(shape, dtype=self._dtype)
         if is_transposed:
             impulse[0] = 1
         else:
@@ -262,7 +273,7 @@ class GeneratorNoise(Generator):
         if is_transposed:
             shape = shape[::-1]  # invert
 
-        return tools.generate_noise(shape)
+        return tools.generate_noise(shape, dtype=self._dtype)
 
 
 class GeneratorNoiseAr(GeneratorNoise):
@@ -288,7 +299,7 @@ class GeneratorNoiseAr(GeneratorNoise):
         generation,” Proceedings of the IEEE, vol. 83, no. 5, pp. 802–827, May 1995. :doi:`10.1109/5.381848`
     """
 
-    def __init__(self, output_count, power, order=8):
+    def __init__(self, output_count, dtype, power, order=8):
         """
         Parameters
         ----------
@@ -299,15 +310,15 @@ class GeneratorNoiseAr(GeneratorNoise):
         order : int, optional
             order indicating the mimicked filter order for auto-regressive method
         """
-        super(GeneratorNoiseAr, self).__init__(output_count)
+        super().__init__(output_count, dtype)
 
-        coefficients = np.zeros(order)
+        coefficients = np.zeros(order, dtype=dtype)
         coefficients[0] = 1
         for k in range(1, order):
             coefficients[k] = (k - 1 - power / 2) * coefficients[k - 1] / k
 
-        self._coefficients = coefficients[1:]
-        self._buffer = np.zeros((self._coefficients.shape[0], self._output_count))
+        self._coefficients = coefficients[1:].copy()
+        self._buffer = np.zeros((self._coefficients.shape[0], self._output_count), dtype=self._coefficients.dtype)
 
     def generate_block(self, block_length, is_transposed=False):
         """
@@ -327,7 +338,7 @@ class GeneratorNoiseAr(GeneratorNoise):
             generated block of audio data
         """
         # generate white noise
-        normal = super(GeneratorNoiseAr, self).generate_block(block_length, is_transposed=True)
+        normal = super().generate_block(block_length, is_transposed=True)
 
         # run auto-regressive filtering
         for n in normal:
@@ -353,7 +364,7 @@ class GeneratorNoiseIir(GeneratorNoise):
     Attributes
     ----------
     _GAIN_FACTOR : float
-        linear multiplicator to reach a comparable output range like `GeneratorNoise`
+        linear multiplicand to reach a comparable output range like `GeneratorNoise`
     _B_PINK : numpy.ndarray
         IIR filter numerator coefficients to achieve pink noise coloration
     _A_PINK : numpy.ndarray
@@ -370,7 +381,7 @@ class GeneratorNoiseIir(GeneratorNoise):
         https://ccrma.stanford.edu/~jos/sasp/Example_Synthesis_1_F_Noise.html
     """
 
-    def __init__(self, output_count, color='pink'):
+    def __init__(self, output_count, dtype, color='pink'):
         """
         Parameters
         ----------
@@ -379,12 +390,12 @@ class GeneratorNoiseIir(GeneratorNoise):
         color : str, optional
             coloration of noise to generate
         """
-        super(GeneratorNoiseIir, self).__init__(output_count)
+        super().__init__(output_count, dtype)
 
         # initialize constants
         self._GAIN_FACTOR = 20
-        self._B_PINK = np.array([0.049922035, -0.095993537, 0.050612699, -0.004408786])
-        self._A_PINK = np.array([1, -2.494956002, 2.017265875, -0.522189400])
+        self._B_PINK = np.array([0.049922035, -0.095993537, 0.050612699, -0.004408786], dtype=dtype)
+        self._A_PINK = np.array([1, -2.494956002, 2.017265875, -0.522189400], dtype=dtype)
         # TODO: introduce coefficients for different coloration
 
         # pick utilized coefficients
@@ -392,7 +403,7 @@ class GeneratorNoiseIir(GeneratorNoise):
             self._b = self._B_PINK.copy()
             self._a = self._A_PINK.copy()
         else:
-            raise NotImplementedError('chosen noise generator color "{}" not implemented yet.'.format(color))
+            raise NotImplementedError(f'chosen noise generator color "{color}" not implemented yet.')
 
         # approximate "reverberation time" to skip transient response part
         self._t60 = int(np.log(1000.0) / (1.0 - np.abs(np.roots(self._a)).max())) + 1
@@ -415,7 +426,7 @@ class GeneratorNoiseIir(GeneratorNoise):
             generated block of audio data
         """
         # generate white noise
-        normal = super(GeneratorNoiseIir, self).generate_block(block_length + self._t60, is_transposed=is_transposed)
+        normal = super().generate_block(block_length + self._t60, is_transposed=is_transposed)
 
         # filter signal along time axis
         shaped = signal.lfilter(self._b, self._a, normal, axis=0 if is_transposed else 1)

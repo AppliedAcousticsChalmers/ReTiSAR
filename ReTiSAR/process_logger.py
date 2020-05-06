@@ -59,7 +59,7 @@ def setup(subprocess_name=None, is_disable_file_logger=False):
     logger = _update_format_recursively(logger, fmt)
 
     if logger.hasHandlers():
-        logger.debug('created LOGGER "{}" but had inherited handlers already.'.format(logger.name))
+        logger.debug(f'created LOGGER "{logger.name}" but had inherited handlers already.')
     else:
         # general acceptance level
         logger.setLevel(config.LOGGING_LEVEL)
@@ -83,15 +83,14 @@ def setup(subprocess_name=None, is_disable_file_logger=False):
             if logger.file:
                 # setup handler for output to logfile
                 handler_file = logging.FileHandler(logger.file, 'a')
-                handler_file.setFormatter(logging.Formatter('%(asctime)s  ' + fmt))
+                handler_file.setFormatter(logging.Formatter(f'%(asctime)s  {fmt}'))
                 handler_file.setLevel(logging.NOTSET)
                 logger.addHandler(handler_file)
-                logger.debug('created LOGGER file "{}".'.format(os.path.relpath(logger.file)))
+                logger.debug(f'created LOGGER file "{os.path.relpath(logger.file)}".')
 
-        logger.debug('created LOGGER "{}" with new handlers.'.format(logger.name))
+        logger.debug(f'created LOGGER "{logger.name}" with new handlers.')
 
-    logger.debug('initialized LOGGER [{}] at level [{}].'.format(
-        logger.name, logging.getLevelName(logger.getEffectiveLevel())))
+    logger.debug(f'initialized LOGGER [{logger.name}] at level [{logging.getLevelName(logger.getEffectiveLevel())}].')
     return logger
 
 
@@ -120,8 +119,7 @@ def setup_logfile(name, ending='log'):
         return None  # no logging file name given
 
     # append file ending
-    file = os.path.join(file, name)
-    file = '{}.{}'.format(file, ending)
+    file = f'{os.path.join(file, name)}.{ending}'
 
     # create path if does not exist
     if not os.path.exists(os.path.dirname(file)):
@@ -129,7 +127,7 @@ def setup_logfile(name, ending='log'):
 
     # rename existing files as backup
     if os.path.isfile(file):
-        backup = os.path.join(os.path.dirname(file), 'BACKUP_' + os.path.basename(file))
+        backup = os.path.join(os.path.dirname(file), f'BACKUP_{os.path.basename(file)}')
         os.rename(file, backup)
 
     return file
