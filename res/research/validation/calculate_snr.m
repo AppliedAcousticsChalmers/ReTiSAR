@@ -1,5 +1,6 @@
 % requires AKtools toolbox (run AKtoolsStart.m)
 % $ svn checkout https://svn.ak.tu-berlin.de/svn/AKtools --username aktools --password ak
+%
 close all; clear; clc;
 
 %% define parameters

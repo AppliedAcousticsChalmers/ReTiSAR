@@ -1,5 +1,5 @@
 # ReTiSAR
-Implementation of the Real-Time Spherical Microphone Renderer for binaural reproduction in _Python_ [[1]](#references)[[2]](#references).
+Implementation of the Real-Time Spherical Microphone Renderer for binaural reproduction in Python [[1]](#references)[[2]](#references).
 
 ![Badge_OS](https://img.shields.io/badge/platform-osx--64-lightgrey)
 [![Badge_Python](https://img.shields.io/badge/python-3.7%20|%203.8-brightgreen)][Python]
