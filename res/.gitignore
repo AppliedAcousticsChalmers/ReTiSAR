@@ -18,6 +18,8 @@
 !/research/*
 /research/benchmarks/**/*.html
 /research/benchmarks/**/*.png
+*.zip
+subplot_er.m
 
 # always include resource references
 !*.source
