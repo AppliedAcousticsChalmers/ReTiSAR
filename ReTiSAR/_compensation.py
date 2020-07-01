@@ -559,7 +559,11 @@ class Compensation(object):
                 sh_max_order=sh_max_order,
                 nfft=nfft,
                 fs=fs,
-                amp_limit_db=amp_limit_db,
+                mrf_params=(
+                    amp_limit_db,
+                    arir_config.array_type,
+                    arir_config.transducer_type,
+                ),
                 logger=logger,
             )
 
@@ -698,13 +702,15 @@ class Compensation(object):
         )
 
     @staticmethod
-    def _plot(comp_nm, _type, sh_max_order, nfft, fs, amp_limit_db=None, logger=None):
+    def _plot(comp_nm, _type, sh_max_order, nfft, fs, mrf_params=None, logger=None):
         # build name
         name = f"{logger.name if logger else _type.__module__}_{_type.name}_{nfft}"
         if sh_max_order is not None:
             name = f"{name}_sh{sh_max_order}"
-        if amp_limit_db is not None:
-            name = f"{name}_{amp_limit_db}db"
+        if mrf_params is not None:
+            name = (
+                f"{name}_{mrf_params[0]}db_{'_'.join(str(e) for e in mrf_params[1:])}"
+            )
 
         # plot filters TD and FD
         tools.export_plot(

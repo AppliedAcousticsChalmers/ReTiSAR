@@ -970,6 +970,9 @@ class FilterSetMiro(FilterSet):
                 f"channels: {array_signal.signal.signal.shape[0]}, "
                 f"duration: {array_signal.signal.signal.shape[1]} samples, "
                 f"format: {array_signal.signal.signal.dtype}"
+                f"\n --> radius: {array_signal.configuration.array_radius.mean()*100:.2f} cm, "
+                f"transducer: {array_signal.configuration.transducer_type}, "
+                f"type: {array_signal.configuration.array_type}"
             )
             logger.info(log_str) if logger else print(log_str)
         except ValueError as e:
@@ -988,6 +991,8 @@ class FilterSetMiro(FilterSet):
         ------
         TypeError
             in case unknown type for filter name is given
+        ValueError
+            in case specific parameters of left and right in case of HRIR do not match
         """
         if not isinstance(self._file_name, str):
             raise TypeError(f'unknown parameter type "{type(self._file_name)}".')
@@ -1002,21 +1007,25 @@ class FilterSetMiro(FilterSet):
             self._irs_td = np.swapaxes(self._irs_td, 0, 1)
 
             # make sure provided sampling frequencies are identical and safe for reference
-            assert array_signal_l.signal.fs == array_signal_r.signal.fs
+            if array_signal_l.signal.fs != array_signal_r.signal.fs:
+                raise ValueError(f"mismatch in left and right ear sampling frequency.")
 
             # make sure provided sampling grids are identical and safe for reference
-            np.testing.assert_array_equal(
-                array_signal_l.grid.azimuth, array_signal_r.grid.azimuth
-            )
-            np.testing.assert_array_equal(
-                array_signal_l.grid.colatitude, array_signal_r.grid.colatitude
-            )
-            np.testing.assert_array_equal(
-                array_signal_l.grid.radius, array_signal_r.grid.radius
-            )
-            np.testing.assert_array_equal(
-                array_signal_l.grid.weight, array_signal_r.grid.weight
-            )
+            if (
+                not np.array_equal(
+                    array_signal_l.grid.colatitude, array_signal_r.grid.colatitude
+                )
+                or not np.array_equal(
+                    array_signal_l.grid.azimuth, array_signal_r.grid.azimuth
+                )
+                or not np.array_equal(
+                    array_signal_l.grid.radius, array_signal_r.grid.radius
+                )
+                or not np.array_equal(
+                    array_signal_l.grid.weight, array_signal_r.grid.weight
+                )
+            ):
+                raise ValueError(f"mismatch in left and right ear sampling grid.")
 
             # select one set for further reference, since they are identical
             array_signal = array_signal_l
@@ -1047,15 +1056,7 @@ class FilterSetMiro(FilterSet):
                 g.astype(dtype) if isinstance(g, np.ndarray) else g
                 for g in array_signal.grid
             )
-        )  # all values with correct dtype
-
-        # # overwrite grid weights with ones just for testing
-        # self._irs_grid = sfa.io.SphericalGrid(
-        #     azimuth=self._irs_grid.azimuth,
-        #     colatitude=self._irs_grid.colatitude,
-        #     radius=self._irs_grid.radius,
-        #     weight=np.ones_like(self._irs_grid.weight) / len(self._irs_grid.weight),
-        # )
+        )
 
         # # print debug information
         # print(
@@ -1356,6 +1357,7 @@ class FilterSetSofa(FilterSetMiro):
             logger.warning(warn_str) if logger else print(warn_str, file=sys.stderr)
 
         # generate file info
+        arir_config = self._load_arir_config(sofa_file=file_convention)
         log_str = (
             f"{log_str}\n --> samplerate: {file_convention.getSamplingRate()[0]:.0f} Hz"
             f', receivers: {file_convention.ncfile.file.dimensions["R"].size}'
@@ -1363,6 +1365,9 @@ class FilterSetSofa(FilterSetMiro):
             f', measurements: {file_convention.ncfile.file.dimensions["M"].size}'
             f', samples: {file_convention.ncfile.file.dimensions["N"].size}'
             f", format: {file_convention.getDataIR().dtype}"
+            f"\n --> radius: {arir_config.array_radius*100:.2f} cm, "
+            f"transducer: {arir_config.transducer_type}, "
+            f"type: {arir_config.array_type}"
             f'\n --> convention: {file_convention.getGlobalAttributeValue("SOFAConventions")}'
             f', version: {file_convention.getGlobalAttributeValue("SOFAConventionsVersion")}'
         )
@@ -1378,6 +1383,55 @@ class FilterSetSofa(FilterSetMiro):
         except sofa.SOFAError:
             pass
         logger.info(log_str) if logger else print(log_str)
+
+    @staticmethod
+    def _load_arir_config(sofa_file):
+        """
+        Load array radius and type as well as transducer type. Unfortunately there is no native
+        SOFA attributes that require this information to be available.
+
+        Therefore, we try to parse the data from extended fields. This might work for the
+        utilized THK ARIR data set. See the code to investigate what fields are checked.
+
+        If no information can be parsed, a rigid sphere and omnidirectional transducers are assumed
+        according to SOFA 1.0, AES69-2015.
+
+        Parameters
+        ----------
+        sofa_file : pysofaconventions.SOFAFile.SOFAFile
+            loaded SOFA source file
+
+        Returns
+        -------
+        sfa.io.ArrayConfiguration
+            recording / measurement microphone array configuration
+        """
+
+        # TODO: get rid of this dirty hack
+        is_open = any(
+            "OSC" in s.upper()
+            for s in [
+                sofa_file.getGlobalAttributeValue("Comment"),
+                sofa_file.getGlobalAttributeValue("ListenerShortName"),
+                os.path.split(sofa_file.getFilename())[-1],  # only file name
+            ]
+        )
+        array_type = "open" if is_open else "rigid"
+
+        is_cardioid = any(
+            "CARDIOID" in s.upper()
+            for s in [
+                sofa_file.getGlobalAttributeValue("ListenerDescription"),
+                sofa_file.getGlobalAttributeValue("ReceiverDescription"),
+            ]
+        )
+        transducer_type = "cardioid" if is_cardioid else "omni"
+
+        return sfa.io.ArrayConfiguration(
+            array_radius=sofa_file.getReceiverPositionValues()[:, 2].mean(),
+            array_type=array_type,
+            transducer_type=transducer_type,
+        )
 
     def _load(self, dtype):
         """
@@ -1438,12 +1492,7 @@ class FilterSetSofa(FilterSetMiro):
                 grid_info=file.getReceiverPositionInfo(),
             )
 
-            # assume rigid sphere and omnidirectional transducers according to SOFA 1.0, AES69-2015
-            self._arir_config = sfa.io.ArrayConfiguration(
-                array_radius=grid_acr_rad[2].mean(),
-                array_type="rigid",
-                transducer_type="omni",
-            )
+            self._arir_config = self._load_arir_config(sofa_file=file)
 
         # store spherical radians with colatitude !!
         self._irs_grid = sfa.io.SphericalGrid(
