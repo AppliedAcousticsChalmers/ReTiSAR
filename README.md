@@ -76,10 +76,10 @@ At this point the only relevant _JACK_ audio server setting is the sampling freq
 __FFTW optimization &mdash;__ In case the rendering takes very long to start (after the message _"initializing FFTW DFT optimization ..."_), you might want to endure this long computation time once (per rendering configuration) or lower your [FFTW] planner effort (see `--help`).
 
 __Rendering performance &mdash;__ Follow these remarks to expect continuous and artifact free rendering:
-  * Optional components like array pre-rendering, headphone equalization, noise generation, etc. will save   performance in case they are not deployed.
-  * Extended IR lengths (particularly for modes with array IR pre-rendering) will massively increase the computational load depending on the chosen block length (partitioned convolution).
-  * Currently there is no partitioned convolution for the main binaural renderer with SH based processing, hence the FIR taps of applied HRIR, Modal Radial Filters and further compensations (e.g. Spherical Head Filter) need to cumulatively fit inside the chosen block length.
-  * Higher block length means lower computational load in real-time rendering but also increased system latency, most relevant for modes with array live-stream rendering, but also all other modes in terms of a slightly "smeared" head-tracking experience (noticeable at 4096 samples).
+  * Optional components like array pre-rendering, headphone equalization, noise generation, etc. will save performance in case they are not deployed.
+  * Extended IR lengths (particularly for modes with array IR pre-rendering) will massively increase the computational load depending on the chosen block size (partitioned convolution).
+  * Currently there is no partitioned convolution for the main binaural renderer with SH based processing, hence the FIR taps of applied HRIR, Modal Radial Filters and further compensations (e.g. Spherical Head Filter) need to cumulatively fit inside the chosen block size.
+  * Higher block size means lower computational load in real-time rendering but also increased system latency, most relevant for modes with array live-stream rendering, but also all other modes in terms of a slightly "smeared" head-tracking experience (noticeable at 4096 samples).
   * Adjust output levels of all rendering components (default parameters chosen accordingly) to prevent signal clipping (indicated by warning messages during execution).
   * Check _JACK_ system load (e.g. _JackPilot_ or [OSC_Remote_Demo.pd](#remote-control)) to be below approx. 95% load, in order to prevent dropouts (i.e. the OS reported overall system load is not a good indicator).
   * Check _JACK_ detected dropouts ("xruns" indicated during execution).
@@ -118,9 +118,9 @@ The following parameters are all optional and available in combinations with the
   `python -m ReTiSAR -tt=POLHEMUS_FASTRACK -t=/dev/tty.UC-232AC`
 * Run with specific HRTF dataset as _MIRO_ [[6]](#references) or _SOFA_ [[7]](#references) files<br/>
   * _Neumann KU100_ artificial head from [[6]](#references) as _SOFA_:<br/>
-  `python -m ReTiSAR -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA` __[default]__<br/>
+  `python -m ReTiSAR -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA` __[default]__
   * _Neumann KU100_ artificial head from [[6]](#references) as _MIRO_:<br/>
-  `python -m ReTiSAR -hr=res/HRIR/KU100_THK/HRIR_L2702_struct.mat -hrt=HRIR_MIRO`<br/>
+  `python -m ReTiSAR -hr=res/HRIR/KU100_THK/HRIR_L2702_struct.mat -hrt=HRIR_MIRO`
   * _FABIAN_ artificial head from [[8]](#references) as _SOFA_:<br/>
   `python -m ReTiSAR -hr=res/HRIR/FABIAN_TUB/FABIAN_HRIR_measured_HATO_0.sofa -hrt=HRIR_SOFA`
 * Run with specific headphone equalization / compensation filters (arbitrary filter length). The compensation filter should match the utilized individual headphone (model)! In the best case scenario, the filter was also gathered on the identical utilized HRIR (artificial or individual head)!<br/>
@@ -149,7 +149,7 @@ The following parameters are all optional and available in combinations with the
 ## Execution modes
 This section list all the conceptually different rendering modes of the pipeline. Most of the other beforehand introduced [execution parameters](#execution-parameters) can be combined with the mode-specific parameters. In case no manual value for all specific rendering parameters is provided (as in the following examples), their respective default values will be used.
 
-__Most execution modes require additional external measurement data, which cannot be republished here.__ However, all provided examples are based on publicly available research data. Respective files are represented here by provided  source reference files (see [res/](res/.)), containing a source URL and potentially further instructions. In case the respective resource data file is not yet available on your system, download instructions will be shown in the command line output and generated log files.
+__Most execution modes require additional external measurement data, which cannot be republished here.__ However, all provided examples are based on publicly available research data. Respective files are represented here by provided source reference files (see [res/](res/.)), containing a source URL and potentially further instructions. In case the respective resource data file is not yet available on your system, download instructions will be shown in the command line output and generated log files.
 
 * Run as array recording renderer<br/>
   * _Eigenmike_ at Chalmers lab space with __speaker moving horizontally around the array:__<br/>
@@ -173,15 +173,19 @@ __Most execution modes require additional external measurement data, which canno
   `python -m ReTiSAR -sh=4 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_sim_EM32_PW_struct.mat -art=ARIR_MIRO -arl=-6 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
   * Anechoic measurement:<br/>
   `python -m ReTiSAR -sh=4 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_anec_EM32ch_S_struct.mat -art=ARIR_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
-* Run as array IR renderer, e.g. sequential VSA measurements from [[10]](#references) at the maximum respective SH order<br/>
-  * 50ch (sh5), SBS center:<br/>
-  `python -m ReTiSAR -sh=5 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_SBS_VSA_50RS_PAC.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
-  * 86ch (sh7), LBS center:<br/>
-  `python -m ReTiSAR -sh=7 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_LBS_VSA_86RS_PAC.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
+* Run as array IR renderer, e.g. sequential VSA measurements from [[10]](#references) at the maximum respective SH order (different room, source positions and array configurations are available in [res/ARIR/](res/ARIR/.))<br/>
+  * 50ch (sh5), LBS center:<br/>
+  `python -m ReTiSAR -sh=5 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_LBS_VSA_50RS_PAC.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
+  * 86ch (sh7), SBS center:<br/>
+  `python -m ReTiSAR -sh=7 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_SBS_VSA_86RS_PAC.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
   * 110ch (sh8), CR1 left:<br/>
   `python -m ReTiSAR -sh=8 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -sp="[(-37,0)]" -ar=res/ARIR/DRIR_CR1_VSA_110RS_L.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
-  * 1202ch (truncated sh12), CR1 left:<br/>
-  `python -m ReTiSAR -sh=12 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -sp="[(-37,0)]" -ar=res/ARIR/DRIR_CR1_VSA_1202RS_L.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
+  * 194ch (sh11, open sphere, cardioid microphones), LBS center:<br/>
+  `python -m ReTiSAR -sh=11 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_LBS_VSA_194OSC_PAC.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
+  * 1202ch (truncated sh12), CR7 left:<br/>
+  `python -m ReTiSAR -sh=12 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -sp="[(-37,0)]" -ar=res/ARIR/DRIR_CR7_VSA_1202RS_L.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
+
+Note that the [rendering performance](#quickstart) is mostly determined by the chosen combination of the following parameters: __number of microphones (ARIR channels)__, __room reverberation time (ARIR length)__, __IR truncation cutoff level__ and __rendering block size__.
 
 * Run as BRIR renderer (partitioned convolution in frequency domain) for any BRIR compatible to the _SoundScape Renderer_, e.g. pre-processed array IRs by [[11]](#references):<br/>
 `python -m ReTiSAR -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -art=NONE -hr=res/HRIR/KU100_THK/BRIR_CR1_VSA_110RS_L_SSR_SFA_-37_SOFA_RFI.wav -hrt=BRIR_SSR -hrl=-12`
@@ -251,6 +255,9 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[11]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) C. Hohnerlein and J. Ahrens, “Spherical Microphone Array Processing in Python with the sound_field_analysis-py Toolbox,” in Fortschritte der Akustik -- DAGA 2017, 2017, pp. 1033–1036.
 
 ## Change Log
+* __v2020.7.1__
+  * Update and addition of further WDR Cologne ARIR source files (linking to Zenodo data set)
+  * Hack for Modal Radial Filters generation in open / cardioid SMA configurations (unfortunately this metadata is not directly available in SOFA ARIR files)
 * __v2020.4.8__
   * Improvement of IIR pink noise generation (continuous utilization of internal filter delay conditions)
   * Improvement of IIR pink noise generation (employment of SOS instead of BA coefficients)
