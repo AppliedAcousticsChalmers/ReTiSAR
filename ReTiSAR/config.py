@@ -100,90 +100,37 @@ REMOTE_OSC_PORT = 5005
 
 # [DEFAULT] ############ ARRAY RECORDING RENDERING OF EIGENMIKE ############
 # BLOCK_LENGTH = 256
-# """Block length of the JACK audio server and clients in samples, see `JackClient`. Should only be
-# set before starting # any client. """
 SOURCE_FILE = "res/record/EM32ch_lab_voice_around.wav"  # showcasing horizontal movement
 # SOURCE_FILE = "res/record/EM32ch_lab_voice_updown.wav"  # showcasing vertical movement
-"""File of audio being played by the application, see `JackPlayer`."""
-ARIR_TYPE = "AS_MIRO"
-"""Type of FIR filter file containing Array Room Impulse Responses, see `FilterSet.Type`."""
-ARIR_FILE = "res/ARIR/RT_calib_EM32ch_struct.mat"  # Chalmers (SN 28)
-"""File with FIR filter containing Array Room Impulse Responses, see `FilterSet`."""
 ARIR_LEVEL = 0
-"""Output level in dBFS of renderer for Array Room Impulse Responses, see `JackClient`."""
-SH_MAX_ORDER = 4
-"""Maximum spherical harmonics order when rendering Array Room Impulse Responses,
-see `JackRenderer`. """
+ARIR_TYPE = "AS_MIRO"
+SH_MAX_ORDER, ARIR_FILE = 4, "res/ARIR/RT_calib_EM32ch_struct.mat"  # Chalmers (SN 28)
 
 # ############ ARRAY RECORDING RENDERING OF THK HOSMA ############
 # BLOCK_LENGTH = 1024
-# """Block length of the JACK audio server and clients in samples, see `JackClient`. Should only be
-# set before starting any client. """
-# SOURCE_FILE = "res/record/HOS64_hall_lecture.wav"  # file not provided
-# """File of audio being played by the application, see `JackPlayer`."""
 # SOURCE_LEVEL = 9
-# """Output level in dBFS of audio being played by the application, see `JackClient`."""
-# SOURCE_POSITIONS = [(90, 0)]
-# """[in case related to ARIR] reference frontal position as list of tuple of azimuth
-# (counterclockwise) and elevation in degrees (int or float)."""
-# ARIR_TYPE = "AS_MIRO"
-# """Type of FIR filter file containing Array Room Impulse Responses, see `FilterSet.Type`."""
-# ARIR_FILE = "res/ARIR/RT_calib_HOS64_struct.mat"
-# """File with FIR filter containing Array Room Impulse Responses, see `FilterSet`."""
+# SOURCE_POSITIONS, SOURCE_FILE = [(90, 0)], "res/record/HOS64_hall_lecture.wav"  # file not provided
 # ARIR_LEVEL = 0
-# """Output level in dBFS of renderer for Array Room Impulse Responses, see `JackClient`."""
-# SH_MAX_ORDER = 7
-# """Maximum spherical harmonics order when rendering Array Room Impulse Responses,
-# see `JackRenderer`. """
+# ARIR_TYPE = "AS_MIRO"
+# SH_MAX_ORDER, ARIR_FILE = 7, "res/ARIR/RT_calib_HOS64_struct.mat"
 
-# ############ ARRAY LIVE-STREAM RENDERING OF EIGENMIKE ############
+# ############ ARRAY LIVE-STREAM RENDERING ############
 # BLOCK_LENGTH = 256
-# """Block length of the JACK audio server and clients in samples, see `JackClient`. Should only be
-# set before starting any client. """
+# # BLOCK_LENGTH = 1024
 # SOURCE_FILE = None
-# """File of audio being played by the application, see `JackPlayer`."""
-# ARIR_TYPE = "AS_MIRO"
-# """Type of FIR filter file containing Array Room Impulse Responses, see `FilterSet.Type`."""
-# ARIR_FILE = "res/ARIR/RT_calib_EM32ch_struct.mat"  # Chalmers (SN 28)
-# # ARIR_FILE = "res/ARIR/RT_calib_EM32frl_struct.mat"  # Facebook Reality Labs (SN ??)
-# """File with FIR filter containing Array Room Impulse Responses, see `FilterSet`."""
 # ARIR_LEVEL = 0
-# """Output level in dBFS of renderer for Array Room Impulse Responses, see `JackClient`."""
-# SH_MAX_ORDER = 4
-# """Maximum spherical harmonics order when rendering Array Room Impulse Responses,
-# see `JackRenderer`. """
-
-# ############ ARRAY LIVE-STREAM RENDERING OF THK HOSMA ############
-# BLOCK_LENGTH = 1024
-# """Block length of the JACK audio server and clients in samples, see `JackClient`. Should only be
-# set before starting any client. """
-# SOURCE_FILE = None
-# """File of audio being played by the application, see `JackPlayer`."""
 # ARIR_TYPE = "AS_MIRO"
-# """Type of FIR filter file containing Array Room Impulse Responses, see `FilterSet.Type`."""
-# ARIR_FILE = "res/ARIR/RT_calib_HOS64_struct.mat"
-# """File with FIR filter containing Array Room Impulse Responses, see `FilterSet`."""
-# ARIR_LEVEL = 0
-# """Output level in dBFS of renderer for Array Room Impulse Responses, see `JackClient`."""
-# SH_MAX_ORDER = 7
-# """Maximum spherical harmonics order when rendering Array Room Impulse Responses,
-# see `JackRenderer`. """
+# SH_MAX_ORDER, ARIR_FILE = 4, "res/ARIR/RT_calib_EM32ch_struct.mat"  # Eigenmike Chalmers (SN 28)
+# # SH_MAX_ORDER, ARIR_FILE = 4, "res/ARIR/RT_calib_EM32frl_struct.mat"  # Eigenmike Facebook Reality Labs (SN ??)
+# # SH_MAX_ORDER, ARIR_FILE = 7, "res/ARIR/RT_calib_HOS64_struct.mat"  # HØSMA-7N
 
 # ############ ARRAY IR RENDERING OF EIGENMIKE ############
 # SOURCE_FILE = "res/source/Drums_48.wav"
-# """File of audio being played by the application, see `JackPlayer`."""
 # TRACKER_TYPE = "AUTO_ROTATE"  # overwrite in case you want to use head-tracking
-# """Type of hardware providing head tracking data, see `HeadTracker.Type`."""
-# ARIR_TYPE = "ARIR_MIRO"
-# """Type of FIR filter file containing Array Room Impulse Responses, see `FilterSet.Type`."""
-# ARIR_FILE = "res/ARIR/DRIR_sim_EM32_PW_struct.mat"  # simulated plane wave
-# # ARIR_FILE = "res/ARIR/DRIR_anec_EM32ch_S_struct.mat"  # anechoic measurement
-# """File with FIR filter containing Array Room Impulse Responses, see `FilterSet`."""
 # ARIR_LEVEL = -6
-# """Output level in dBFS of renderer for Array Room Impulse Responses, see `JackClient`."""
-# SH_MAX_ORDER = 4
-# """Maximum spherical harmonics order when rendering Array Room Impulse Responses,
-# see `JackRenderer`. """
+# ARIR_TYPE = "ARIR_MIRO"
+# SH_MAX_ORDER, ARIR_FILE = 4, "res/ARIR/DRIR_sim_EM32_PW_struct.mat"  # simulated plane wave
+# # SH_MAX_ORDER, ARIR_FILE = 4, "res/ARIR/DRIR_anec_EM32ch_S_struct.mat"  # anechoic measurement
 # G_LEVEL_REL = [-0.5, -0.1, 1.3, -0.9, -0.3, 1.2, -0.3, -0.8, 0.1, -1.3, -0.5, 0.5, 1.4, -0.7, 0.5,
 #                -0.4, 0.2, 1.2, 0.4, -0.3, 0.2, -0.5, 0.0, 0.1, 0.7, 0.8, -0.2, -0.3, -0.2, -0.7,
 #                -1.2, 0.6]
@@ -191,114 +138,93 @@ see `JackRenderer`. """
 # Level offsets for noise generator to reproduce relative self-noise level distribution of
 # Eigenmike Chalmers (SN 28) according to an anechoic measurement."""
 
-# ############ ARRAY IR RENDERING OF COLOGNE 50 CHANNEL ############
+# # ############ ARRAY IR RENDERING OF WDR COLOGNE DATA ############
 # SOURCE_FILE = "res/source/Drums_48.wav"
-# """File of audio being played by the application, see `JackPlayer`."""
-# TRACKER_TYPE = "AUTO_ROTATE"  # overwrite in case you want to use head-tracking
-# """Type of hardware providing head tracking data, see `HeadTracker.Type`."""
-# ARIR_TYPE = "ARIR_SOFA"
-# """Type of FIR filter file containing Array Room Impulse Responses, see `FilterSet.Type`."""
-# ARIR_FILE = "res/ARIR/DRIR_SBS_VSA_50RS_PAC.sofa"
-# # ARIR_FILE = "res/ARIR/DRIR_LBS_VSA_50RS_PAC.sofa"
-# # ARIR_FILE = "res/ARIR/DRIR_CR1_VSA_50RS_L.sofa"
-# """File with FIR filter containing Array Room Impulse Responses, see `FilterSet`."""
 # # SOURCE_POSITIONS = [(-37, 0)]
 # # """[in case related to ARIR] reference frontal position as list of tuple of azimuth
 # # (counterclockwise) and elevation in degrees (int or float)."""
-# ARIR_LEVEL = -12
-# """Output level in dBFS of renderer for Array Room Impulse Responses, see `JackClient`."""
-# SH_MAX_ORDER = 5
-# """Maximum spherical harmonics order when rendering Array Room Impulse Responses,
-# see `JackRenderer`. """
-
-# ############ ARRAY IR RENDERING OF COLOGNE 86 CHANNEL ############
-# SOURCE_FILE = "res/source/Drums_48.wav"
-# """File of audio being played by the application, see `JackPlayer`."""
 # TRACKER_TYPE = "AUTO_ROTATE"  # overwrite in case you want to use head-tracking
-# """Type of hardware providing head tracking data, see `HeadTracker.Type`."""
-# ARIR_TYPE = "ARIR_SOFA"
-# """Type of FIR filter file containing Array Room Impulse Responses, see `FilterSet.Type`."""
-# # ARIR_FILE = "res/ARIR/DRIR_SBS_VSA_86RS_PAC.sofa"
-# ARIR_FILE = "res/ARIR/DRIR_LBS_VSA_86RS_PAC.sofa"
-# # ARIR_FILE = "res/ARIR/DRIR_CR1_VSA_86RS_L.sofa"
-# """File with FIR filter containing Array Room Impulse Responses, see `FilterSet`."""
-# # SOURCE_POSITIONS = [(-37, 0)]
-# # """[in case related to ARIR] reference frontal position as list of tuple of azimuth
-# # (counterclockwise) and elevation in degrees (int or float)."""
 # ARIR_LEVEL = -12
-# """Output level in dBFS of renderer for Array Room Impulse Responses, see `JackClient`."""
-# SH_MAX_ORDER = 7
-# """Maximum spherical harmonics order when rendering Array Room Impulse Responses,
-# see `JackRenderer`. """
-
-# # ############ ARRAY IR RENDERING OF COLOGNE 110 CHANNEL ############
-# SOURCE_FILE = "res/source/Drums_48.wav"
-# """File of audio being played by the application, see `JackPlayer`."""
-# SOURCE_POSITIONS = [(-37, 0)]
-# """[in case related to ARIR] reference frontal position as list of tuple of azimuth
-# (counterclockwise) and elevation in degrees (int or float)."""
-# TRACKER_TYPE = "AUTO_ROTATE"  # overwrite in case you want to use head-tracking
-# """Type of hardware providing head tracking data, see `HeadTracker.Type`."""
 # ARIR_TYPE = "ARIR_SOFA"
-# """Type of FIR filter file containing Array Room Impulse Responses, see `FilterSet.Type`."""
-# # ARIR_FILE = "res/ARIR/DRIR_SBS_VSA_110RS_PAC.sofa"
-# # ARIR_FILE = "res/ARIR/DRIR_LBS_VSA_110RS_PAC.sofa"
-# ARIR_FILE = "res/ARIR/DRIR_CR1_VSA_110RS_L.sofa"
-# """File with FIR filter containing Array Room Impulse Responses, see `FilterSet`."""
-# ARIR_LEVEL = -12
-# """Output level in dBFS of renderer for Array Room Impulse Responses, see `JackClient`."""
-# SH_MAX_ORDER = 8
-# """Maximum spherical harmonics order when rendering Array Room Impulse Responses,
-# see `JackRenderer`. """
-
-# ############ ARRAY IR RENDERING OF COLOGNE 1202 CHANNEL ############
-# SOURCE_FILE = "res/source/Drums_48.wav"
-# """File of audio being played by the application, see `JackPlayer`."""
-# SOURCE_POSITIONS = [(-37, 0)]
-# """[in case related to ARIR] reference frontal position as list of tuple of azimuth
-# (counterclockwise) and elevation in degrees (int or float)."""
-# ARIR_TYPE = "ARIR_SOFA"
-# """Type of FIR filter file containing Array Room Impulse Responses, see `FilterSet.Type`."""
-# # ARIR_FILE = "res/ARIR/DRIR_SBS_VSA_1202RS_PAC.sofa"
-# # ARIR_FILE = "res/ARIR/DRIR_LBS_VSA_1202RS_PAC.sofa"
-# ARIR_FILE = "res/ARIR/DRIR_CR1_VSA_1202RS_L_struct.mat"
-# """File with FIR filter containing Array Room Impulse Responses, see `FilterSet`."""
-# ARIR_LEVEL = -12
-# """Output level in dBFS of renderer for Array Room Impulse Responses, see `JackClient`."""
-# SH_MAX_ORDER = 12  # truncated (chose arbitrarily high order up to 29)
-# """Maximum spherical harmonics order when rendering Array Room Impulse Responses,
-# see `JackRenderer`. """
+# # SH_MAX_ORDER, ARIR_FILE = 5, "res/ARIR/DRIR_CR1_VSA_50RS_L.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 5, "res/ARIR/DRIR_CR1_VSA_50RS_R.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 5, "res/ARIR/DRIR_CR7_VSA_50RS_L.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 5, "res/ARIR/DRIR_CR7_VSA_50RS_R.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 5, "res/ARIR/DRIR_LBS_VSA_50RS_PAC.sofa"  # example
+# # SH_MAX_ORDER, ARIR_FILE = 5, "res/ARIR/DRIR_LBS_VSA_50RS_PAL.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 5, "res/ARIR/DRIR_LBS_VSA_50RS_SBC.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 5, "res/ARIR/DRIR_LBS_VSA_50RS_SBL.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 5, "res/ARIR/DRIR_SBS_VSA_50RS_PAC.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 5, "res/ARIR/DRIR_SBS_VSA_50RS_PAL.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 5, "res/ARIR/DRIR_SBS_VSA_50RS_PAR.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 5, "res/ARIR/DRIR_SBS_VSA_50RS_SBC.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 7, "res/ARIR/DRIR_CR1_VSA_86RS_L.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 7, "res/ARIR/DRIR_CR1_VSA_86RS_R.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 7, "res/ARIR/DRIR_CR7_VSA_86RS_L.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 7, "res/ARIR/DRIR_CR7_VSA_86RS_R.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 7, "res/ARIR/DRIR_LBS_VSA_86RS_PAC.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 7, "res/ARIR/DRIR_LBS_VSA_86RS_PAL.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 7, "res/ARIR/DRIR_LBS_VSA_86RS_SBC.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 7, "res/ARIR/DRIR_LBS_VSA_86RS_SBL.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 7, "res/ARIR/DRIR_SBS_VSA_86RS_PAC.sofa"  # example
+# # SH_MAX_ORDER, ARIR_FILE = 7, "res/ARIR/DRIR_SBS_VSA_86RS_PAL.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 7, "res/ARIR/DRIR_SBS_VSA_86RS_PAR.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 7, "res/ARIR/DRIR_SBS_VSA_86RS_SBC.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 8, "res/ARIR/DRIR_CR1_VSA_110RS_L.sofa"  # example
+# # SH_MAX_ORDER, ARIR_FILE = 8, "res/ARIR/DRIR_CR1_VSA_110RS_R.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 8, "res/ARIR/DRIR_CR7_VSA_110RS_L.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 8, "res/ARIR/DRIR_CR7_VSA_110RS_R.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 8, "res/ARIR/DRIR_LBS_VSA_110RS_PAC.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 8, "res/ARIR/DRIR_LBS_VSA_110RS_PAL.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 8, "res/ARIR/DRIR_LBS_VSA_110RS_SBC.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 8, "res/ARIR/DRIR_LBS_VSA_110RS_SBL.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 8, "res/ARIR/DRIR_SBS_VSA_110RS_PAC.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 8, "res/ARIR/DRIR_SBS_VSA_110RS_PAL.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 8, "res/ARIR/DRIR_SBS_VSA_110RS_PAR.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 8, "res/ARIR/DRIR_SBS_VSA_110RS_SBC.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 8, "res/ARIR/DRIR_CR1_VSA_110OSC_L.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 8, "res/ARIR/DRIR_CR1_VSA_110OSC_R.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 9, "res/ARIR/DRIR_CR7_VSA_146OSC_L.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 9, "res/ARIR/DRIR_CR7_VSA_146OSC_R.sofa"
+# SH_MAX_ORDER, ARIR_FILE = 11, "res/ARIR/DRIR_LBS_VSA_194OSC_PAC.sofa"  # example
+# # SH_MAX_ORDER, ARIR_FILE = 11, "res/ARIR/DRIR_LBS_VSA_194OSC_PAL.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 11, "res/ARIR/DRIR_LBS_VSA_194OSC_SBC.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 11, "res/ARIR/DRIR_LBS_VSA_194OSC_SBL.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 11, "res/ARIR/DRIR_SBS_VSA_194OSC_PAC.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 11, "res/ARIR/DRIR_SBS_VSA_194OSC_PAL.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 11, "res/ARIR/DRIR_SBS_VSA_194OSC_PAR.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 11, "res/ARIR/DRIR_SBS_VSA_194OSC_SBC.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 12, "res/ARIR/DRIR_CR1_VSA_1202RS_L.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 12, "res/ARIR/DRIR_CR1_VSA_1202RS_R.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 12, "res/ARIR/DRIR_CR7_VSA_1202RS_L.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 12, "res/ARIR/DRIR_CR7_VSA_1202RS_R.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 12, "res/ARIR/DRIR_LBS_VSA_1202RS_PAC.sofa"  # example
+# # SH_MAX_ORDER, ARIR_FILE = 12, "res/ARIR/DRIR_LBS_VSA_1202RS_PAL.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 12, "res/ARIR/DRIR_LBS_VSA_1202RS_SBC.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 12, "res/ARIR/DRIR_LBS_VSA_1202RS_SBL.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 12, "res/ARIR/DRIR_SBS_VSA_1202RS_PAC.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 12, "res/ARIR/DRIR_SBS_VSA_1202RS_PAL.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 12, "res/ARIR/DRIR_SBS_VSA_1202RS_PAR.sofa"
+# # SH_MAX_ORDER, ARIR_FILE = 12, "res/ARIR/DRIR_SBS_VSA_1202RS_SBC.sofa"
 
 # ############ BRIR RENDERING OF SOUND_FIELD_ANALYSIS OUTPUT ############
 # SOURCE_FILE = "res/source/Drums_48.wav"
-# """File of audio being played by the application, see `JackPlayer`."""
 # TRACKER_TYPE = "AUTO_ROTATE"  # overwrite in case you want to use head-tracking
-# """Type of hardware providing head tracking data, see `HeadTracker.Type`."""
 # ARIR_TYPE = None
-# """Type of FIR filter file containing Array Room Impulse Responses, see `FilterSet.Type`."""
 # HRIR_TYPE = "BRIR_SSR"
-# """Type of FIR filter file containing Head Related Impulse Responses, see `FilterSet.Type`."""
 # HRIR_FILE = "res/HRIR/KU100_THK/BRIR_CR1_VSA_110RS_L_SSR_SFA_-37_SOFA_RFI.wav"
-# """File with FIR filter containing Head Related Impulse Responses, see `FilterSet`."""
 # HRIR_LEVEL = -12
-# """Output level in dBFS of renderer for Head Related Impulse Responses, see `JackClient`."""
 
 # ############ HRIR RENDERING OF ARBITRARY VIRTUAL SOURCE NUMBERS ############
 # SOURCE_FILE = "res/source/PinkMartini_Lilly_44.wav"
-# """File of audio being played by the application, see `JackPlayer`."""
 # SOURCE_POSITIONS = [(30, 0), (-30, 0)]
 # """[in case related to ARIR] reference frontal position as list of tuple of azimuth
 # (counterclockwise) and elevation in degrees (int or float)."""
 # TRACKER_TYPE = "AUTO_ROTATE"  # overwrite in case you want to use head-tracking
-# """Type of hardware providing head tracking data, see `HeadTracker.Type`."""
 # ARIR_TYPE = None
-# """Type of FIR filter file containing Array Room Impulse Responses, see `FilterSet.Type`."""
 # HRIR_TYPE = "HRIR_SSR"
-# """Type of FIR filter file containing Head Related Impulse Responses, see `FilterSet.Type`."""
 # HRIR_FILE = "res/HRIR/FABIAN_TUB/hrirs_fabian.wav"
-# """File with FIR filter containing Head Related Impulse Responses, see `FilterSet`."""
 # HRIR_LEVEL = 0
-# """Output level in dBFS of renderer for Head Related Impulse Responses, see `JackClient`."""
 
 
 # ################## #
