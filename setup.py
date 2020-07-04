@@ -1,9 +1,17 @@
 from setuptools import find_packages, setup
 
+
+def _get_var_name(var, loc):
+    return [key for key, val in loc.items() if id(val) == id(var)][0]
+
+
 __version__ = "unknown"
-for line in open("ReTiSAR/__init__.py"):
-    if line.startswith("__version__"):
-        exec(line)
+ver_str = _get_var_name(var=__version__, loc=locals())
+for line in open("ReTiSAR/__init__.py", mode="r", encoding="utf-8"):
+    if line.startswith(ver_str):
+        __version__ = (
+            line[len(ver_str) : -1].replace(" ", "").replace('"', "").strip("=")
+        )
         break
 
 # noinspection SpellCheckingInspection
@@ -18,7 +26,7 @@ setup(
     long_description=open("README.md", mode="r", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     classifiers=[
-        "Development Status :: 5 - Production/Stable"
+        "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Science/Research",
         "Intended Audience :: Education",
         "License :: Other/Proprietary License",
@@ -48,14 +56,8 @@ setup(
             "natsort",  # for benchmarking
             "pandas",  # for benchmarking
         ],
-        "development": [
-            "black >=19.10b0",  # for code formatting
-        ]
+        "development": ["black >=19.10b0",],  # for code formatting
     },
-    package_data={
-        "": [
-            "res/*"
-        ],
-    },
+    package_data={"": ["res/*"],},
     packages=find_packages(),
 )
