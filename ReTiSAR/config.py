@@ -287,7 +287,7 @@ transform, see `pyfftw`. """
 PYFFTW_NUM_THREADS = int(tools.get_cpu_count() / 4)
 """Number of available FFTW threads, should be chosen carefully to not lead to oversubscription (
 1 is equivalent to disabling threading in FFTW). """
-PYFFTW_WISDOM_FILE = LOGGING_PATH + "pyfftw_wisdom.bin"
+PYFFTW_WISDOM_FILE = f"{LOGGING_PATH}pyfftw_wisdom.bin"
 """File of `pyfftw` wisdom being loaded/saved by the application, see `__main__`."""
 
 

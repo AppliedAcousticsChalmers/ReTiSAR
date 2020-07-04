@@ -530,104 +530,81 @@ def import_fftw_wisdom(is_enforce_load=False):
     """
 
     def log_error(log_str):
-        print(log_str, file=sys.stderr)
-        print(
-            " --> All necessary wisdom will be generated now. This might take a while, before the "
-            "rendering will start.\n --> Take care to properly terminate this application to have "
-            "the gathered wisdom exported!",
-            file=sys.stderr,
-        )
-        sleep(0.05)  # to get correct output order
+        if is_enforce_load:
+            print(
+                f"... {log_str} while load was enforced.\napplication interrupted.",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        else:
+            print(f"... {log_str}.", file=sys.stderr)
+            print(
+                " --> All necessary wisdom will be generated now. This might take a while, before "
+                "the rendering will start.\n --> Take care to properly terminate this application "
+                "to have the gathered wisdom exported!",
+                file=sys.stderr,
+            )
+            sleep(0.05)  # to get correct output order
 
-    import pickle
     from . import config
+    import pickle
+    import pyfftw
 
     print(
         f'loading gathered FFTW wisdom from "{os.path.relpath(config.PYFFTW_WISDOM_FILE)}" ...'
     )
     try:
         # load from file
-        with open(config.PYFFTW_WISDOM_FILE, mode="rb") as f:
-            wisdom = pickle.load(f)
+        with open(config.PYFFTW_WISDOM_FILE, mode="rb") as file:
+            wisdom = pickle.load(file)
 
         # load wisdom
         import pyfftw
 
+        # import and print wisdom
         pyfftw.import_wisdom(wisdom)
-
-        # print wisdom
         for w in wisdom:
             n = w.decode("utf-8").strip().split("\n")
             print(f' --> {len(n) - 2:>3} entries for "{n[0].strip("()")}"')
 
-        # set global config parameters
-        if (
-            not config.DEVELOPER_MODE
-            and hasattr(config, "PYFFTW_NUM_THREADS")
-            and pyfftw.config.NUM_THREADS != config.PYFFTW_NUM_THREADS
-        ):
-            print(
-                f"setting `pyfftw` environment parameter NUM_THREADS from "
-                f"{pyfftw.config.NUM_THREADS} to {config.PYFFTW_NUM_THREADS}."
-            )
-            pyfftw.config.NUM_THREADS = config.PYFFTW_NUM_THREADS
-        else:
-            print(
-                f"`pyfftw` environment parameter NUM_THREADS is {pyfftw.config.NUM_THREADS}."
-            )
-
-        if (
-            not config.DEVELOPER_MODE
-            and hasattr(config, "PYFFTW_EFFORT")
-            and pyfftw.config.PLANNER_EFFORT != config.PYFFTW_EFFORT
-        ):
-            print(
-                f'setting `pyfftw` environment parameter {"PLANNER_EFFORT"} from '
-                f"{pyfftw.config.PLANNER_EFFORT} to {config.PYFFTW_EFFORT}."
-            )
-            pyfftw.config.PLANNER_EFFORT = config.PYFFTW_EFFORT
-        else:
-            print(
-                f"`pyfftw` environment parameter PLANNER_EFFORT is {pyfftw.config.PLANNER_EFFORT}."
-            )
-
     except FileNotFoundError:
-        if is_enforce_load:
-            print(
-                "... file not found while load was enforced.\napplication interrupted.",
-                file=sys.stderr,
-            )
-            sys.exit(1)
-        log_error("... file not found.")
+        log_error("file not found")
 
     except ValueError:
-        if is_enforce_load:
-            print(
-                "... file in unsupported pickle protocol while load was enforced.\n"
-                "application interrupted.",
-                file=sys.stderr,
-            )
-            sys.exit(1)
-        log_error("... file in unsupported pickle protocol.")
+        log_error("file in unsupported pickle protocol")
 
     except EOFError:
-        if is_enforce_load:
-            print(
-                "... error reading file while load was enforced.\napplication interrupted.",
-                file=sys.stderr,
-            )
-            sys.exit(1)
-        log_error("... error reading file.")
+        log_error("error reading file")
 
-        # rename existing file as backup
-        backup = os.path.join(
-            os.path.dirname(config.PYFFTW_WISDOM_FILE),
-            f"BACKUP_{os.path.basename(config.PYFFTW_WISDOM_FILE)}",
-        )
-        os.rename(config.PYFFTW_WISDOM_FILE, backup)
+    # set global config parameters
+    if (
+        not config.DEVELOPER_MODE
+        and hasattr(config, "PYFFTW_NUM_THREADS")
+        and pyfftw.config.NUM_THREADS != config.PYFFTW_NUM_THREADS
+    ):
         print(
-            f'... renamed existing file to "{os.path.relpath(backup)}".',
-            file=sys.stderr,
+            f"setting `pyfftw` environment parameter NUM_THREADS from "
+            f"{pyfftw.config.NUM_THREADS} to {config.PYFFTW_NUM_THREADS}."
+        )
+        pyfftw.config.NUM_THREADS = config.PYFFTW_NUM_THREADS
+    else:
+        print(
+            f"`pyfftw` environment parameter NUM_THREADS is {pyfftw.config.NUM_THREADS}."
+        )
+
+    if (
+        not config.DEVELOPER_MODE
+        and hasattr(config, "PYFFTW_EFFORT")
+        and pyfftw.config.PLANNER_EFFORT != config.PYFFTW_EFFORT
+    ):
+        print(
+            f'setting `pyfftw` environment parameter {"PLANNER_EFFORT"} from '
+            f"{pyfftw.config.PLANNER_EFFORT} to {config.PYFFTW_EFFORT}."
+        )
+        pyfftw.config.PLANNER_EFFORT = config.PYFFTW_EFFORT
+    else:
+        print(
+            f"`pyfftw` environment parameter PLANNER_EFFORT is {pyfftw.config.PLANNER_EFFORT}."
         )
 
 
@@ -640,13 +617,24 @@ def export_fftw_wisdom(logger):
     logger : logging.Logger or None
         instance to provide identical logging behaviour as the calling process
     """
-    import pyfftw
-    import pickle
     from . import config
+    import pickle
+    import pyfftw
 
     log_str = f'writing gathered FFTW wisdom to "{os.path.relpath(config.PYFFTW_WISDOM_FILE)}" ...'
     logger.info(log_str) if logger else print(log_str)
 
+    # rename existing file as backup
+    if os.path.isfile(config.PYFFTW_WISDOM_FILE):
+        backup = os.path.join(
+            os.path.dirname(config.PYFFTW_WISDOM_FILE),
+            f"BACKUP_{os.path.basename(config.PYFFTW_WISDOM_FILE)}",
+        )
+        os.rename(config.PYFFTW_WISDOM_FILE, backup)
+        log_str = f'... renamed existing file to "{os.path.relpath(backup)}".'
+        logger.info(log_str) if logger else print(log_str)
+
+    # write data to file
     with open(config.PYFFTW_WISDOM_FILE, mode="wb") as f:
         # enforcing pickle protocol version 4 for compatibility between Python 3.7 and 3.8
         pickle.dump(pyfftw.export_wisdom(), f, protocol=4)
