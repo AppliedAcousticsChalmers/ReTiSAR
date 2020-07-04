@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from scipy.optimize import fmin
 
-from . import *
+from . import config, FilterSet, process_logger, tools
 
 
 # def main_snr():
@@ -92,7 +92,6 @@ from . import *
 #     return logger
 
 
-# noinspection PyProtectedMember
 def main():
     """
     Function containing the entire validation procedure including defining configuration,
@@ -165,6 +164,7 @@ def main():
         is_normalize=True,
         is_normalize_individually=_IS_REF_NORM_INDIVIDUALLY,
     )
+    # noinspection PyProtectedMember
     fs = ref_set._fs
 
     # load and analyze all comparative IR sets

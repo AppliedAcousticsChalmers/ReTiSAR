@@ -160,7 +160,7 @@ class OscRemote(object):
         self._server = None
 
     @staticmethod
-    def handle_terminate(_, references, *__):
+    def handle_terminate(_, self, *__):
         """
         Call the terminate function of this instance to shutdown the application.
 
@@ -168,13 +168,11 @@ class OscRemote(object):
         ----------
         _ : str
             OSC target
-        references : list of object
+        self : SubProcess
             instance, in this case a reference to itself
         __ : any
             ignored parameters
         """
-        self: OscRemote = references[0]
-
         log_str = "terminated by user."
         self._logger.error(log_str) if self._logger else print(log_str, file=sys.stderr)
         self.terminate()
