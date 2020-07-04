@@ -1,5 +1,6 @@
 from . import mp_context, tools
 
+# fmt: off
 
 # ############################## #
 #  DEFAULT EXECUTION PARAMETERS  #
@@ -289,6 +290,10 @@ PYFFTW_NUM_THREADS = int(tools.get_cpu_count() / 4)
 1 is equivalent to disabling threading in FFTW). """
 PYFFTW_WISDOM_FILE = f"{LOGGING_PATH}pyfftw_wisdom_{tools.get_system_name()}.bin"
 """File of `pyfftw` wisdom being loaded/saved by the application, see `__main__`."""
+PYFFTW_LEGACY_FILE = None
+# PYFFTW_LEGACY_FILE = f"{LOGGING_PATH}pyfftw_wisdom.bin"
+"""File of `pyfftw` wisdom being loaded by the application without signature validation,
+see `__main__`."""
 
 
 # ################# #
@@ -304,6 +309,8 @@ IS_RUNNING = mp_context.Event()
 """If the application is running and rendering audio at the moment. This needs to be set after
 all rendering clients have started up. This can also be used to globally interrupt rendering and
 output of all clients. """
+
+# fmt: on
 
 if "STUDY_MODE" not in locals():
     STUDY_MODE = False

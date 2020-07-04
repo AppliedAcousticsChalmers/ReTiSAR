@@ -145,6 +145,8 @@ def parse_cmd_args():
                                  "FFTW_EXHAUSTIVE"],
                         help="effort spent during the FFTW planning stage to create the fastest "
                              "possible transform")
+    parser.add_argument("-pfl", "--PYFFTW_LEGACY_FILE", type=str, required=False,
+                        help="file with FFTW wisdom that will be accepted without valid signature")
     parser.add_argument("-ll", "--LOGGING_LEVEL", type=str, required=False,
                         choices=["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR"],
                         help="lowest logging level being shown and printed to the logs")
@@ -564,20 +566,47 @@ def import_fftw_wisdom(is_enforce_load=False):
     import pickle
     import pyfftw
 
-    print(
-        f'loading gathered FFTW wisdom from "{os.path.relpath(config.PYFFTW_WISDOM_FILE)}" ...'
-    )
-    try:
-        with open(config.PYFFTW_WISDOM_FILE, mode="rb") as file:
-            # read signature and data
-            digest, wisdom = file.read().split(b"\n\n")
-            expected_digest = hmac.new(
-                key=get_system_name().encode(), msg=wisdom, digestmod=blake2b
-            ).digest()
+    is_legacy_load = config.PYFFTW_LEGACY_FILE is not None
+    if is_legacy_load:
+        file_name = config.PYFFTW_LEGACY_FILE
+    else:
+        file_name = config.PYFFTW_WISDOM_FILE
 
-            # verify hash signature
-            if not hmac.compare_digest(digest, expected_digest):
-                log_error("found invalid file signature")
+    print(f'loading gathered FFTW wisdom from "{os.path.relpath(file_name)}" ...')
+    try:
+        with open(file_name, mode="rb") as file:
+            # read file
+            wisdom = file.read().split(b"\n\n")
+
+            if is_legacy_load:
+                if len(wisdom) > 1:
+                    print(
+                        f"... found FFTW wisdom file and ignoring the signature.",
+                        file=sys.stderr,
+                    )
+                else:
+                    print(
+                        f"... found legacy FFTW wisdom file without signature.",
+                        file=sys.stderr,
+                    )
+                sleep(0.05)  # to get correct output order
+                wisdom = wisdom[0]
+            else:
+                if len(wisdom) > 1:
+                    # extract signature
+                    digest, wisdom = wisdom
+                    expected_digest = hmac.new(
+                        key=get_system_name().encode(), msg=wisdom, digestmod=blake2b
+                    ).digest()
+
+                    # verify hash with signature
+                    if hmac.compare_digest(digest, expected_digest):
+                        print(f"... found valid FFTW wisdom file signature.")
+                    else:
+                        log_error("found invalid FFTW wisdom file signature")
+                else:
+                    # no signature given
+                    log_error("found no FFTW wisdom file signature")
 
             # load wisdom
             # noinspection PickleLoad
