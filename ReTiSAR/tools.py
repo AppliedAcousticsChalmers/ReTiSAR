@@ -283,6 +283,18 @@ def get_cpu_count():
     return os.cpu_count()
 
 
+def get_system_name():
+    """
+    Returns
+    -------
+    str
+        system node name reported by `platform`
+    """
+    import platform
+
+    return platform.node()
+
+
 def get_absolute_from_relative_package_path(relative_package_path):
     """
     Parameters
@@ -547,6 +559,8 @@ def import_fftw_wisdom(is_enforce_load=False):
             sleep(0.05)  # to get correct output order
 
     from . import config
+    from hashlib import blake2b
+    import hmac
     import pickle
     import pyfftw
 
@@ -554,12 +568,20 @@ def import_fftw_wisdom(is_enforce_load=False):
         f'loading gathered FFTW wisdom from "{os.path.relpath(config.PYFFTW_WISDOM_FILE)}" ...'
     )
     try:
-        # load from file
         with open(config.PYFFTW_WISDOM_FILE, mode="rb") as file:
-            wisdom = pickle.load(file)
+            # read signature and data
+            digest, wisdom = file.read().split(b"\n\n")
+            expected_digest = hmac.new(
+                key=get_system_name().encode(), msg=wisdom, digestmod=blake2b
+            ).digest()
 
-        # load wisdom
-        import pyfftw
+            # verify hash signature
+            if not hmac.compare_digest(digest, expected_digest):
+                log_error("found invalid file signature")
+
+            # load wisdom
+            # noinspection PickleLoad
+            wisdom = pickle.loads(data=wisdom)  # warning prevented with verification
 
         # import and print wisdom
         pyfftw.import_wisdom(wisdom)
@@ -612,12 +634,17 @@ def export_fftw_wisdom(logger):
     """
     Write gathered FFTW wisdom to provided file for later import.
 
+    This file will be signed in order to ensure integrity according to
+    https://pycharm-security.readthedocs.io/en/latest/checks/PIC100.html.
+
     Parameters
     ----------
     logger : logging.Logger or None
         instance to provide identical logging behaviour as the calling process
     """
     from . import config
+    from hashlib import blake2b
+    import hmac
     import pickle
     import pyfftw
 
@@ -634,10 +661,18 @@ def export_fftw_wisdom(logger):
         log_str = f'... renamed existing file to "{os.path.relpath(backup)}".'
         logger.info(log_str) if logger else print(log_str)
 
-    # write data to file
-    with open(config.PYFFTW_WISDOM_FILE, mode="wb") as f:
-        # enforcing pickle protocol version 4 for compatibility between Python 3.7 and 3.8
-        pickle.dump(pyfftw.export_wisdom(), f, protocol=4)
+    # generate byte wisdom data
+    # enforcing pickle protocol version 4 for compatibility between Python 3.7 and 3.8
+    wisdom = pickle.dumps(obj=pyfftw.export_wisdom(), protocol=4)
+
+    # generate byte wisdom hash
+    digest = hmac.new(
+        key=get_system_name().encode(), msg=wisdom, digestmod=blake2b
+    ).digest()
+
+    # write data to file with hash as header
+    with open(config.PYFFTW_WISDOM_FILE, mode="wb") as file:
+        file.write(digest + b"\n\n" + wisdom)
 
 
 def get_pretty_delay_str(samples, fs):
