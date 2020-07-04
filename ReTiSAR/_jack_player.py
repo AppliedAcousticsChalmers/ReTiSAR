@@ -55,7 +55,6 @@ class JackPlayer(JackClient):
         super().__init__(name=name, *args, **kwargs)
 
         # set attributes
-        assert buffer_length >= 1
         self._file_name = file_name
         self._buffer_length = buffer_length
         self._is_auto_play = is_auto_play
@@ -101,6 +100,8 @@ class JackPlayer(JackClient):
         Raises
         ------
         ValueError
+            in case buffer length is smaller than 1
+        ValueError
             in case samplerate of input file does not match the JACK samplerate
         """
         if (
@@ -112,6 +113,12 @@ class JackPlayer(JackClient):
             # use `_counter_dropout` as indicator if file was loaded
             self._counter_dropout = None
             return
+
+        if self._buffer_length < 1:
+            self._logger.error(
+                f"buffer length of {self._buffer_length} is smaller than 1."
+            )
+            raise ValueError(f'failed to create "{self.name}" instance.')
 
         self._event_play = mp_context.Event()
         self._q = mp_context.Queue(maxsize=self._buffer_length)
@@ -128,7 +135,7 @@ class JackPlayer(JackClient):
         )
         self._sf = soundfile.SoundFile(file=self._file_name, mode="r")
 
-        if not self._sf.samplerate == self._client.samplerate:
+        if self._sf.samplerate != self._client.samplerate:
             self._logger.error(
                 f"input samplerate of {self._sf.samplerate} Hz does not match JACK samplerate of "
                 f"{self._client.samplerate} Hz."

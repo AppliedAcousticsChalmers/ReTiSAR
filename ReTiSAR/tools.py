@@ -1194,22 +1194,33 @@ def plot_ir_and_tf(
     if is_etc and set_td_db_y is not None:
         if not isinstance(set_td_db_y, list):
             set_td_db_y = [set_td_db_y]
-        assert len(set_td_db_y) <= 2
-        if len(set_td_db_y) == 1:
-            # noinspection PyTypeChecker
-            assert set_td_db_y[0] > 0
+        if len(set_td_db_y) > 2:
+            raise ValueError(
+                f"number of Decibel axis limits ({len(set_td_db_y)}) is greater 2."
+            )
+        if len(set_td_db_y) == 1 and set_td_db_y[0] <= 0:
+            raise ValueError(
+                f"value of single Decibel axis limit ({set_td_db_y[0]}) is smaller equal 0."
+            )
     if set_fd_db_y is not None:
         if not isinstance(set_fd_db_y, list):
             set_fd_db_y = [set_fd_db_y]
-        assert len(set_fd_db_y) <= 2
-        if len(set_fd_db_y) == 1:
-            # noinspection PyTypeChecker
-            assert set_fd_db_y[0] > 0
+        if len(set_fd_db_y) > 2:
+            raise ValueError(
+                f"number of Decibel axis limits ({len(set_fd_db_y)}) is greater 2."
+            )
+        if len(set_fd_db_y) == 1 and set_fd_db_y[0] <= 0:
+            raise ValueError(
+                f"value of single Decibel axis limit ({set_fd_db_y[0]}) is smaller equal 0."
+            )
     if set_fd_f_x is None:
         set_fd_f_x = [20, fs / 2]
-    else:
-        assert len(set_fd_f_x) == 2
-    assert step_db_y > 0
+    elif len(set_fd_f_x) != 2:
+        raise ValueError(
+            f"number of frequency axis limits ({len(set_fd_f_x)}) is not 2."
+        )
+    if step_db_y <= 0:
+        raise ValueError(f"step size of Decibel axis ({step_db_y}) is smaller equal 0.")
 
     fd_lim_y = [1e12, -1e12]  # initial values
     td_lim_y = [1e12, -1e12]  # initial values
@@ -1226,14 +1237,20 @@ def plot_ir_and_tf(
         data_td_or_fd = data_td_or_fd.squeeze()
         if data_td_or_fd.ndim >= 3:
             raise ValueError(
-                f"plotting of data with size {data_td_or_fd.shape} not supported."
+                f"plotting of data with size {data_td_or_fd.shape} is not supported."
             )
 
     if lgd_ch_ids is None:
         lgd_ch_ids = range(data_td_or_fd.shape[0])
-    else:
-        assert isinstance(lgd_ch_ids, (list, range, np.ndarray))
-        assert len(lgd_ch_ids) == data_td_or_fd.shape[0]
+    elif not isinstance(lgd_ch_ids, (list, range, np.ndarray)):
+        raise TypeError(
+            f"legend channel IDs of type {type(lgd_ch_ids)} are not supported."
+        )
+    elif len(lgd_ch_ids) != data_td_or_fd.shape[0]:
+        raise ValueError(
+            f"length of legend channel IDs ({len(lgd_ch_ids)}) does not match "
+            f"the size of the data ({data_td_or_fd.shape[0]})."
+        )
 
     if np.iscomplexobj(data_td_or_fd):
         # fd data given
