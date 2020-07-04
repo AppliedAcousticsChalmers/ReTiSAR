@@ -255,6 +255,9 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[11]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) C. Hohnerlein and J. Ahrens, “Spherical Microphone Array Processing in Python with the sound_field_analysis-py Toolbox,” in Fortschritte der Akustik -- DAGA 2017, 2017, pp. 1033–1036.
 
 ## Change Log
+* __v2020.7.4__
+  * Introduction of FFTW wisdom file signature verification (in order to update any already accumulated wisdom run with `--PYFFTW_LEGACY_FILE=log/pyfftw_wisdom.bin` once)
+  * Fixes for further SonarLint security and code style recommendations
 * __v2020.7.1__
   * Update and addition of further WDR Cologne ARIR source files (linking to Zenodo data set)
   * Hack for Modal Radial Filters generation in open / cardioid SMA configurations (unfortunately this metadata is not directly available in SOFA ARIR files)
