@@ -16,15 +16,10 @@ set before starting any client. """
 
 # TRACKER_TYPE = None
 # TRACKER_TYPE = "AUTO_ROTATE"
+# TRACKER_TYPE, TRACKER_PORT = "POLHEMUS_PATRIOT", "/dev/tty.UC-232AC"
+# TRACKER_TYPE, TRACKER_PORT = "POLHEMUS_FASTRACK", "/dev/tty.UC-232AC"
+# TRACKER_TYPE, TRACKER_PORT = "RAZOR_AHRS", "/dev/tty.usbserial-AH03F9XC"
 """Type of hardware providing head tracking data, see `HeadTracker.Type`."""
-# TRACKER_TYPE = "POLHEMUS_PATRIOT"
-# TRACKER_TYPE = "POLHEMUS_FASTRACK"
-# """Type of hardware providing head tracking data, see `HeadTracker.Type`."""
-# TRACKER_PORT = "/dev/tty.UC-232AC"
-# """System specific path to tracker port to read data from, see `HeadTracker`."""
-# TRACKER_TYPE = "RAZOR_AHRS"
-# """Type of hardware providing head tracking data, see `HeadTracker.Type`."""
-# TRACKER_PORT = "/dev/tty.usbserial-AH03F9XC"
 """System specific path to tracker port to read data from, see `HeadTracker`."""
 
 SOURCE_LEVEL = 0
@@ -48,17 +43,15 @@ ARIR_RADIAL_AMP = 18
 ARIR_MUTE = False
 """Output mute state of renderer for Array Room Impulse Responses, see `JackClient`."""
 
-HRIR_TYPE = "HRIR_SOFA"
+HRIR_TYPE, HRIR_FILE = "HRIR_SOFA", "res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa"
+# HRIR_TYPE, HRIR_FILE = "HRIR_SOFA", "res/HRIR/KU100_SADIE2/48k_24bit_256tap_8802dir.sofa"
+# HRIR_TYPE, HRIR_FILE = "HRIR_SOFA", "res/HRIR/KEMAR_SADIE2/48k_24bit_256tap_8802dir.sofa"
+# HRIR_TYPE, HRIR_FILE = "HRIR_SOFA", "res/HRIR/FABIAN_TUB/44k_64bit_256tap_11950dir_HATO_0.sofa"
+# HRIR_TYPE, HRIR_FILE = "HRIR_SOFA", "res/HRIR/KEMAR_MIT/44k_32bit_512tap_710dir_Large_Pinna.sofa"
+# HRIR_TYPE, HRIR_FILE = "HRIR_SOFA", "res/HRIR/KEMAR_MIT/44k_32bit_512tap_710dir_Normal_Pinna.sofa"
+# HRIR_TYPE, HRIR_FILE = "HRIR_MIRO", "res/HRIR/KU100_THK/48k_32bit_128tap_2702dir_struct.mat"
 """Type of FIR filter file containing Head Related Impulse Responses, see `FilterSet.Type`."""
-HRIR_FILE = "res/HRIR/KU100_THK/HRIR_L2702.sofa"
-# HRIR_FILE = "res/HRIR/KU100_SADIE2/D1_48K_24bit_256tap_FIR_SOFA.sofa"
-# HRIR_FILE = "res/HRIR/KEMAR_SADIE2/D2_48K_24bit_256tap_FIR_SOFA.sofa"
-# HRIR_FILE = "res/HRIR/FABIAN_TUB/FABIAN_HRIR_measured_HATO_0.sofa"
 """File with FIR filter containing Head Related Impulse Responses, see `FilterSet`."""
-# HRIR_TYPE = "HRIR_MIRO"
-# """Type of FIR filter file containing Head Related Impulse Responses, see `FilterSet.Type`."""
-# HRIR_FILE = "res/HRIR/KU100_THK/HRIR_L2702_struct.mat"
-# """File with FIR filter containing Head Related Impulse Responses, see `FilterSet`."""
 HRIR_LEVEL = 0
 """Output level in dBFS of renderer for Head Related Impulse Responses, see `JackClient`."""
 HRIR_MUTE = False
@@ -66,12 +59,19 @@ HRIR_MUTE = False
 HRIR_DELAY = 0
 """Input buffer delay in ms of renderer for Head Related Impulse Responses, see `JackClient`."""
 
-HPCF_TYPE = "HPCF_FIR"
+HPCF_TYPE, HPCF_FILE = "HPCF_FIR", None
+# HPCF_TYPE, HPCF_FILE = "HPCF_FIR", "res/HPCF/KU100_THK/HPCF.zip.source"
+# HPCF_TYPE, HPCF_FILE = "HPCF_FIR", "res/HPCF/KU100_SADIE2/48k_24bit_1024tap_Beyerdynamic_DT990.wav"
+# HPCF_TYPE, HPCF_FILE = "HPCF_FIR", "res/HPCF/KEMAR_SADIE2/48k_24bit_1024tap_Beyerdynamic_DT990.wav"
+# HPCF_TYPE, HPCF_FILE = "HPCF_FIR", "res/HPCF/FABIAN_TUB/44k_32bit_4096tap_AKG_K601.wav"
+# HPCF_TYPE, HPCF_FILE = "HPCF_FIR", "res/HPCF/FABIAN_TUB/44k_32bit_4096tap_AKG_K701.wav"
+# HPCF_TYPE, HPCF_FILE = "HPCF_FIR", "res/HPCF/FABIAN_TUB/44k_32bit_4096tap_AKG_K1000.wav"
+# HPCF_TYPE, HPCF_FILE = "HPCF_FIR", "res/HPCF/FABIAN_TUB/44k_32bit_4096tap_Beyerdynamic_DT990.wav"
+# HPCF_TYPE, HPCF_FILE = "HPCF_FIR", "res/HPCF/FABIAN_TUB/44k_32bit_4096tap_Sennheiser_HD600.wav"
+# HPCF_TYPE, HPCF_FILE = "HPCF_FIR", "res/HPCF/FABIAN_TUB/44k_32bit_4096tap_Sennheiser_HD650.wav"
+# HPCF_TYPE, HPCF_FILE = "HPCF_FIR", "res/HPCF/FABIAN_TUB/44k_32bit_4096tap_Sennheiser_HD800.wav"
+# HPCF_TYPE, HPCF_FILE = "HPCF_FIR", "res/HPCF/KEMAR_TUR/44k_24bit_2048tap_Sennheiser_HD600.wav"
 """Type of FIR filter file containing Headphone Compensation Filter, see `FilterSet.Type`."""
-HPCF_FILE = None
-# HPCF_FILE = "res/HPCF/KU100_SADIE2/D1_48K_24bit_1024tap_FIR_HpEQ.wav"
-# HPCF_FILE = "res/HPCF/KEMAR_SADIE2/D2_48K_24bit_1024tap_FIR_HpEQ.wav"
-# HPCF_FILE = "res/HPCF/KEMAR_TUR/hpComp_HD600_1Filter.wav"
 """File with FIR filter containing Headphone Compensation Filter, see `FilterSet`."""
 HPCF_LEVEL = 0
 """Output level in dBFS of renderer for Headphone Compensation Filter, see `JackClient`."""

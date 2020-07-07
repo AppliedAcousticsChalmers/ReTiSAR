@@ -1,4 +1,2 @@
 https://www.york.ac.uk/sadie-project/Resources/SADIEIIDatabase/D1/D1_HRIR_SOFA.zip
-
-- Unpack archive
-- Execute ReTiSAR with the desired filter
+D1_HRIR_SOFA/D1_48K_24bit_256tap_FIR_SOFA.sofa
