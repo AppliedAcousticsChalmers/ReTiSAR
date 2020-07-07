@@ -1408,24 +1408,31 @@ class FilterSetSofa(FilterSetMiro):
         """
 
         # TODO: get rid of this dirty hack
-        is_open = any(
-            "OSC" in s.upper()
-            for s in [
-                sofa_file.getGlobalAttributeValue("Comment"),
-                sofa_file.getGlobalAttributeValue("ListenerShortName"),
-                os.path.split(sofa_file.getFilename())[-1],  # only file name
-            ]
+        # collect attribute values
+        attr_str = os.path.split(sofa_file.getFilename())[-1]
+        attr_str = (
+            f'{attr_str};{sofa_file.getGlobalAttributeValue("ListenerShortName")}'
         )
-        array_type = "open" if is_open else "rigid"
+        try:
+            attr_str = (
+                f'{attr_str};{sofa_file.getGlobalAttributeValue("ListenerDescription")}'
+            )
+        except sofa.SOFAError:
+            pass  # non-mandatory attribute does not exist
+        try:
+            attr_str = (
+                f'{attr_str};{sofa_file.getGlobalAttributeValue("ReceiverDescription")}'
+            )
+        except sofa.SOFAError:
+            pass  # non-mandatory attribute does not exist
+        try:
+            attr_str = f'{attr_str};{sofa_file.getGlobalAttributeValue("Comment")}'
+        except sofa.SOFAError:
+            pass  # non-mandatory attribute does not exist
 
-        is_cardioid = any(
-            "CARDIOID" in s.upper()
-            for s in [
-                sofa_file.getGlobalAttributeValue("ListenerDescription"),
-                sofa_file.getGlobalAttributeValue("ReceiverDescription"),
-            ]
-        )
-        transducer_type = "cardioid" if is_cardioid else "omni"
+        # check if specific strings exist
+        array_type = "open" if "OSC" in attr_str.upper() else "rigid"
+        transducer_type = "cardioid" if "CARDIOID" in attr_str.upper() else "omni"
 
         return sfa.io.ArrayConfiguration(
             array_radius=sofa_file.getReceiverPositionValues()[:, 2].mean(),
