@@ -1,4 +1,4 @@
-__version__ = "2020.7.4"
+__version__ = "2020.7.7"
 
 __all__ = [
     "Compensation",
