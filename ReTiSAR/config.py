@@ -51,6 +51,8 @@ ARIR_MUTE = False
 HRIR_TYPE = "HRIR_SOFA"
 """Type of FIR filter file containing Head Related Impulse Responses, see `FilterSet.Type`."""
 HRIR_FILE = "res/HRIR/KU100_THK/HRIR_L2702.sofa"
+# HRIR_FILE = "res/HRIR/KU100_SADIE2/D1_48K_24bit_256tap_FIR_SOFA.sofa"
+# HRIR_FILE = "res/HRIR/KEMAR_SADIE2/D2_48K_24bit_256tap_FIR_SOFA.sofa"
 # HRIR_FILE = "res/HRIR/FABIAN_TUB/FABIAN_HRIR_measured_HATO_0.sofa"
 """File with FIR filter containing Head Related Impulse Responses, see `FilterSet`."""
 # HRIR_TYPE = "HRIR_MIRO"
@@ -67,6 +69,8 @@ HRIR_DELAY = 0
 HPCF_TYPE = "HPCF_FIR"
 """Type of FIR filter file containing Headphone Compensation Filter, see `FilterSet.Type`."""
 HPCF_FILE = None
+# HPCF_FILE = "res/HPCF/KU100_SADIE2/D1_48K_24bit_1024tap_FIR_HpEQ.wav"
+# HPCF_FILE = "res/HPCF/KEMAR_SADIE2/D2_48K_24bit_1024tap_FIR_HpEQ.wav"
 # HPCF_FILE = "res/HPCF/KEMAR_TUR/hpComp_HD600_1Filter.wav"
 """File with FIR filter containing Headphone Compensation Filter, see `FilterSet`."""
 HPCF_LEVEL = 0

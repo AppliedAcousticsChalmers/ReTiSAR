@@ -1,6 +1,7 @@
 https://depositonce.tu-berlin.de/bitstream/11303/6153.4/8/FABIAN_HRTF_DATABASE_v4.zip
 
-- Download
+- Unpack archive
 - Go to desired "3 Headphones" model directory
 - Copy the desired "HpFilter.wav" compensation filter
 - Rename the compensation filter according to the desired headphones model
+- Execute ReTiSAR with the specified filter
