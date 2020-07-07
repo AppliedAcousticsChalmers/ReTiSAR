@@ -9,12 +9,12 @@ dependencies:
 #  - psutil  # for adjusting process priority, currently not used
   - pyfftw  # only on conda-forge
   - pyserial >=3.4
-  - pysoundfile >=0.10.2  # only on conda-forge, on Windows you need to install soundfile via pip
   - python >=3.7
   - scipy >=0.16
   - pip:
     - jack-client >=0.4.4
     - python-osc
     - pysofaconventions >=0.1.5
+    - soundfile >=0.10.2
     - samplerate
     - sound-field-analysis >=2020.1.30
