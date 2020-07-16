@@ -395,16 +395,16 @@ class Compensation(object):
         log_str = f'applying "{_type.value}" compensation ...'
         logger.info(log_str) if logger else print(log_str)
 
-        if amp_limit_db and _type != Compensation.Type.MRF:
-            log_str = (
-                f'ignoring amplitude limitation for compensation type "{_type.value}".'
-            )
-            logger.debug(log_str) if logger else print(log_str)
-        if fc and _type != Compensation.Type.SPF:
-            log_str = (
-                f'ignoring frequency parameter for compensation type "{_type.value}".'
-            )
-            logger.debug(log_str) if logger else print(log_str)
+        # if amp_limit_db and _type != Compensation.Type.MRF:
+        #     log_str = (
+        #         f'ignoring amplitude limitation for compensation type "{_type.value}".'
+        #     )
+        #     logger.debug(log_str) if logger else print(log_str)
+        # if fc and _type != Compensation.Type.SPF:
+        #     log_str = (
+        #         f'ignoring frequency parameter for compensation type "{_type.value}".'
+        #     )
+        #     logger.debug(log_str) if logger else print(log_str)
 
         # generate compensation based on individual implementation
         if _type == Compensation.Type.SPF:
@@ -458,6 +458,9 @@ class Compensation(object):
                 f'unknown compensation type "{_type}", see `Compensation.Type` for reference!'
             )
 
+        if comp_nm.shape[-1] == 1:
+            # repeat to two frequency bins to prevent exception inverse Fourier transform
+            comp_nm = np.repeat(comp_nm, 2, axis=-1)
         # apply zero padding to desired length
         return sfa.utils.zero_pad_fd(data_fd=comp_nm, target_length_td=nfft_padded)
 
@@ -535,7 +538,8 @@ class Compensation(object):
         Returns
         -------
         numpy.ndarray
-            one-sided complex frequency spectra of the compensation filter
+            weights of the compensation function which can be used as one-sided complex frequency
+            spectra or real time domain factors
         """
         # calculate for all SH orders
         comp_nm = sfa.gen.radial_filter_fullspec(
@@ -661,13 +665,13 @@ class Compensation(object):
         Returns
         -------
         numpy.ndarray
-            one-sided complex frequency spectra of the compensation filter, consisting of at least
-            two coefficients to prevent an exception in the Inverse Fourier Transform
+             weights of the compensation function which can be used as one-sided complex frequency
+             spectra or real time domain factors
         """
-        # calculate for all SH order
+        # calculate for all SH orders
         comp_nm = sfa.gen.tapering_window(max_order=sh_max_order).astype(dtype)
-        # adjust shape to not get an exception during Inverse Fourier Transform
-        comp_nm = np.repeat(comp_nm[:, np.newaxis], nfft + 1, axis=1)
+        # adjust shape to match number of target bins
+        comp_nm = np.repeat(comp_nm[:, np.newaxis], nfft, axis=1)
 
         if Compensation._IS_PLOT:
             # plot for all SH orders

@@ -1285,7 +1285,7 @@ def plot_ir_and_tf(
     td_col = 0
     fd_col = 1 if is_draw_td else 0
 
-    # check data size
+    # check provided data size
     data_td_or_fd = np.atleast_2d(data_td_or_fd)
     if data_td_or_fd.ndim >= 3:
         data_td_or_fd = data_td_or_fd.squeeze()
@@ -1294,8 +1294,10 @@ def plot_ir_and_tf(
                 f"plotting of data with size {data_td_or_fd.shape} is not supported."
             )
 
+    # check provided legend IDs
     if lgd_ch_ids is None:
-        lgd_ch_ids = range(data_td_or_fd.shape[0])
+        if data_td_or_fd.shape[0] > 1:
+            lgd_ch_ids = range(data_td_or_fd.shape[0])
     elif not isinstance(lgd_ch_ids, (list, range, np.ndarray)):
         raise TypeError(
             f"legend channel IDs of type {type(lgd_ch_ids)} are not supported."
@@ -1309,15 +1311,17 @@ def plot_ir_and_tf(
     if np.iscomplexobj(data_td_or_fd):
         # fd data given
         data_fd = data_td_or_fd.copy()  # make copy to not alter input data
-        if data_fd.shape[1] == 1:
+        if data_td_or_fd.shape[1] == 1:
             data_fd = np.repeat(data_fd, 2, axis=1)
-        data_td = np.fft.irfft(data_fd)
+        data_td = np.fft.irfft(data_fd, axis=1)
+        if data_td_or_fd.shape[1] == 1:
+            data_td = data_td[:, :1]
     else:
         # td data given
         data_td = data_td_or_fd.copy()  # make copy to not alter input data
-        if data_td.shape[1] == 1:
-            data_td[:, 1] = 0
-        data_fd = np.fft.rfft(data_td)
+        # if data_td.shape[1] == 1:
+        #     data_td[:, 1] = 0
+        data_fd = np.fft.rfft(data_td, axis=1)
     del data_td_or_fd
 
     # prevent zeros
@@ -1391,11 +1395,13 @@ def plot_ir_and_tf(
                         minor=False,
                     )
                     axes[ch, td_col].grid(True, which="major", axis="x", alpha=0.25)
+                axes[ch, td_col].grid(True, which="both", axis="y", alpha=0.1)
                 if is_etc:
-                    axes[ch, td_col].grid(True, which="both", axis="y", alpha=0.1)
                     axes[ch, td_col].set_yticks(
                         np.arange(*axes[ch, td_col].get_ylim(), step_db_y), minor=True
                     )
+                else:
+                    axes[ch, td_col].axhline(y=0, color="black", linewidth=0.75)
             # set limits
             if length > _TD_STEM_LIM:
                 axes[ch, td_col].set_xlim(0, length)
@@ -1450,7 +1456,9 @@ def plot_ir_and_tf(
         # set legend
         if (is_draw_td or is_draw_fd) and lgd_ch_ids:
             lgd_str = f'ch {lgd_ch_ids[ch]}{" (ETC)" if is_etc and is_draw_td else ""}'
-            axes[ch, td_col].legend([lgd_str], loc="upper right", fontsize="x-small")
+            axes[ch, td_col].legend(
+                labels=[lgd_str], loc="upper right", fontsize="xx-small"
+            )
 
     # remove layout margins
     fig.tight_layout(pad=0)

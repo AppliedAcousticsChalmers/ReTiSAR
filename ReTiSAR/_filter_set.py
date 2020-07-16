@@ -1240,13 +1240,13 @@ class FilterSetMiro(FilterSet):
         # adjust dtype
         dtype = np.complex64 if self._irs_td.dtype == np.float32 else np.complex128
 
-        # calculate sh orders
-        sh_m = sfa.sph.mnArrays(self._sh_max_order)[0].astype(np.int16)
+        # calculate stacked SH orders and modes
+        sh_m = sfa.sph.mnArrays(nMax=self._sh_max_order)[0].astype(np.int16)
 
         # calculate sh base functions, see `sound-field-analysis-py` `process.spatFT()` for
-        # reference!
+        # reference
         sh_bases = sfa.sph.sph_harm_all(
-            self._sh_max_order, self._irs_grid.azimuth, self._irs_grid.colatitude
+            nMax=self._sh_max_order, az=self._irs_grid.azimuth, el=self._irs_grid.colatitude
         ).astype(dtype)
         if self._sh_is_enforce_pinv or self._irs_grid.weight is None:
             # calculate pseudo inverse since no grid weights are given
