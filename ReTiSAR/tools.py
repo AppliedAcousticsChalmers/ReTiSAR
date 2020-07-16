@@ -67,8 +67,11 @@ def parse_cmd_args():
                         help="spherical harmonics order when rendering Array Room Impulse "
                              "Responses")
     parser.add_argument("-sht", "--SH_COMPENSATION_TYPE", type=str, required=False,
-                        help="type of spherical harmonics processing compensation technique, "
-                             "see documentation for valid choices")
+                        help="type of spherical harmonics processing compensation techniques, "
+                             "see documentation for valid choices e.g. combinations of "
+                             "{MODAL_RADIAL_FILTER,SPHERICAL_HEAD_FILTER,"
+                             "SPHERICAL_HARMONICS_TAPERING,SECTORIAL_DEGREE_SELECTION,"
+                             "EQUATORIAL_DEGREE_SELECTION}")
     parser.add_argument("-shp", "--SH_IS_ENFORCE_PINV", type=transform_str2bool, required=False,
                         help="if pseudo-inverse (Moore-Penrose) matrix will be used over "
                              "explicitly given sampling grid weights (only relevant for filter "
