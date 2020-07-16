@@ -1103,6 +1103,7 @@ def calculate_rms(data_td, is_level=False):
     if is_level:
         rms[np.nonzero(rms == 0)] = np.nan  # prevent zeros
         rms = 20 * np.log10(rms)  # transform into level
+        # rms[np.isnan(rms)] = np.NINF  # transform zeros into -infinity
     return rms
 
 
@@ -1126,6 +1127,7 @@ def calculate_peak(data_td, is_level=False):
     if is_level:
         peak[np.nonzero(peak == 0)] = np.nan  # prevent zeros
         peak = 20 * np.log10(peak)  # transform into level
+        # peak[np.isnan(peak)] = np.NINF  # transform zeros into -infinity
     return peak
 
 
@@ -1208,9 +1210,9 @@ def plot_ir_and_tf(
         if not v_max % step_db_y:
             v_max += step_db_y
         # prevent infinity
-        if v_min == -np.inf or v_min == np.inf:
+        if v_min == np.NINF or v_min == np.Inf:
             v_min = -1e12
-        if v_max == -np.inf or v_max == np.inf:
+        if v_max == np.NINF or v_max == np.Inf:
             v_max = 1e12
         # round limits
         v_max = step_db_y * np.ceil(v_max / step_db_y)
@@ -1449,6 +1451,182 @@ def plot_ir_and_tf(
         if (is_draw_td or is_draw_fd) and lgd_ch_ids:
             lgd_str = f'ch {lgd_ch_ids[ch]}{" (ETC)" if is_etc and is_draw_td else ""}'
             axes[ch, td_col].legend([lgd_str], loc="upper right", fontsize="x-small")
+
+    # remove layout margins
+    fig.tight_layout(pad=0)
+
+    if is_show_blocked is not None:
+        plt.show(block=is_show_blocked)
+
+    return fig
+
+
+def plot_nm_rms(
+    data_nm_fd,
+    lgd_ch_ids=None,
+    bar_width=0.9,
+    min_dr_db_y=20,
+    step_db_y=1.0,
+    is_show_blocked=None,
+):
+    """
+    Parameters
+    ----------
+    data_nm_fd : numpy.ndarray
+        spherical harmonics coefficients frequency domain data that should be plotted of size
+        [number of blocks; number of SH order / modes; number of channels; number of bins]
+    lgd_ch_ids : array_like, optional
+        IDs that should be printed in the legend as individual channel names of size
+        [number of channels] (range from 0 if nothing is specified)
+    bar_width : float, optional
+        width of individual bars relative to tick label distance
+    min_dr_db_y : float, optional
+        minimum dynamic range of RMS axis in dB
+    step_db_y : float, optional
+        step size of RMS axis in dB for minor grid and rounding of limits
+    is_show_blocked : bool, optional
+        if figure should be shown with the provided `block` status
+
+    Returns
+    -------
+    matplotlib.figure.Figure
+        generated plot
+    """
+
+    def _neg_tick(rms, _):
+        return f"{rms + base_rms if rms != base_rms else 0:.1f}"
+
+    import numpy as np
+    from sound_field_analysis import sph
+    from matplotlib.ticker import FuncFormatter
+
+    _MN_LABEL_FONT = {"family": "monospace", "size": "small"}
+
+    # check provided data size
+    data_nm_fd = np.atleast_3d(data_nm_fd)
+    if data_nm_fd.ndim == 3:
+        data_nm_fd = data_nm_fd[np.newaxis, :]
+    elif data_nm_fd.ndim > 4:
+        data_nm_fd = data_nm_fd.squeeze()
+        if data_nm_fd.ndim > 4:
+            raise ValueError(
+                f"plotting of data with size {data_nm_fd.shape} is not supported."
+            )
+    blocks, coeffs, chs, bins = data_nm_fd.shape
+
+    # check provided legend IDs
+    if lgd_ch_ids is None:
+        if chs > 1:
+            lgd_ch_ids = range(chs)
+    elif not isinstance(lgd_ch_ids, (list, range, np.ndarray)):
+        raise TypeError(
+            f"legend channel IDs of type {type(lgd_ch_ids)} are not supported."
+        )
+    elif len(lgd_ch_ids) != chs:
+        raise ValueError(
+            f"length of legend channel IDs ({len(lgd_ch_ids)}) does not match "
+            f"the size of the data ({chs})."
+        )
+
+    if bins > 1:
+        # transform into time domain
+        data_nm_td = np.fft.irfft(data_nm_fd, axis=-1)
+    else:
+        # time domain factor is identical to frequency domain
+        data_nm_td = np.abs(data_nm_fd)
+
+    # calculate RMS energy level per SH degree
+    data_nm_rms = calculate_rms(data_nm_td, is_level=True)
+
+    # calculate RMS upper and lower limits
+    base_rms = step_db_y * np.floor(np.nanmin(data_nm_rms) / step_db_y)
+    max_rms = step_db_y * np.ceil(np.nanmax(data_nm_rms) / step_db_y)
+
+    # extend RMS dynamic range in case provided minimum value is not reached
+    if max_rms - base_rms < abs(min_dr_db_y):
+        base_rms = max_rms - abs(min_dr_db_y)
+
+    # add to limits in case RMS values are exactly at limit
+    if base_rms == np.nanmin(data_nm_rms):
+        base_rms -= step_db_y
+    if max_rms == np.nanmax(data_nm_rms):
+        max_rms += step_db_y
+
+    # generate x data and labels
+    x = np.arange(coeffs)
+    m, n = sph.mnArrays(nMax=int(np.sqrt(coeffs) - 1))
+    mn_str = [f'({n_i:d}, {f"{m_i:+d}" if m_i else " 0"})' for m_i, n_i in zip(m, n)]
+    n_change = np.where(np.diff(n) > 0)[0]
+    n_change = np.append(n_change, coeffs - 1)
+
+    # generate figure
+    formatter = FuncFormatter(_neg_tick)
+    fig, axes = plt.subplots(
+        nrows=chs, ncols=blocks, squeeze=False, sharex="all", sharey="all"
+    )
+    for ch in range(chs):
+        for b in range(blocks):
+            axes[ch, b].yaxis.set_major_formatter(formatter)
+
+            # plot background span to distinguish SH orders
+            for i in range(n_change.size):
+                n_start = 0 if i == 0 else n_change[i - 1] + 1
+                n_end = n_change[i]
+                axes[ch, b].axvspan(
+                    n_start - 0.5,
+                    n_end + 0.5,
+                    facecolor=f"{i / n_change.size:f}",
+                    alpha=0.6,
+                )
+
+            # plot grouped RMS values
+            bar = axes[ch, b].bar(
+                x=x,
+                height=data_nm_rms[b, :, ch] - base_rms,
+                width=bar_width,
+                align="center",
+                color="C3",
+                edgecolor="black",
+                linewidth=0.5,
+                zorder=3,
+            )
+
+            # set axis labels and ticks
+            axes[ch, b].grid(True, which="major", axis="y", alpha=1.0, zorder=0)
+            axes[ch, b].grid(True, which="minor", axis="y", alpha=0.4, zorder=0)
+            axes[ch, b].tick_params(
+                which="major",
+                direction="in",
+                top=True,
+                bottom=True,
+                left=True,
+                right=True,
+            )
+            axes[ch, b].tick_params(which="minor", length=0)
+            axes[ch, b].set_xticks(x)
+            axes[ch, b].set_yticks(
+                np.arange(*axes[ch, b].get_ylim(), step_db_y), minor=True
+            )
+            if b == 0:
+                axes[ch, b].set_ylabel("RMS in dB")
+            if ch == chs - 1:
+                axes[ch, b].set_xlabel("SH (order, degree)")
+                axes[ch, b].set_xticklabels(
+                    mn_str, rotation=90, fontdict=_MN_LABEL_FONT
+                )
+
+            # set legend
+            if lgd_ch_ids:
+                axes[ch, b].legend(
+                    handles=[bar],
+                    labels=[f"ch {lgd_ch_ids[ch]}"],
+                    loc="upper right",
+                    fontsize="xx-small",
+                )
+
+    # set axis limits
+    plt.xlim(-0.5, coeffs - 0.5)
+    plt.ylim(0, max_rms - base_rms)  # according to base RMS label offset
 
     # remove layout margins
     fig.tight_layout(pad=0)
