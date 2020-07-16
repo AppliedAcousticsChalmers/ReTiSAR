@@ -338,20 +338,6 @@ class FilterSet(object):
             else:
                 data = self._irs_td[:, :8]
 
-            if isinstance(self._file_name, np.ndarray):
-                # extract generated size
-                name = (  # NOSONAR
-                    f"GENERATED,"
-                    f'{str(self._file_name.shape).strip("()").replace(" ", "")}'
-                )
-            else:
-                # extract parent dir
-                top_dir = os.path.basename(os.path.dirname(self._file_name))
-                # extract file name without ending
-                name = os.path.basename(self._file_name).rsplit(".")[0]
-                name = f"{top_dir}_{name}"
-            name = f"{logger.name if logger else self.__module__}_{name}_{block_length}"
-
             tools.export_plot(
                 figure=tools.plot_ir_and_tf(
                     data_td_or_fd=data,
@@ -361,7 +347,7 @@ class FilterSet(object):
                     is_etc=True,
                     step_db_y=10,
                 ),
-                name=name,
+                name=self._generate_plot_name(block_length=block_length, logger=logger),
                 logger=logger,
             )
 
@@ -369,10 +355,39 @@ class FilterSet(object):
         self._dirac_td = np.zeros(self._irs_td.shape[-2:], dtype=self._irs_td.dtype)
         self._dirac_td[:, 0] = 1.0
 
+    def _generate_plot_name(self, block_length, logger=None):
+        """
+        Parameters
+        ----------
+        block_length : int
+            system specific size of every audio block
+        logger : logging.Logger, optional
+            instance to provide identical logging behaviour as the parent process
+
+        Returns
+        -------
+        str
+            generated plot file name from provided logger instance and respective filter file path
+        """
+        if isinstance(self._file_name, np.ndarray):
+            # extract generated size
+            name = (  # NOSONAR
+                f"GENERATED,"
+                f'{str(self._file_name.shape).strip("()").replace(" ", "")}'
+            )
+        else:
+            # extract parent dir
+            top_dir = os.path.basename(os.path.dirname(self._file_name))
+            # extract file name without ending
+            name = os.path.basename(self._file_name).rsplit(".")[0]
+            name = f"{top_dir}_{name}"
+
+        return f"{logger.name if logger else self.__module__}_{name}_{block_length}"
+
     def _log_load(self, logger=None):
         """
-        Log convenient status information about the audio file being read. If no `logger` is
-        provided the information will just be output via regular `print()`.
+        Log status information about the audio file being read for convenience. If no `logger` is
+        provided the information will be output via regular `print()`.
 
         Parameters
         ----------
@@ -1246,7 +1261,9 @@ class FilterSetMiro(FilterSet):
         # calculate sh base functions, see `sound-field-analysis-py` `process.spatFT()` for
         # reference
         sh_bases = sfa.sph.sph_harm_all(
-            nMax=self._sh_max_order, az=self._irs_grid.azimuth, el=self._irs_grid.colatitude
+            nMax=self._sh_max_order,
+            az=self._irs_grid.azimuth,
+            el=self._irs_grid.colatitude,
         ).astype(dtype)
         if self._sh_is_enforce_pinv or self._irs_grid.weight is None:
             # calculate pseudo inverse since no grid weights are given

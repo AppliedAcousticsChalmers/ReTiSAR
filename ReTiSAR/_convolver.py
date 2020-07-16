@@ -961,15 +961,15 @@ class AdjustableFdConvolver(OverlapSaveConvolver):
             tracker_dir * self._tracker_deg[HeadTracker.DataIndex.AZIM]
             + self._sources_deg[:, 0]
         )
-        azims_deg = (azims_deg + 360.0) % 360.0  # azimuth between 0 and 359
+        # azimuth between 0 and 359
+        azims_deg = (azims_deg + 360.0) % 360.0
 
         elevs_deg = (
             tracker_dir * self._tracker_deg[HeadTracker.DataIndex.ELEV]
             + self._sources_deg[:, 1]
         )
-        elevs_deg = (
-            (elevs_deg + 180.0) % 360.0
-        ) - 180.0  # elevation between -180 and 179
+        # elevation between -180 and 179
+        elevs_deg = ((elevs_deg + 180.0) % 360.0) - 180.0
 
         # use floats to calculate above to preserve `_sources_deg` dtype
         return azims_deg, elevs_deg
@@ -1167,6 +1167,7 @@ class AdjustableShConvolver(AdjustableFdConvolver):
 
         return sh_new_order
 
+    # noinspection PyProtectedMember
     def _apply_sh_compensation(self, is_plot=True, logger=None):
         """
         Calculate and apply modal radial filter as well as further compensation filters. This
@@ -1187,6 +1188,9 @@ class AdjustableShConvolver(AdjustableFdConvolver):
         # (re)calculate block buffers
         self._filter.calculate_filter_blocks_nm()
 
+        # backup raw block buffers
+        irs_blocks_nm_before = self._filter._irs_blocks_nm.copy()
+
         # generate specified compensations based on one block length
         comp_nm = Compensation.generate_by_type(
             compensation_types=self._comp,
@@ -1197,9 +1201,23 @@ class AdjustableShConvolver(AdjustableFdConvolver):
             nfft_padded=self._input_block_td.shape[-1],
             logger=logger,
         )
+
         # apply compensations
-        # noinspection PyProtectedMember
         self._filter._irs_blocks_nm *= comp_nm
+
+        # plot comparison of raw and compensated block buffers
+        name = self._filter._generate_plot_name(
+            block_length=self._block_length, logger=logger
+        )
+        tools.export_plot(
+            figure=tools.plot_nm_rms(
+                data_nm_fd=np.concatenate(
+                    (irs_blocks_nm_before, self._filter._irs_blocks_nm), axis=0
+                )
+            ),
+            name=f"{name}_COMP",
+            logger=logger,
+        )
 
     def get_input_channel_count(self):
         """
