@@ -113,6 +113,27 @@ class Compensation(object):
             doi:10.1109/ICASSP.2019.8683751
         """
 
+        SDS = "SECTORIAL_DEGREE_SELECTION"
+        SECTORIAL_DEGREE_SELECTION = SDS
+        """
+        Weighting (selection) of all (2*N)+1 sectorial SH modes, e.g. (0,0), (1,-1), (1,+1), (2,-2),
+        (2,+2), (3,-3), (3,+3). This means all non-sectorial modes (not in the outer diagonal of
+        the SH triangle) in the decomposed HRIR will be set to 0.
+        This method is experimental and not published. This method should only be applied in
+        horizontal synthesis (only considering azimuthal head rotations).
+        """
+
+        EDS = "EQUATORIAL_DEGREE_SELECTION"
+        EQUATORIAL_DEGREE_SELECTION = EDS
+        """
+        Weighting (selection) of all sum(range(N+2)) (partial sum of N+1) SH modes containing
+        information on the equator, e.g. (0,0), (1,-1), (1,+1), (2,-2), (2,0), (2,+2), (3,-3),
+        (3,-1), (3,+1), (3,+3). This means all non-horizontal modes (not in the outer diagonal plus
+        every second mode of the SH triangle) in the decomposed HRIR will be set to 0.
+        This method is experimental and not published. This method should only be applied in
+        horizontal synthesis (only considering azimuthal head rotations).
+        """
+
         AMF = "ALIASING_MITIGATION_FILTER"
         ALIASING_MITIGATION_FILTER = AMF
         """
@@ -309,7 +330,11 @@ class Compensation(object):
                 )
                 return comps_nm
 
-            if _type == Compensation.Type.SHT:
+            if _type in [
+                Compensation.Type.SHT,
+                Compensation.Type.SDS,
+                Compensation.Type.EDS,
+            ]:
                 # filter length is singular weighting factor
                 nfft = 1
             else:
@@ -434,6 +459,14 @@ class Compensation(object):
         elif _type == Compensation.Type.SHT:
             comp_nm = Compensation._generate_fd_sht(
                 sh_max_order=sh_max_order, nfft=nfft, fs=fs, dtype=dtype, logger=logger
+            )
+        elif _type == Compensation.Type.SDS:
+            comp_nm = Compensation._generate_fd_sds(
+                sh_max_order=sh_max_order, dtype=dtype, logger=logger,
+            )
+        elif _type == Compensation.Type.EDS:
+            comp_nm = Compensation._generate_fd_eds(
+                sh_max_order=sh_max_order, dtype=dtype, logger=logger,
             )
         elif _type == Compensation.Type.AMF:
             comp_nm = Compensation._generate_fd_amf(
@@ -692,6 +725,108 @@ class Compensation(object):
         return comp_nm
 
     @staticmethod
+    def _generate_fd_sds(sh_max_order, dtype, logger):
+        """
+        Generate SH weights selecting only sectorial modes, see `Compensation.Type` for reference.
+
+        Parameters
+        ----------
+        sh_max_order : int
+            maximum spherical harmonics order
+        dtype : str or numpy.dtype or type
+            numpy data type of generated array
+        logger : logging.Logger
+            instance to provide identical logging behaviour as the parent process
+
+        Returns
+        -------
+        numpy.ndarray
+            weights of the selection function which can be used as one-sided complex frequency
+            spectra or real time domain factors
+        """
+
+        def _get_non_sectorial_ids():
+            ids = []
+            for n in range(1, sh_max_order + 1, 1):
+                ids.extend(list(range(n ** 2 + 1, (n + 1) ** 2 - 1, 1)))
+            return ids
+
+        # def _get_sectorial_ids():
+        #     ids = []
+        #     for n in range(sh_max_order + 1):
+        #         ids.append(n ** 2)
+        #         if n > 0:
+        #             ids.append((n + 1) ** 2 - 1)
+        #     return ids
+
+        # generate weights according to the number of SH degrees
+        weights_nm = np.ones(((sh_max_order + 1) ** 2, 1, 1), dtype=dtype)
+
+        # apply zeros at respective SH degrees
+        weights_nm[_get_non_sectorial_ids(), :, :] = 0
+
+        if Compensation._IS_PLOT:
+            # plot for all SH degrees
+            Compensation._plot_nm_weights(
+                weights_nm=weights_nm,
+                _type=Compensation.Type.SDS,
+                sh_max_order=sh_max_order,
+                logger=logger,
+            )
+
+        return weights_nm
+
+    @staticmethod
+    def _generate_fd_eds(sh_max_order, dtype, logger):
+        """
+        Generate SH weights selecting only equatorial modes, see `Compensation.Type` for reference.
+
+        Parameters
+        ----------
+        sh_max_order : int
+            maximum spherical harmonics order
+        dtype : str or numpy.dtype or type
+            numpy data type of generated array
+        logger : logging.Logger
+            instance to provide identical logging behaviour as the parent process
+
+        Returns
+        -------
+        numpy.ndarray
+            weights of the selection function which can be used as one-sided complex frequency
+            spectra or real time domain factors
+        """
+
+        def _get_non_equatorial_ids():
+            ids = []
+            for n in range(1, sh_max_order + 1, 1):
+                ids.extend(list(range(n ** 2 + 1, (n + 1) ** 2, 2)))
+            return ids
+
+        # def _get_equatorial_ids():
+        #     ids = []
+        #     for n in range(sh_max_order + 1):
+        #         ids.extend(list(range(n ** 2, (n + 1) ** 2, 2)))
+        #     return ids
+
+        # generate weights according to the number of SH degrees
+        weights_nm = np.ones(((sh_max_order + 1) ** 2, 1, 1), dtype=dtype)
+
+        # apply zeros at respective SH degrees
+        weights_nm[_get_non_equatorial_ids(), :, :] = 0
+
+        if Compensation._IS_PLOT:
+            # plot for all SH degrees
+            Compensation._plot_nm_weights(
+                weights_nm=weights_nm,
+                _type=Compensation.Type.EDS,
+                sh_max_order=sh_max_order,
+                logger=logger,
+            )
+
+        return weights_nm
+
+    @staticmethod
     def _generate_fd_amf(sh_max_order, nfft, fs, arir_config, dtype, logger):
         # TODO: implement aliasing mitigation filter
         raise NotImplementedError(
@@ -721,4 +856,15 @@ class Compensation(object):
             figure=tools.plot_ir_and_tf(data_td_or_fd=comp_nm, fs=fs),
             name=name,
             logger=logger,
+        )
+
+    @staticmethod
+    def _plot_nm_weights(weights_nm, _type, sh_max_order, logger=None):
+        # build name
+        name = f"{logger.name if logger else _type.__module__}"
+        name = f"{name}_{_type.name}_sh{sh_max_order}"
+
+        # plot weights
+        tools.export_plot(
+            figure=tools.plot_nm_rms(data_nm_fd=weights_nm), name=name, logger=logger,
         )
