@@ -102,8 +102,8 @@ class Compensation(object):
         SHT = "SPHERICAL_HARMONICS_TAPERING"
         SPHERICAL_HARMONICS_TAPERING = SHT
         """
-        Modal SH weighting depending on the used rendering order for compensation of errors due to
-        spherical harmonics order truncation of the HRIR according to [1].
+        Order varying SH weights depending on the used rendering order for compensation of errors
+        due to spherical harmonics order truncation of the HRIR according to [1].
         This method should be combined with a slightly adjusted spherical head filter (see
         reference implementation).
 
@@ -458,7 +458,7 @@ class Compensation(object):
             )
         elif _type == Compensation.Type.SHT:
             comp_nm = Compensation._generate_fd_sht(
-                sh_max_order=sh_max_order, nfft=nfft, fs=fs, dtype=dtype, logger=logger
+                sh_max_order=sh_max_order, dtype=dtype, logger=logger
             )
         elif _type == Compensation.Type.SDS:
             comp_nm = Compensation._generate_fd_sds(
@@ -494,6 +494,7 @@ class Compensation(object):
         if comp_nm.shape[-1] == 1:
             # repeat to two frequency bins to prevent exception inverse Fourier transform
             comp_nm = np.repeat(comp_nm, 2, axis=-1)
+
         # apply zero padding to desired length
         return sfa.utils.zero_pad_fd(data_fd=comp_nm, target_length_td=nfft_padded)
 
@@ -532,9 +533,10 @@ class Compensation(object):
             is_linear_phase=False,
             is_apply_window=True,
         )
+
         comp_fd = comp_fd.astype(dtype)  # adjust dtype
         if Compensation._IS_PLOT:
-            Compensation._plot(
+            Compensation._plot_ir_and_tf(
                 comp_nm=comp_fd,
                 _type=Compensation.Type.SPF,
                 sh_max_order=None,
@@ -582,6 +584,7 @@ class Compensation(object):
             array_configuration=arir_config,
             amp_maxdB=amp_limit_db,
         )
+
         # apply improvement (remove DC offset, make causal and windowing)
         comp_nm, _, comp_delay = sfa.process.rfi(comp_nm, kernelSize=nfft)
         comp_nm = comp_nm.astype(dtype)  # adjust dtype
@@ -590,7 +593,7 @@ class Compensation(object):
 
         if Compensation._IS_PLOT:
             # plot for all SH orders
-            Compensation._plot(
+            Compensation._plot_ir_and_tf(
                 comp_nm=comp_nm,
                 _type=Compensation.Type.MRF,
                 sh_max_order=sh_max_order,
@@ -614,6 +617,7 @@ class Compensation(object):
         sh_m_power = (
             arir_config.array_radius.dtype.type(-1.0) ** sh_m[:, np.newaxis, np.newaxis]
         )  # inherit dtype
+
         return comp_nm * sh_m_power
 
     @staticmethod
@@ -666,7 +670,7 @@ class Compensation(object):
 
         if Compensation._IS_PLOT:
             # plot globally
-            Compensation._plot(
+            Compensation._plot_ir_and_tf(
                 comp_nm=comp_nm,
                 _type=Compensation.Type.SHF,
                 sh_max_order=sh_max_order,
@@ -678,18 +682,14 @@ class Compensation(object):
         return comp_nm
 
     @staticmethod
-    def _generate_fd_sht(sh_max_order, nfft, fs, dtype, logger):
+    def _generate_fd_sht(sh_max_order, dtype, logger):
         """
-        Generate modal spherical harmonics tapering weights, see `Compensation.Type` for reference.
+        Generate order varying SH tapering weights, see `Compensation.Type` for reference.
 
         Parameters
         ----------
         sh_max_order : int
             maximum spherical harmonics order
-        nfft : int
-            compensation filter length, which can / should be one (single coefficient) here
-        fs : int
-            compensation filter sampling frequency, only relevant for plotting
         dtype : str or numpy.dtype or type
             numpy data type of generated array
         logger : logging.Logger
@@ -702,27 +702,25 @@ class Compensation(object):
              spectra or real time domain factors
         """
         # calculate for all SH orders
-        comp_nm = sfa.gen.tapering_window(max_order=sh_max_order).astype(dtype)
-        # adjust shape to match number of target bins
-        comp_nm = np.repeat(comp_nm[:, np.newaxis], nfft, axis=1)
+        weights_nm = sfa.gen.tapering_window(max_order=sh_max_order).astype(dtype)
+
+        # repeat to match number of SH degrees
+        weights_nm = np.repeat(
+            weights_nm[:, np.newaxis, np.newaxis],
+            range(1, sh_max_order * 2 + 2, 2),
+            axis=0,
+        )
 
         if Compensation._IS_PLOT:
-            # plot for all SH orders
-            Compensation._plot(
-                comp_nm=comp_nm,
+            # plot for all SH degrees
+            Compensation._plot_nm_weights(
+                weights_nm=weights_nm,
                 _type=Compensation.Type.SHT,
                 sh_max_order=sh_max_order,
-                nfft=nfft,
-                fs=fs,
                 logger=logger,
             )
 
-        # repeat to match number of SH degrees
-        comp_nm = np.repeat(
-            comp_nm[:, np.newaxis, :], range(1, sh_max_order * 2 + 2, 2), axis=0
-        )
-
-        return comp_nm
+        return weights_nm
 
     @staticmethod
     def _generate_fd_sds(sh_max_order, dtype, logger):
@@ -841,7 +839,9 @@ class Compensation(object):
         )
 
     @staticmethod
-    def _plot(comp_nm, _type, sh_max_order, nfft, fs, mrf_params=None, logger=None):
+    def _plot_ir_and_tf(
+        comp_nm, _type, sh_max_order, nfft, fs, mrf_params=None, logger=None
+    ):
         # build name
         name = f"{logger.name if logger else _type.__module__}_{_type.name}_{nfft}"
         if sh_max_order is not None:
