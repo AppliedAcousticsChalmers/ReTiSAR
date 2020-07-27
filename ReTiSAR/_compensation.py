@@ -647,14 +647,16 @@ class Compensation(object):
         numpy.ndarray
             one-sided complex frequency spectra of the compensation filter
         """
-        # calculate globally
-        comp_nm = sfa.gen.spherical_head_filter_spec(
-            max_order=sh_max_order,
-            NFFT=nfft,
-            fs=fs,
-            radius=radius,
-            is_tapering=is_tapering,
-        )
+        # ignore invalid value FloatingPointError (only encountered on Windows)
+        with np.errstate(invalid="ignore"):
+            # calculate globally
+            comp_nm = sfa.gen.spherical_head_filter_spec(
+                max_order=sh_max_order,
+                NFFT=nfft,
+                fs=fs,
+                radius=radius,
+                is_tapering=is_tapering,
+            )
         comp_nm = comp_nm.astype(dtype)  # adjust dtype
 
         # make causal

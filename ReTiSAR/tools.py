@@ -440,6 +440,14 @@ def request_numpy_parameters():
     # show shape when printing  `np.ndarray` (useful while debugging)
     import numpy as np
 
+    # adjust numpy settings to throw exceptions for all potential error instances (division by
+    # zero, overflow, underflow and invalid operation (typically due to a NaN)
+    # this requires that certain operations where exceptions are known need to be called while
+    # temporarily ignoring the specific warning:
+    # with np.errstate(invalid="ignore"):
+    np.seterr(all="raise")
+
+    # show shape when printing np.ndarray (useful while debugging)
     np.set_string_function(
         lambda ndarray: f'[{["x", "C"][ndarray.flags.carray]}{["x", "F"][ndarray.flags.farray]}'
         f'{["x", "O"][ndarray.flags.owndata]}] {ndarray.dtype} {ndarray.shape}',
@@ -1437,8 +1445,10 @@ def plot_ir_and_tf(
                 20 * np.log10(np.abs(data_fd[ch])),
                 color="C1",
             )
-            # set limits, needs to be done before setting yticks
-            axes[ch, fd_col].set_ylim(*_adjust_y_lim(is_fd=True))
+            # ignore underflow FloatingPointError in `numpy.ma.power()`
+            with np.errstate(under="ignore"):
+                # set limits, needs to be done before setting yticks
+                axes[ch, fd_col].set_ylim(*_adjust_y_lim(is_fd=True))
             # set ticks and grid
             axes[ch, fd_col].set_xticks(_FREQS_LABELED)
             axes[ch, fd_col].xaxis.set_major_formatter(
