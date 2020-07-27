@@ -700,7 +700,7 @@ def export_fftw_wisdom(logger):
             os.path.dirname(config.PYFFTW_WISDOM_FILE),
             f"BACKUP_{os.path.basename(config.PYFFTW_WISDOM_FILE)}",
         )
-        os.rename(config.PYFFTW_WISDOM_FILE, backup)
+        os.replace(src=config.PYFFTW_WISDOM_FILE, dst=backup)
         log_str = f'... renamed existing file to "{os.path.relpath(backup)}".'
         logger.info(log_str) if logger else print(log_str)
 

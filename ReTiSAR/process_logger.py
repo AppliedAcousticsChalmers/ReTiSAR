@@ -140,7 +140,7 @@ def setup_logfile(name, ending="log"):
     # rename existing files as backup
     if os.path.isfile(file):
         backup = os.path.join(os.path.dirname(file), f"BACKUP_{os.path.basename(file)}")
-        os.rename(file, backup)
+        os.replace(src=file, dst=backup)
 
     return file
 
