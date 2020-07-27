@@ -546,10 +546,11 @@ def import_fftw_wisdom(is_enforce_load=False):
         error occurred
     """
 
-    def log_error(log_str):
-        if is_enforce_load:
+    def log_error(log_str, is_enforce_exit=False):
+        if is_enforce_load or is_enforce_exit:
             print(
-                f"... {log_str} while load was enforced.\napplication interrupted.",
+                f"... {log_str}{' while load was enforced' if is_enforce_load else ''}."
+                f"\napplication interrupted.",
                 file=sys.stderr,
             )
             sys.exit(1)
@@ -579,7 +580,7 @@ def import_fftw_wisdom(is_enforce_load=False):
     try:
         with open(file_name, mode="rb") as file:
             # read file
-            wisdom = file.read().split(b"\n\n")
+            wisdom = file.read().rsplit(b"\n\n")
 
             if is_legacy_load:
                 if len(wisdom) > 1:
@@ -598,6 +599,11 @@ def import_fftw_wisdom(is_enforce_load=False):
                 if len(wisdom) > 1:
                     # extract signature
                     digest, wisdom = wisdom
+
+                    # strip newlines, just to be sure
+                    wisdom = wisdom.strip(b"\n")
+
+                    # compute expected hash
                     expected_digest = hmac.new(
                         key=get_system_name().encode(), msg=wisdom, digestmod=blake2b
                     ).digest()
@@ -606,10 +612,15 @@ def import_fftw_wisdom(is_enforce_load=False):
                     if hmac.compare_digest(digest, expected_digest):
                         print(f"... found valid FFTW wisdom file signature.")
                     else:
-                        log_error("found invalid FFTW wisdom file signature")
+                        log_error(
+                            "found invalid FFTW wisdom file signature",
+                            is_enforce_exit=True,
+                        )
                 else:
                     # no signature given
-                    log_error("found no FFTW wisdom file signature")
+                    log_error(
+                        "found no FFTW wisdom file signature", is_enforce_exit=True
+                    )
 
             # load wisdom
             # noinspection PickleLoad
