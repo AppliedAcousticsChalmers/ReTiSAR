@@ -341,6 +341,7 @@ def request_process_parameters():
 
     print("trying to adjust process parameters ...")
 
+    # noinspection PyUnresolvedReferences
     if hasattr(config, "PROCESS_PRIORITY") and config.PROCESS_PRIORITY != 0:
         print(
             "[WARNING]  setting of process priority currently not implemented.",
@@ -407,6 +408,7 @@ def request_process_parameters():
         )
 
 
+# noinspection PyTypeChecker
 def request_numpy_parameters():
     """
     Set `numpy` specific parameters for linked libraries like settings for automatic threading
@@ -449,7 +451,7 @@ def request_numpy_parameters():
 
     # show shape when printing np.ndarray (useful while debugging)
     np.set_string_function(
-        lambda ndarray: f'[{["x", "C"][ndarray.flags.carray]}{["x", "F"][ndarray.flags.farray]}'
+        f=lambda ndarray: f'[{["x", "C"][ndarray.flags.carray]}{["x", "F"][ndarray.flags.farray]}'
         f'{["x", "O"][ndarray.flags.owndata]}] {ndarray.dtype} {ndarray.shape}',
         repr=False,
     )
