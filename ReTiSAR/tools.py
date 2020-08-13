@@ -1107,27 +1107,33 @@ def generate_iir_filter_fd(
     return filter_fd
 
 
-def calculate_rms(data_td, is_level=False):
+def calculate_rms(data, is_level=False):
     """
     Parameters
     ----------
-    data_td : numpy.ndarray
-        time domain data (along last axis) the root mean square value should be calculated of
+    data : numpy.ndarray
+        time or frequency domain data (along last axis)
     is_level : bool, optional
         if RMS value should be calculated as level in dB
 
     Returns
     -------
     numpy.ndarray
-        root mean square values of provided time domain data
+        root mean square values of provided data
     """
     import numpy as np
 
-    rms = np.sqrt(np.mean(np.square(data_td), axis=-1))
+    if np.iscomplexobj(data):
+        rms = np.sqrt(
+            np.sum(np.square(np.abs(data)), axis=-1) / np.square(data.shape[-1])
+        )
+    else:
+        rms = np.sqrt(np.mean(np.square(np.abs(data)), axis=-1))
     if is_level:
         rms[np.nonzero(rms == 0)] = np.nan  # prevent zeros
         rms = 20 * np.log10(rms)  # transform into level
         # rms[np.isnan(rms)] = np.NINF  # transform zeros into -infinity
+        rms[np.isnan(rms)] = -200  # transform zeros into -200 dB
     return rms
 
 
@@ -1152,6 +1158,7 @@ def calculate_peak(data_td, is_level=False):
         peak[np.nonzero(peak == 0)] = np.nan  # prevent zeros
         peak = 20 * np.log10(peak)  # transform into level
         # peak[np.isnan(peak)] = np.NINF  # transform zeros into -infinity
+        peak[np.isnan(peak)] = -200  # transform zeros into -200 dB
     return peak
 
 
