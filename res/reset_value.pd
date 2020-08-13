@@ -1,0 +1,55 @@
+#N canvas 501 572 312 296 12;
+#X obj 91 13 inlet;
+#X obj 92 266 outlet;
+#X obj 93 240 f;
+#X msg 112 60 1;
+#X obj 147 195 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 226 53 delay in s;
+#X obj 94 176 select 0;
+#X floatatom 42 267 5 0 0 0 - - -;
+#X obj 94 214 f \$1;
+#X obj 26 13 loadbang;
+#X text 178 16 update rate in ms;
+#X text 157 31 for levels and loads;
+#X obj 135 13 inlet;
+#X floatatom 151 266 5 0 0 0 - - -;
+#X obj 135 33 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 116 33 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 104 195 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 126 85 - 0.1;
+#X obj 94 85 f;
+#X obj 94 111 * 10;
+#X obj 94 130 div;
+#X obj 94 149 / 10;
+#X text 163 66 until value is sent;
+#X text 125 130 round to 1 decimal point;
+#X obj 206 262 print;
+#X obj 3 136 list length;
+#X floatatom 11 173 5 0 0 0 - - -;
+#X connect 0 0 3 0;
+#X connect 0 0 2 1;
+#X connect 0 0 15 0;
+#X connect 0 0 25 0;
+#X connect 2 0 1 0;
+#X connect 2 0 13 0;
+#X connect 3 0 18 1;
+#X connect 4 0 2 0;
+#X connect 6 0 8 0;
+#X connect 6 0 16 0;
+#X connect 6 1 4 0;
+#X connect 8 0 7 0;
+#X connect 8 0 2 0;
+#X connect 9 0 8 0;
+#X connect 12 0 14 0;
+#X connect 14 0 18 0;
+#X connect 17 0 18 1;
+#X connect 18 0 17 0;
+#X connect 18 0 19 0;
+#X connect 19 0 20 0;
+#X connect 20 0 21 0;
+#X connect 21 0 6 0;
+#X connect 25 0 26 0;
