@@ -273,6 +273,8 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[12]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) C. Hohnerlein and J. Ahrens, “Spherical Microphone Array Processing in Python with the sound_field_analysis-py Toolbox,” in Fortschritte der Akustik -- DAGA 2017, 2017, pp. 1033–1036.
 
 ## Change Log
+* __v2020.8.17__
+  * Addition of `PEP 8 Speaks` bot for linting of incoming Pull Requests
 * __v2020.8.13__
   * Update of OSC Remote Demo to reset (after not receiving data) and clip displayed RMS values
   * Improvement of FFTW wisdom verification to be more error proof
