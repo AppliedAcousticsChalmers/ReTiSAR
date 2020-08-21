@@ -81,6 +81,8 @@ def parse_cmd_args():
     parser.add_argument("-sp", "--SOURCE_POSITIONS", type=str, required=False,
                         help="source positions as list of tuple of azimuth and elevation in "
                              "degrees")
+    parser.add_argument("-sap", "--SOURCE_IS_AUTO_PLAY", type=transform_str2bool, required=False,
+                        help="auto play state of source audio replay")
     parser.add_argument("-sl", "--SOURCE_LEVEL", type=float, required=False,
                         help="output level in dBFS of source audio replay")
     parser.add_argument("-sm", "--SOURCE_MUTE", type=transform_str2bool, required=False,

@@ -33,7 +33,7 @@ class JackPlayer(JackClient):
     """
 
     def __init__(
-        self, name, file_name, buffer_length=20, is_auto_play=True, *args, **kwargs
+        self, name, file_name, is_auto_play, buffer_length=20, *args, **kwargs
     ):
         """
         Extends the `JackClient` function to initialize a new JACK client and process. According
@@ -46,11 +46,11 @@ class JackPlayer(JackClient):
             name of the JACK client and spawned process
         file_name : str
             file path/name of audio file being played
+        is_auto_play : bool
+            if audio is supposed to be played after program start
         buffer_length : int, optional
             number of audio blocks (given by `jack.Client.blocksize`) being saved in the internal
             buffer
-        is_auto_play : bool, optional
-            if audio is supposed to be played after program start
         """
         super().__init__(name=name, *args, **kwargs)
 

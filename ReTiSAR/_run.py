@@ -237,8 +237,9 @@ def main():
         try:
             new_player = JackPlayer(
                 name=f"{name}-Player",
-                block_length=config.BLOCK_LENGTH,
                 file_name=config.SOURCE_FILE,
+                is_auto_play=config.SOURCE_IS_AUTO_PLAY,
+                block_length=config.BLOCK_LENGTH,
                 is_main_client=False,
                 is_single_precision=config.IS_SINGLE_PRECISION,
             )

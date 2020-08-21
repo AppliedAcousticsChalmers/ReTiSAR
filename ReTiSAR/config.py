@@ -22,6 +22,8 @@ set before starting any client. """
 """Type of hardware providing head tracking data, see `HeadTracker.Type`."""
 """System specific path to tracker port to read data from, see `HeadTracker`."""
 
+SOURCE_IS_AUTO_PLAY = True
+"""Auto play state during startup of audio being played by the application, see `JackPlayer`."""
 SOURCE_LEVEL = 0
 """Output level in dBFS of audio being played by the application, see `JackClient`."""
 SOURCE_MUTE = False
@@ -99,7 +101,6 @@ CLIENT_MAX_DELAY_SEC = 1
 
 REMOTE_OSC_PORT = 5005
 """Port to receive Open Sound Control remote control messages."""
-
 
 # ########################### #
 #  EXECUTION MODE PARAMETERS  #
@@ -249,7 +250,6 @@ LOGGING_FORMAT = "%(name)-@s  %(levelname)-8s  %(message)s"
 LOGGING_PATH = "log/"
 """Path of log messages being saved to, see `process_logger`."""
 
-
 # ###################### #
 #  PERFORMANCE SETTINGS  #
 # ###################### #
@@ -301,7 +301,6 @@ PYFFTW_LEGACY_FILE = None
 """File of `pyfftw` wisdom being loaded by the application without signature validation,
 see `__main__`."""
 
-
 # ################# #
 #  ! DO NOT EDIT !  #
 # ################# #
@@ -347,6 +346,8 @@ if "ARIR_RADIAL_AMP" not in locals():
     ARIR_RADIAL_AMP = 0
 if "SOURCE_POSITIONS" not in locals():
     SOURCE_POSITIONS = [(0, 0)]
+if "SOURCE_IS_AUTO_PLAY" not in locals():
+    SOURCE_IS_AUTO_PLAY = False
 if "TRACKER_TYPE" not in locals():
     TRACKER_TYPE = None
 if "TRACKER_PORT" not in locals():
