@@ -648,7 +648,7 @@ class Compensation(object):
             one-sided complex frequency spectra of the compensation filter
         """
         # ignore invalid value FloatingPointError (only encountered on Windows)
-        with np.errstate(invalid="ignore"):
+        with np.errstate(invalid="ignore", under="ignore"):
             # calculate globally
             comp_nm = sfa.gen.spherical_head_filter_spec(
                 max_order=sh_max_order,
