@@ -22,6 +22,7 @@
 !/research/*
 /research/benchmarks/**/*.html
 /research/benchmarks/**/*.png
+#!/research/benchmarks/**/*.log
 *.zip
 subplot_er.m
 
