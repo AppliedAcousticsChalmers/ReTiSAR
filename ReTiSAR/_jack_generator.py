@@ -196,9 +196,7 @@ class Generator(object):
                 output_count=output_count, dtype=dtype, color="PINK"
             )
         elif _type in [Generator.Type.NOISE_IIR_EM, Generator.Type.NOISE_IIR_EIGENMIKE]:
-            return GeneratorNoiseIir(
-                output_count=output_count, dtype=dtype, color="EM"
-            )
+            return GeneratorNoiseIir(output_count=output_count, dtype=dtype, color="EM")
         elif _type in [
             Generator.Type.NOISE_AR_PURPLE,
             Generator.Type.NOISE_AR_BLUE,

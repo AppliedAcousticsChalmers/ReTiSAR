@@ -462,11 +462,15 @@ class Compensation(object):
             )
         elif _type == Compensation.Type.SDS:
             comp_nm = Compensation._generate_fd_sds(
-                sh_max_order=sh_max_order, dtype=dtype, logger=logger,
+                sh_max_order=sh_max_order,
+                dtype=dtype,
+                logger=logger,
             )
         elif _type == Compensation.Type.EDS:
             comp_nm = Compensation._generate_fd_eds(
-                sh_max_order=sh_max_order, dtype=dtype, logger=logger,
+                sh_max_order=sh_max_order,
+                dtype=dtype,
+                logger=logger,
             )
         elif _type == Compensation.Type.AMF:
             comp_nm = Compensation._generate_fd_amf(
@@ -868,5 +872,7 @@ class Compensation(object):
 
         # plot weights
         tools.export_plot(
-            figure=tools.plot_nm_rms(data_nm_fd=weights_nm), name=name, logger=logger,
+            figure=tools.plot_nm_rms(data_nm_fd=weights_nm),
+            name=name,
+            logger=logger,
         )

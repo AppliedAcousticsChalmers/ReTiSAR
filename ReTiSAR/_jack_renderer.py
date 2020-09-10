@@ -480,7 +480,7 @@ class JackRendererBenchmark(JackRenderer):
 
     def __init__(self, name, block_length, filter_length, *args, **kwargs):
         """Extends the `JackRenderer` function to also initialize the list of contained
-        `Convolver`. """
+        `Convolver`."""
 
         def generate_dirac(length):
             import numpy as np

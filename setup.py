@@ -56,8 +56,12 @@ setup(
             "natsort",  # for benchmarking
             "pandas",  # for benchmarking
         ],
-        "development": ["black >=19.10b0",],  # for code formatting
+        "development": [
+            "black >=20.8b1",
+        ],  # for code formatting
     },
-    package_data={"": ["res/*"],},
+    package_data={
+        "": ["res/*"],
+    },
     packages=find_packages(),
 )

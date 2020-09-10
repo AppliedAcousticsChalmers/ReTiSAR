@@ -285,7 +285,7 @@ class HeadTrackerRotate(HeadTracker):
 
     def _init_config(self):
         """Extends the function of `HeadTracker` to configure individual parameters for the
-        pseudo-tracker process. """
+        pseudo-tracker process."""
         self._timeout = 1 / 60  # data send rate
         self._position_step = [0, 0, 0, 0.5, 0, 0]  # x, y, z, azim, elev, tilt
 

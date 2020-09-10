@@ -499,7 +499,7 @@ class OverlapSaveConvolver(Convolver):
 
     def _clear_buffers(self):
         """Clear all intermediate signal block buffers, helpful to prevent artifacts when
-        switching configurations. """
+        switching configurations."""
         super()._clear_buffers()
         self._input_block_td.fill(0)
         self._blocks_fd.fill(0)
@@ -773,7 +773,7 @@ class AdjustableFdConvolver(OverlapSaveConvolver):
 
     def _clear_buffers(self):
         """Clear all intermediate signal block buffers, helpful to prevent artifacts when
-        switching configurations. """
+        switching configurations."""
         super()._clear_buffers()
         self._last_blocks_fd.fill(0)
 

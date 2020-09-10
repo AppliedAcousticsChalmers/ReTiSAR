@@ -21,7 +21,7 @@ logging.getLogger("matplotlib").setLevel(logging.INFO)
 
 def parse_cmd_args():
     """Allow for parsing of certain command line arguments and update according values in
-    `config`. """
+    `config`."""
     import argparse
 
     class _LicenseAction(argparse.Action):
@@ -1019,10 +1019,13 @@ def generate_noise(shape, scale=1 / 10, dtype="float64"):
         return scale * _RNG.standard_normal(size=shape, dtype=dtype)
 
     elif np.dtype(dtype) in [np.complex64, np.complex128]:
-        return scale * _RNG.standard_normal(
-            size=(shape[0], shape[1] * 2),
-            dtype=np.float32 if np.dtype(dtype) == np.complex64 else np.float64,
-        ).view(dtype)
+        return (
+            scale
+            * _RNG.standard_normal(
+                size=(shape[0], shape[1] * 2),
+                dtype=np.float32 if np.dtype(dtype) == np.complex64 else np.float64,
+            ).view(dtype)
+        )
 
     else:
         raise ValueError(f'unknown data type "{dtype}".')
