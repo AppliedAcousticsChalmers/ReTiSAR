@@ -441,7 +441,6 @@ def request_numpy_parameters():
 
     print_numpy_info()
 
-    # show shape when printing  `np.ndarray` (useful while debugging)
     import numpy as np
 
     # adjust numpy settings to throw exceptions for all potential error instances (division by
@@ -545,6 +544,7 @@ def print_numpy_info():
         )
 
 
+# noinspection PyUnresolvedReferences
 def import_fftw_wisdom(is_enforce_load=False):
     """
     Load and import gathered FFTW wisdom from provided file and set global `pyfftw` parameters
@@ -1280,29 +1280,25 @@ def plot_ir_and_tf(
         )
         return v_min, v_max
 
+    def _check_y_db_param(_db_y):
+        # check provided y-axis (time or frequency domain) limits
+        if not isinstance(_db_y, list):
+            _db_y = [_db_y]
+        if len(_db_y) > 2:
+            raise ValueError(
+                f"number of Decibel axis limits ({len(_db_y)}) is greater 2."
+            )
+        if len(_db_y) == 1 and _db_y[0] <= 0:
+            raise ValueError(
+                f"value of single Decibel axis limit ({_db_y[0]}) is smaller equal 0."
+            )
+        return _db_y
+
     # check and set provided parameters
     if is_etc and set_td_db_y is not None:
-        if not isinstance(set_td_db_y, list):
-            set_td_db_y = [set_td_db_y]
-        if len(set_td_db_y) > 2:
-            raise ValueError(
-                f"number of Decibel axis limits ({len(set_td_db_y)}) is greater 2."
-            )
-        if len(set_td_db_y) == 1 and set_td_db_y[0] <= 0:
-            raise ValueError(
-                f"value of single Decibel axis limit ({set_td_db_y[0]}) is smaller equal 0."
-            )
+        set_td_db_y = _check_y_db_param(set_td_db_y)
     if set_fd_db_y is not None:
-        if not isinstance(set_fd_db_y, list):
-            set_fd_db_y = [set_fd_db_y]
-        if len(set_fd_db_y) > 2:
-            raise ValueError(
-                f"number of Decibel axis limits ({len(set_fd_db_y)}) is greater 2."
-            )
-        if len(set_fd_db_y) == 1 and set_fd_db_y[0] <= 0:
-            raise ValueError(
-                f"value of single Decibel axis limit ({set_fd_db_y[0]}) is smaller equal 0."
-            )
+        set_fd_db_y = _check_y_db_param(set_fd_db_y)
     if set_fd_f_x is None:
         set_fd_f_x = [20, fs / 2]
     elif len(set_fd_f_x) != 2:
@@ -1364,7 +1360,6 @@ def plot_ir_and_tf(
     data_fd[np.nonzero(data_fd == 0)] = np.nan
     if is_etc:
         data_td[np.nonzero(data_td == 0)] = np.nan
-
         # transform td data into logarithmic scale
         data_td = 20 * np.log10(np.abs(data_td))
 
@@ -1393,9 +1388,8 @@ def plot_ir_and_tf(
                 )
             # set limits
             if is_etc:
-                axes[ch, td_col].set_ylim(
-                    *_adjust_y_lim(is_fd=False)
-                )  # needs to be done before setting yticks
+                # needs to be done before setting yticks
+                axes[ch, td_col].set_ylim(*_adjust_y_lim(is_fd=False))
             # set ticks and grid
             axes[ch, td_col].tick_params(
                 which="major",
@@ -1442,9 +1436,8 @@ def plot_ir_and_tf(
             if length > _TD_STEM_LIM:
                 axes[ch, td_col].set_xlim(0, length)
             else:
-                axes[ch, td_col].set_xticks(
-                    np.arange(0, length, 1), minor=False
-                )  # overwrite ticks
+                # overwrite ticks
+                axes[ch, td_col].set_xticks(np.arange(0, length, 1), minor=False)
                 axes[ch, td_col].set_xlim(-0.5, length - 0.5)
             # set labels
             if is_label_x and ch == data_td.shape[0] - 1:
