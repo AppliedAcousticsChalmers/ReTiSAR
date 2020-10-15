@@ -273,6 +273,8 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[12]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) C. Hohnerlein and J. Ahrens, “Spherical Microphone Array Processing in Python with the sound_field_analysis-py Toolbox,” in Fortschritte der Akustik -- DAGA 2017, 2017, pp. 1033–1036.
 
 ## Change Log
+* __v2020.10.15__ (__v2020.FA__)
+  * Addition of references to data set for _Forum Acusticum_ [[10]](#references) publication
 * __v2020.9.10__
   * Enforcement of `Black >= 20.8b1` code style
 * __v2020.8.20__
@@ -284,18 +286,18 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
   * Addition of experimental `SECTORIAL_DEGREE_SELECTION` and `EQUATORIAL_DEGREE_SELECTION` SH weighting techniques (partial elimination of HRIR elevation queues)
   * Update of plotting during and after application of SH compensation techniques
 * __v2020.7.7__
-  * Addition of HRIR and HPCF source files to SADIE II database [[8]](#references)
+  * Addition of HRIR and HPCF source files to _SADIE II_ database [[8]](#references)
   * Extension of `DataRetriever` to automatically extract requested resources from downloaded `*.zip` archives
 * __v2020.7.4__
   * Introduction of FFTW wisdom file signature verification (in order to update any already accumulated wisdom run with `--PYFFTW_LEGACY_FILE=log/pyfftw_wisdom.bin` once)
   * Fixes for further SonarLint security and code style recommendations
 * __v2020.7.1__
-  * Update and addition of further WDR Cologne ARIR source files (linking to Zenodo data set)
+  * Update and addition of further _WDR Cologne_ ARIR source files (linking to Zenodo data set)
   * Hack for Modal Radial Filters generation in open / cardioid SMA configurations (unfortunately this metadata is not directly available in SOFA ARIR files)
 * __v2020.4.8__
   * Improvement of IIR pink noise generation (continuous utilization of internal filter delay conditions)
   * Improvement of IIR pink noise generation (employment of SOS instead of BA coefficients)
-  * Addition of IIR Eigenmike coloration noise generation according to [[10]](#references)
+  * Addition of IIR _Eigenmike_ coloration noise generation according to [[10]](#references)
 * __v2020.4.3__
   * Improvement of white noise generation (vastly improved performance due to `numpy SFC64` generator)
   * Enabling of `JackGenerator` (and derivatives) to operate in single precision for improved performance
