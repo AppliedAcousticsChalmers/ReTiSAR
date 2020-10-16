@@ -107,7 +107,7 @@ class JackClient(SubProcess):
         self._init_client(block_length)
         self._input_buffer = DelayBuffer(
             sample_rate=self._client.samplerate,
-            block_length=block_length,
+            block_length=self._client.blocksize,
             delay_ms=input_delay_ms,
         )  # needs to be done after initializing the client
 
