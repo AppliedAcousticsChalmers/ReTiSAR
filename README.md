@@ -62,7 +62,7 @@ Contents:
 ## Quickstart
 * Follow [requirements](#requirements) and [setup](#setup) instructions
 * During first execution, some small amount of additional mandatory external measurement data will be downloaded automatically, see remark in [execution modes](#execution-modes) __(requires Internet connection)__
-* Start JACK server with 48 kHz sampling rate:</br>
+* Start _JACK_ server with 48 kHz sampling rate:</br>
 `jackd -d coreaudio -r 48000`</br>
 __Remark:__ Specify the desired device name via `-d` (gathered from `jackd -d coreaudio -d -l`), in case initialization fails!
 * Run package with __[default]__ parameters to hear a binaural rendering of a raw Eigenmike recording:<br/>
@@ -273,6 +273,8 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[12]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) C. Hohnerlein and J. Ahrens, “Spherical Microphone Array Processing in Python with the sound_field_analysis-py Toolbox,” in Fortschritte der Akustik -- DAGA 2017, 2017, pp. 1033–1036.
 
 ## Change Log
+* __v2020.10.21__
+  * Improvement of establishing _JACK_ and/or OS specific client name length limitation of `JackClient`
 * __v2020.10.15__ (__v2020.FA__)
   * Addition of references to data set for _Forum Acusticum_ [[10]](#references) publication
 * __v2020.9.10__
@@ -315,7 +317,7 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
   * Extension of `DataRetriever` to automatically download data files
   * Addition of missing ignored project resources
 * __v2020.2.2__
-  * Change of default rendering configuration to contained Eigenmike recording
+  * Change of default rendering configuration to contained _Eigenmike_ recording
   * Update of README structure (including Quickstart section)
 * __v2020.1.30__
   * First publication of code
