@@ -273,6 +273,8 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[12]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) C. Hohnerlein and J. Ahrens, “Spherical Microphone Array Processing in Python with the sound_field_analysis-py Toolbox,” in Fortschritte der Akustik -- DAGA 2017, 2017, pp. 1033–1036.
 
 ## Change Log
+* __v2020.10.21__
+  * Improvement of establishing [Jack] and/or OS specific client name length limitation of `JackClient`
 * __v2020.10.15__ (__v2020.FA__)
   * Addition of references to data set for _Forum Acusticum_ [[10]](#references) publication
 * __v2020.9.10__
@@ -315,7 +317,7 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
   * Extension of `DataRetriever` to automatically download data files
   * Addition of missing ignored project resources
 * __v2020.2.2__
-  * Change of default rendering configuration to contained Eigenmike recording
+  * Change of default rendering configuration to contained _Eigenmike_ recording
   * Update of README structure (including Quickstart section)
 * __v2020.1.30__
   * First publication of code
