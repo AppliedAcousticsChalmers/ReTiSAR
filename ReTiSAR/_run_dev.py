@@ -27,11 +27,12 @@ def inner(_it, _timer{init}):
 
     # _timeit_roll()
     # _timeit_fft()
-    _timeit_noise()
+    # _timeit_noise()
     # _timeit_sht()
     # _timeit_sp()
     # _timeit_basic()
     # _test_multiprocessing()
+    _test_client_name_length()
 
     return None
 
@@ -802,3 +803,43 @@ def _test_multiprocessing():
     client.deactivate()
     client.close()
     print("--- CLIENT CLOSED ---\n")
+
+
+def _test_client_name_length():
+    def _generate_name(le):
+        nums = list(range(1, 10))
+        nums.append(0)
+        n = "".join("".join(str(i) for i in nums) for _ in range(le // 10))
+        return f"{n}{''.join(str(i) for i in nums[:le % 10])}"
+
+    from ._jack_client import JackClient
+
+    # Test for different client name lengths
+    # 27 used to be the maximum length due to semaphore length limitations on macOS
+    # 63 seems to be the maximum length in more recent version of Jack on macOS
+    for length in [10, 27, 28, 63, 64, 100]:
+
+        # create client
+        name = _generate_name(le=length)
+        print(f'creating client with name "{name}"')
+        client = JackClient(
+            name=name,
+            is_main_client=False,
+            is_disable_file_logger=True,
+            is_disable_logger=True,
+        )
+
+        # evaluate name length
+        is_correct = len(client.name) == length
+        print(
+            f"correct client name length ({length}): {is_correct}\n",
+            file=sys.stdout if is_correct else sys.stderr,
+        )
+        sleep(0.05)  # to get correct output order
+
+        # terminate client
+        try:
+            client.terminate()
+            client.join()
+        except AttributeError:
+            pass
