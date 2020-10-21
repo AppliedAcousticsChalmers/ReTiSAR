@@ -26,13 +26,13 @@ def inner(_it, _timer{init}):
 """
 
     # _timeit_roll()
-    # _timeit_fft()
+    _timeit_fft()
     # _timeit_noise()
     # _timeit_sht()
     # _timeit_sp()
     # _timeit_basic()
     # _test_multiprocessing()
-    _test_client_name_length()
+    # _test_client_name_length()
 
     return None
 
@@ -225,8 +225,10 @@ def _timeit_fft():
     _TIMEIT_REPEAT = 5
     _TIMEIT_NUMBER = 1000
 
+    # _BLOCK_LENGTH = 256
+    # _CHANNEL_COUNT = 32
     _BLOCK_LENGTH = 4096
-    _CHANNEL_COUNT = 50
+    _CHANNEL_COUNT = 110
 
     input_td = tools.generate_noise((_CHANNEL_COUNT, _BLOCK_LENGTH))
     # input_td = pyfftw.byte_align(input_td)  # no effect
@@ -235,7 +237,7 @@ def _timeit_fft():
     # input_td[:] = tools.generate_noise((_CHANNEL_COUNT, _BLOCK_LENGTH))  # no effect
 
     ref = _timeit(
-        description="numpy",
+        description="numpy.fft",
         stmt="result = fft.rfft(input_td)",
         setup="import numpy.fft as fft",
         _globals=locals(),
@@ -271,7 +273,7 @@ def _timeit_fft():
         input_td, overwrite_input=True, planner_effort="FFTW_PATIENT", threads=2
     )
     _timeit(
-        description="pyfftw threads",
+        description="pyfftw 2 threads",
         stmt="result = _rfft(input_td)",
         setup="",
         _globals=locals(),
@@ -301,7 +303,7 @@ def _timeit_fft():
     )
 
     _timeit(
-        description="pyfftw numpy interface threads",
+        description="pyfftw numpy interface 2 threads",
         stmt='result = fft.rfft(input_td, planner_effort="FFTW_PATIENT", threads=2)',
         setup="import pyfftw.interfaces.numpy_fft as fft",
         _globals=locals(),
@@ -311,9 +313,20 @@ def _timeit_fft():
     )
 
     _timeit(
-        description="scipy",
+        description="scipy.fftpack",
         stmt="result = fft.rfft(input_td)",
         setup="import scipy.fftpack as fft",
+        _globals=locals(),
+        reference=ref,
+        repeat=_TIMEIT_REPEAT,
+        number=_TIMEIT_NUMBER,
+    )
+
+    # in scipy >= 1.4.0
+    _timeit(
+        description="scipy.fft",
+        stmt="result = fft.rfft(input_td)",
+        setup="import scipy.fft as fft",
         _globals=locals(),
         reference=ref,
         repeat=_TIMEIT_REPEAT,
