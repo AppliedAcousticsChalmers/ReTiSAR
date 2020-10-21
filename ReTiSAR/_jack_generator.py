@@ -417,8 +417,8 @@ class GeneratorNoiseIir(GeneratorNoise):
     ----------
     .. [1] https://ccrma.stanford.edu/~jos/sasp/Example_Synthesis_1_F_Noise.html
     .. [2] H. Helmholz, D. Lou Alon, S. V. A. Garí, and J. Ahrens, “Instrumental Evaluation of
-           Sensor Self-Noise in Binaural Rendering of Spherical Microphone Array Signals,”
-           in Forum Acusticum, 2020.
+           Sensor Self-Noise in Binaural Rendering of Spherical Microphone Array Signals,” in Forum
+           Acusticum, 2020, pp. 1–8.
     """
 
     def __init__(self, output_count, dtype, color):
@@ -437,21 +437,33 @@ class GeneratorNoiseIir(GeneratorNoise):
 
         # initialize constants
         self._GAIN_FACTOR = 20
+
         # fmt: off
         self._B_PINK = np.array([0.049922035, -0.095993537, 0.050612699, -0.004408786], dtype=dtype)
         self._A_PINK = np.array([1, -2.494956002, 2.017265875, -0.522189400], dtype=dtype)
-        # "Consider designing filters in ZPK format and converting directly to SOS."
-        # https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.tf2sos.html
+
+        # self._SOS_EM = np.array(
+        #     [[0.642831971019108, -1.285660835867235, 0.642829227003050, 1, -1.938240831077712,
+        #       0.938773412606562],
+        #      [1.026898172219099, -1.958636131748593, 0.936872530871250, 1, -1.998609306155938,
+        #       0.998614711257974],
+        #      [1.016158122207582, - 2, 0.984300636295923, 1, -1.869587739664868,
+        #       0.874716652825408],
+        #      [2, 0.311116397866933, 0.032678524446224, 1, -1.199612825442955, 0.209446907520534],
+        #      [0.025112532019265, -0.022708413470341, 0.002848575141982, 1, -0.041478045261128,
+        #       0.084631884608049]],
+        #     dtype=dtype
+        # )  # according to Fig. 5a (+30 dB gain) in [2]
         self._SOS_EM = np.array(
-            [[0.0248484318401191, -0.0430465879719351, 0.0185894592446002, 1, -1.83308400613427,
-              0.833084457582538],
-             [1.09742855358091, -2, 0.902572344822294, 1, -1.84861597668780, 0.849007279800584],
-             [1.32049919002049, -2, 1.27062183754708, 1, -1.51266987481441, 0.958710654962438],
-             [2, -1.23789744854974, 0.693137522016399, 1, -0.555672516031578, 0.356572277622976],
-             [2, -0.127412449936323, 0.451198075878658, 1, -0.0464446484127454, 0.0651312831643292],
-             [0.295094951044653, 0.0954033015853709, 0, 1, 0, 0]],
+            [[1.005691483788964, -2, 0.994309737062589, 1, -1.995131712857242, 0.995141919519996],
+             [0.053750499045410, -0.070551854851138, 0.018848551742250, 1, -1.396203288062881,
+              0.421364316283091],
+             [1.000002228996281, -2, 0.999998915874074, 1, -1.999189537733665, 0.999193631613767],
+             [2, -0.050188084384710, 0.000794285722317, 1, -0.173018215643467, 0.053670187934911],
+             [1.383915599293111, 1.640929515677082, 0.383739206962885, 1, 1.074403226778343,
+              0.393608533940758]],
             dtype=dtype
-        )
+        )  # according to Fig. 5b (-10 dB gain) in [2]
         # fmt: on
 
         # pick utilized coefficients
@@ -464,6 +476,8 @@ class GeneratorNoiseIir(GeneratorNoise):
         elif color in ["EM", "EIGENMIKE"]:
             [_, a] = sos2tf(sos=self._SOS_EM)
             self._sos = self._SOS_EM
+            # "Consider designing filters in ZPK format and converting directly to SOS."
+            # https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.tf2sos.html
         else:
             raise NotImplementedError(
                 f'chosen noise generator color "{color}" not implemented yet.'
