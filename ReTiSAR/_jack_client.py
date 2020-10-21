@@ -1,5 +1,4 @@
 import logging
-from sys import platform
 from time import sleep
 
 import jack
@@ -253,20 +252,14 @@ class JackClient(SubProcess):
         """
         self._logger.info("initializing JACK client ...")
 
-        # This value is very low, originating from JACK internally (-3 due to 'js_' being
-        # JACK-internally added as a prefix to every name), see
-        # https://github.com/jackaudio/jack2/issues/392
-        # https://github.com/jackaudio/jack2/pull/475
-        # https://github.com/jackaudio/jack2/issues/474
-        _OSX_MAX_SEMAPHORE_LENGTH = 30 - 3
-
-        # check for valid name length on OSX
-        if platform == "darwin" and len(self.name) >= _OSX_MAX_SEMAPHORE_LENGTH:
+        # check for valid name length
+        max_name_length = jack.client_name_size() - 2
+        if len(self.name) > max_name_length:
             self._logger.warning(
-                f"name with {len(self.name)} signs is too long on OSX (limit is "
-                f"{_OSX_MAX_SEMAPHORE_LENGTH})."
+                f"name with {len(self.name)} characters is too long (OS specific limit is "
+                f"{max_name_length})."
             )
-            self.name = self.name[len(self.name) - _OSX_MAX_SEMAPHORE_LENGTH :]
+            self.name = self.name[:max_name_length]
             self._logger.warning(f'name got shortened to "{self.name}".')
 
         self._client = jack.Client(name=self.name)
