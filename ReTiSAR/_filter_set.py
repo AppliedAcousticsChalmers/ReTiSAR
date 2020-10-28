@@ -1265,16 +1265,17 @@ class FilterSetMiro(FilterSet):
             az=self._irs_grid.azimuth,
             el=self._irs_grid.colatitude,
         ).astype(dtype)
-        if self._sh_is_enforce_pinv or self._irs_grid.weight is None:
-            # ignore underflow FloatingPointError in `numpy.matmul()`
-            with np.errstate(under="ignore"):
+
+        # ignore underflow FloatingPointError in `numpy.matmul()`
+        with np.errstate(under="ignore"):
+            if self._sh_is_enforce_pinv or self._irs_grid.weight is None:
                 # calculate pseudo inverse since no grid weights are given
                 sh_bases_weighted = np.linalg.pinv(sh_bases)
-        else:
-            # apply given grid weights
-            sh_bases_weighted = np.conj(sh_bases).T * (
-                4 * np.pi * self._irs_grid.weight
-            )
+            else:
+                # apply given grid weights
+                sh_bases_weighted = np.conj(sh_bases).T * (
+                    4 * np.pi * self._irs_grid.weight
+                )
 
         return FilterSetShConfig(sh_m, sh_bases_weighted, self._arir_config)
 

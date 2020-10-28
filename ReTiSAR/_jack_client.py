@@ -240,10 +240,12 @@ class JackClient(SubProcess):
         """
         Initialize JACK client specific attributes.
 
-        Parameters ---------- block_length : int block length in samples of the JACK client,
-        must be a power of 2. Since this is a global setting for the JACK server, the last
-        setting always gets applied. This should only be called before having any clients active,
-        since the processing flow will be interrupted.
+        Parameters
+        ----------
+        block_length : int block length in samples of the JACK client, must be a power of 2.
+            Since this is a global setting for the JACK server, the last setting always gets
+            applied. This should only be called before having any clients active, since the
+            processing flow will be interrupted.
 
         Raises
         ------
