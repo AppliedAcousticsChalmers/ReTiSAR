@@ -1,8 +1,8 @@
 # ReTiSAR
 Implementation of the Real-Time Spherical Microphone Renderer for binaural reproduction in Python [[1]](#references)[[2]](#references).
 
-![Badge_OS](https://img.shields.io/badge/platform-osx--64-lightgrey)
-[![Badge_Python](https://img.shields.io/badge/python-3.7%20|%203.8-brightgreen)][Python]
+![Badge_OS](https://img.shields.io/badge/platform-osx--64%20|%20linux--64-lightgrey)
+[![Badge_Python](https://img.shields.io/badge/python-3.7%20|%203.8%20|%203.9-brightgreen)][Python]
 [![Badge Version](https://badge.fury.io/gh/AppliedAcousticsChalmers%2FReTiSAR.svg)](https://github.com/AppliedAcousticsChalmers/ReTiSAR/releases)
 [![Badge_LastCommit](https://img.shields.io/github/last-commit/AppliedAcousticsChalmers/ReTiSAR)](https://github.com/AppliedAcousticsChalmers/ReTiSAR/commit/master)<br/>
 [![Badge_CommitActivity](https://img.shields.io/github/commit-activity/m/AppliedAcousticsChalmers/ReTiSAR)](https://github.com/AppliedAcousticsChalmers/ReTiSAR/commits/master)
@@ -35,10 +35,11 @@ Contents:
 ---
 
 ## Requirements
-* _MacOS_ (on _Windows_ compatibly with the usual _JACK_ binaries seems problematic, but this is not well investigated so far)
-* [_JACK_ library][JACK] (usual prebuilt binaries are the easiest solution, otherwise you will have to build from source)
+* _macOS_ (tested on `10.14 Mojave` and `10.15 Catalina`) or _Linux_ (tested on `5.9.1-1-rt19-MANJARO`)<br/>
+(_Windows_ is not supported due to an incompatibility with the current `multiprocessing` implementation)
+* [_JACK_ library][JACK] (prebuilt installers / binaries are available)
 * [_Conda_ installation][Conda] (`miniconda` is sufficient; provides an easy way to get [Intel _MKL_](https://software.intel.com/en-us/articles/using-intel-distribution-for-python-with-anaconda) or alternatively [_OpenBLAS_](https://github.com/conda-forge/openblas-feedstock) optimized `numpy` versions which is highly recommended)
-* [_Python_ installation][Python] (version `3.7` and `3.8` have been tested; recommended way to get _Python_ is to use _Conda_ as described in the [setup section](#setup))
+* [_Python_ installation][Python] (tested with `3.7` to `3.9`; recommended way to get _Python_ is to use _Conda_ as described in the [setup section](#setup))
 * Installation of the required _Python_ packages (recommended way is to use _Conda_ as described in the [setup section](#setup))
 * __Optional:__ Download of publicly available measurement data for alternative [execution modes](#execution-modes) __(always check the command line output or log files in case the rendering pipeline does not initialize successfully!)__
 * __Optional:__ Install an [_OSC_ client][OSC] for real-time feedback and [remote control](#remote-control) options during runtime
@@ -62,9 +63,10 @@ Contents:
 ## Quickstart
 * Follow [requirements](#requirements) and [setup](#setup) instructions
 * During first execution, some small amount of additional mandatory external measurement data will be downloaded automatically, see remark in [execution modes](#execution-modes) __(requires Internet connection)__
-* Start _JACK_ server with 48 kHz sampling rate:</br>
-`jackd -d coreaudio -r 48000`</br>
-__Remark:__ Specify the desired device name via `-d` (gathered from `jackd -d coreaudio -d -l`), in case initialization fails!
+* Start _JACK_ server with desired sampling rate (all demo configurations are in 48 kHz):</br>
+`jackd -d coreaudio -r 48000` __[macOS]__</br>
+`jackd -d alsa -r 48000` __[Linux]__</br>
+__Remark:__ Check e.g. the `jackd -d coreaudio -d -l` command to specify the audio interface that should be used!
 * Run package with __[default]__ parameters to hear a binaural rendering of a raw Eigenmike recording:<br/>
 `python -m ReTiSAR`
 * __Option 1:__ Modify configuration by changing default parameters in [config.py](ReTiSAR/config.py) (prepared block comments for the specific execution modes below exist).
@@ -273,6 +275,9 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[12]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) C. Hohnerlein and J. Ahrens, “Spherical Microphone Array Processing in Python with the sound_field_analysis-py Toolbox,” in Fortschritte der Akustik -- DAGA 2017, 2017, pp. 1033–1036.
 
 ## Change Log
+* __v2020.11.23__
+  * Consolidation of `Python 3.9` compatibility
+  * Consolidation of _Linux_ compatibility (no modifications were required; tested with _Jack_ `1.9.16` on kernel `5.9.1-1-rt19-MANJARO`)
 * __v2020.10.21__
   * Improvement of establishing _JACK_ and/or OS specific client name length limitation of `JackClient`
 * __v2020.10.15__ (__v2020.FA__)
@@ -306,7 +311,7 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 * __v2020.3.3__
   * Addition of further simulated array data sets
 * __v2020.2.24__
-  * Consolidation of Python 3.8 compatibility
+  * Consolidation of `Python 3.8` compatibility
   * Introduction of `multiprocessing` context for compatibility
   * Enforcement of `Black` code style
 * __v2020.2.14__
