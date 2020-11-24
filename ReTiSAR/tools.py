@@ -636,7 +636,7 @@ def import_fftw_wisdom(is_enforce_load=False):
 
             # load wisdom
             # noinspection PickleLoad
-            wisdom = pickle.loads(data=wisdom)  # warning prevented with verification
+            wisdom = pickle.loads(wisdom)  # warning prevented with verification
 
         # import and print wisdom
         pyfftw.import_wisdom(wisdom)
