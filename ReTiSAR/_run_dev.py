@@ -26,13 +26,14 @@ def inner(_it, _timer{init}):
 """
 
     # _timeit_roll()
-    _timeit_fft()
+    # _timeit_fft()
     # _timeit_noise()
     # _timeit_sht()
     # _timeit_sp()
     # _timeit_basic()
     # _test_multiprocessing()
     # _test_client_name_length()
+    _test_client_name_lock()
 
     return None
 
@@ -856,3 +857,39 @@ def _test_client_name_length():
             client.join()
         except AttributeError:
             pass
+
+
+def _test_client_name_lock():
+    """
+    Test whether arbitrarily many clients with the same name can be instantiated consecutively
+    (the old client will be terminated before creating the new one).
+
+    This should not be a problem or an unusual use case for Jack to handle. However, this test
+    revealed some problems as documented in https://github.com/jackaudio/jack2/issues/658 and
+    https://github.com/spatialaudio/jackclient-python/issues/98.
+
+    On macOS, creating the 99th instance fails with a jack.JackOpenError when initializing the
+    client. This occurred neither on Linux nor on Windows based on the same Jack version.
+
+    After the failure occurs no clients with that name can be instantiated at all. This persists
+    even through a restart of Jack. AFAIK only a system restart helps to resolve the lock.
+    """
+    import jack
+
+    try:
+        i = 0
+        while True:
+            i += 1
+
+            # name = f"Client{i:d}"  # runs for arbitrarily many clients
+            name = f"Client"  # fails for the 99th instance
+
+            print(f'Test {i:d}: creating "{name}" ...')
+            client = jack.Client(name=name)
+            client.activate()
+            client.deactivate()
+            client.close()
+            del client
+
+    except KeyboardInterrupt:
+        print("... interrupted by user.")
