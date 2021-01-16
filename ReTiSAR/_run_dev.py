@@ -26,14 +26,14 @@ def inner(_it, _timer{init}):
 """
 
     # _timeit_roll()
-    # _timeit_fft()
+    _timeit_fft()
     # _timeit_noise()
     # _timeit_sht()
     # _timeit_sp()
     # _timeit_basic()
     # _test_multiprocessing()
     # _test_client_name_length()
-    _test_client_name_lock()
+    # _test_client_name_lock()
 
     return None
 
@@ -239,7 +239,7 @@ def _timeit_fft():
 
     ref = _timeit(
         description="numpy.fft",
-        stmt="result = fft.rfft(input_td)",
+        stmt="fft.rfft(input_td)",
         setup="import numpy.fft as fft",
         _globals=locals(),
         repeat=_TIMEIT_REPEAT,
@@ -249,7 +249,7 @@ def _timeit_fft():
     _rfft = pyfftw.builders.rfft(input_td, overwrite_input=True)
     _timeit(
         description="pyfftw overwrite",
-        stmt="result = _rfft(input_td)",
+        stmt="_rfft(input_td)",
         setup="",
         _globals=locals(),
         reference=ref,
@@ -262,7 +262,7 @@ def _timeit_fft():
     )
     _timeit(
         description="pyfftw effort",
-        stmt="result = _rfft(input_td)",
+        stmt="_rfft(input_td)",
         setup="",
         _globals=locals(),
         reference=ref,
@@ -275,7 +275,7 @@ def _timeit_fft():
     )
     _timeit(
         description="pyfftw 2 threads",
-        stmt="result = _rfft(input_td)",
+        stmt="_rfft(input_td)",
         setup="",
         _globals=locals(),
         reference=ref,
@@ -285,7 +285,7 @@ def _timeit_fft():
 
     _timeit(
         description="pyfftw numpy interface",
-        stmt="result = fft.rfft(input_td)",
+        stmt="fft.rfft(input_td)",
         setup="import pyfftw.interfaces.numpy_fft as fft",
         _globals=locals(),
         reference=ref,
@@ -295,7 +295,7 @@ def _timeit_fft():
 
     _timeit(
         description="pyfftw numpy interface effort",
-        stmt='result = fft.rfft(input_td, planner_effort="FFTW_PATIENT")',
+        stmt='fft.rfft(input_td, planner_effort="FFTW_PATIENT")',
         setup="import pyfftw.interfaces.numpy_fft as fft",
         _globals=locals(),
         reference=ref,
@@ -305,7 +305,7 @@ def _timeit_fft():
 
     _timeit(
         description="pyfftw numpy interface 2 threads",
-        stmt='result = fft.rfft(input_td, planner_effort="FFTW_PATIENT", threads=2)',
+        stmt='fft.rfft(input_td, planner_effort="FFTW_PATIENT", threads=2)',
         setup="import pyfftw.interfaces.numpy_fft as fft",
         _globals=locals(),
         reference=ref,
@@ -315,7 +315,7 @@ def _timeit_fft():
 
     _timeit(
         description="scipy.fftpack",
-        stmt="result = fft.rfft(input_td)",
+        stmt="fft.rfft(input_td)",
         setup="import scipy.fftpack as fft",
         _globals=locals(),
         reference=ref,
@@ -326,7 +326,7 @@ def _timeit_fft():
     # in scipy >= 1.4.0
     _timeit(
         description="scipy.fft",
-        stmt="result = fft.rfft(input_td)",
+        stmt="fft.rfft(input_td)",
         setup="import scipy.fft as fft",
         _globals=locals(),
         reference=ref,
@@ -336,7 +336,7 @@ def _timeit_fft():
 
     _timeit(
         description="pyfftw scipy interface",
-        stmt="result = fft.rfft(input_td)",
+        stmt="fft.rfft(input_td)",
         setup="import pyfftw.interfaces.scipy_fftpack as fft",
         _globals=locals(),
         reference=ref,
@@ -346,7 +346,7 @@ def _timeit_fft():
 
     _timeit(
         description="mkl_fft",
-        stmt="result = fft.rfft(input_td)",
+        stmt="fft.rfft(input_td)",
         setup="import mkl_fft as fft",
         _globals=locals(),
         reference=ref,
@@ -785,6 +785,12 @@ def _timeit_basic():
 
 
 def _test_multiprocessing():
+    """
+    Test whether multiprocessing can be utilized for Jack clients as independent components of the
+    rendering pipeline. The current implementation is known to not work on Windows due to
+    incompatibilities between the multiprocessing implementation and data serialization.
+    See https://github.com/AppliedAcousticsChalmers/ReTiSAR_dev/issues/54.
+    """
     import jack
 
     client = jack.Client(name="PICKLE_TEST")
@@ -820,6 +826,13 @@ def _test_multiprocessing():
 
 
 def _test_client_name_length():
+    """
+    Test whether a strong limitation the the allowed length of a Jack client exists. The
+    limitation on older Jack versions on macOS used to be 27 characters which is very short. In
+    more recent Jack versions, the limit should have been increased to 63 characters. See
+    https://github.com/jackaudio/jack2/issues/474.
+    """
+
     def _generate_name(le):
         nums = list(range(1, 10))
         nums.append(0)
