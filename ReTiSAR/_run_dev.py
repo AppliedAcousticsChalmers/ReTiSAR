@@ -43,11 +43,58 @@ def _timeit(
     stmt,
     setup,
     _globals,
-    reference=None,
-    check_dtype=None,
     repeat=10,
     number=2000,
+    reference=None,
+    check_dtype=None,
 ):
+    """
+    Measure execution of a specified statement which is useful for the
+    performance analysis. In this way, the execution time and respective
+    results can be directly compared.
+
+    Parameters
+    ----------
+    description : str
+        Descriptive name of configuration to be shown in the log
+    stmt : str
+        Statement to be timed
+    setup : str
+        Additional statement used for setup
+    _globals :
+        Namespace the code will be executed in (as opposed to inside timeit's
+        namespace)
+    repeat : int
+        How many times to repeat the timeit measurement (results will be
+        gathered as a list)
+    number : int
+        How many times to execute the statement to be timed
+    reference : list of (float, any), optional
+        Result with the same data structure as returned by this function,
+        which will be referenced in order to compare execution time and
+        similarity of the result data
+    check_dtype : str, optional
+        Data type of the result to check
+
+    Returns
+    -------
+    (float, any)
+        Tuple of execution time in seconds (minimum of all repetitions) and
+        execution result of first repetition (data depends on the specified
+        statement to be timed)
+    """
+
+    def _check_dtype(data_dtype):
+        # check date type
+        if data_dtype == check_dtype:
+            _grade = "MATCH"
+            _file = sys.stdout
+        else:
+            _grade = f"MISMATCH ({str(check_dtype)})"
+            _file = sys.stderr
+        print(f"result dtype: {str(data_dtype):>21} ... {_grade}", file=_file)
+        sleep(0.05)  # to get correct output order
+
     print(description)
 
     # do timing and get results
@@ -73,25 +120,22 @@ def _timeit(
         print(f"time factor: {t:-22.2f} ... {grade}", file=file)
         sleep(0.05)  # to get correct output order
 
-        # flip computation result, if matrices do not match
         if reference[1].shape != result[1].shape:
-            reference = (reference[0], reference[1].T)
-        if reference[1].shape != result[1].shape:
-            print(f'result: {"":22} {"DIMENSION MISMATCH"}', file=sys.stderr)
-            sleep(0.05)  # to get correct output order
-            print()
-            return result
-
-        if check_dtype:
-            # check date type
-            if result[1].dtype == check_dtype:
-                grade = "MATCH"
-                file = sys.stdout
+            if reference[1].shape == result[1].T.shape:
+                # flip computation result, if matrices do not match
+                reference = (reference[0], reference[1].T)
             else:
-                grade = "MISMATCH"
-                file = sys.stderr
-            print(f"dtype: {str(result[1].dtype):>28} ... {grade}", file=file)
-            sleep(0.05)  # to get correct output order
+                print(
+                    f"result shape: {str(result[1].shape):>21s}"
+                    f" ... MISMATCH {str(reference[1].shape)}",
+                    file=sys.stderr,
+                )
+                sleep(0.05)  # to get correct output order
+
+                if check_dtype:
+                    _check_dtype(result[1].dtype)
+                print()
+                return result
 
         r = np.abs(np.sum(np.subtract(result[1], reference[1])))
         file = sys.stdout
@@ -117,6 +161,8 @@ def _timeit(
         print(f"result max:  {r:-22} ... {grade}", file=file)
         sleep(0.05)  # to get correct output order
 
+    if check_dtype:
+        _check_dtype(result[1].dtype)
     print()
     return result
 
@@ -160,9 +206,9 @@ result = buffer
         stmt=s,
         setup="import numpy as np",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
     )  # slower
 
     import jack
@@ -185,9 +231,9 @@ result = read
         stmt=s,
         setup="import numpy as np",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
     )
 
     rb = jack.RingBuffer(buffer_ref.nbytes)
@@ -214,9 +260,9 @@ result = read
         stmt=s,
         setup="import numpy as np",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
     )
 
 
@@ -244,6 +290,7 @@ def _timeit_fft():
         _globals=locals(),
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        check_dtype="complex128",
     )
 
     _rfft = pyfftw.builders.rfft(input_td, overwrite_input=True)
@@ -252,9 +299,10 @@ def _timeit_fft():
         stmt="_rfft(input_td)",
         setup="",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
+        check_dtype="complex128",
     )
 
     _rfft = pyfftw.builders.rfft(
@@ -265,9 +313,10 @@ def _timeit_fft():
         stmt="_rfft(input_td)",
         setup="",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
+        check_dtype="complex128",
     )
 
     _rfft = pyfftw.builders.rfft(
@@ -278,9 +327,10 @@ def _timeit_fft():
         stmt="_rfft(input_td)",
         setup="",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
+        check_dtype="complex128",
     )
 
     _timeit(
@@ -288,9 +338,10 @@ def _timeit_fft():
         stmt="fft.rfft(input_td)",
         setup="import pyfftw.interfaces.numpy_fft as fft",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
+        check_dtype="complex128",
     )
 
     _timeit(
@@ -298,9 +349,10 @@ def _timeit_fft():
         stmt='fft.rfft(input_td, planner_effort="FFTW_PATIENT")',
         setup="import pyfftw.interfaces.numpy_fft as fft",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
+        check_dtype="complex128",
     )
 
     _timeit(
@@ -308,9 +360,10 @@ def _timeit_fft():
         stmt='fft.rfft(input_td, planner_effort="FFTW_PATIENT", threads=2)',
         setup="import pyfftw.interfaces.numpy_fft as fft",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
+        check_dtype="complex128",
     )
 
     _timeit(
@@ -318,9 +371,10 @@ def _timeit_fft():
         stmt="fft.rfft(input_td)",
         setup="import scipy.fftpack as fft",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
+        check_dtype="complex128",
     )
 
     # in scipy >= 1.4.0
@@ -329,9 +383,10 @@ def _timeit_fft():
         stmt="fft.rfft(input_td)",
         setup="import scipy.fft as fft",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
+        check_dtype="complex128",
     )
 
     _timeit(
@@ -339,9 +394,10 @@ def _timeit_fft():
         stmt="fft.rfft(input_td)",
         setup="import pyfftw.interfaces.scipy_fftpack as fft",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
+        check_dtype="complex128",
     )
 
     _timeit(
@@ -349,9 +405,10 @@ def _timeit_fft():
         stmt="fft.rfft(input_td)",
         setup="import mkl_fft as fft",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
+        check_dtype="complex128",
     )
 
 
@@ -381,36 +438,37 @@ def _timeit_noise():
         _globals=locals(),
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        check_dtype="complex128",
     )
     _timeit(
         description="noise white complex64",
-        reference=ref,
-        check_dtype=np.complex64,
         stmt='tools.generate_noise((_CHANNEL_COUNT, _BLOCK_LENGTH), dtype="complex64")',
         setup="from ReTiSAR import tools",
         _globals=locals(),
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
+        check_dtype="complex64",
     )
     _timeit(
         description="noise white float64",
-        reference=ref,
-        check_dtype=np.float64,
         stmt='tools.generate_noise((_CHANNEL_COUNT, _BLOCK_LENGTH), dtype="float64")',
         setup="from ReTiSAR import tools",
         _globals=locals(),
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
+        check_dtype="float64",
     )
     _timeit(
         description="noise white float32",
-        reference=ref,
-        check_dtype=np.float32,
         stmt='tools.generate_noise((_CHANNEL_COUNT, _BLOCK_LENGTH), dtype="float32")',
         setup="from ReTiSAR import tools",
         _globals=locals(),
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
+        check_dtype="float32",
     )
     print(tools.SEPARATOR)
 
@@ -453,9 +511,9 @@ result = shaped.T
         stmt=s,
         setup="import numpy as np",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
     )  # not good
 
     s = """\
@@ -473,9 +531,9 @@ result = shaped.T
         stmt=s,
         setup="import numpy as np",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
     )  # not good
 
     s = """\
@@ -493,9 +551,9 @@ result = shaped.T
         stmt=s,
         setup="import numpy as np",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
     )  # good (best AR)
 
     s = """\
@@ -512,9 +570,9 @@ result = normal.T
         stmt=s,
         setup="import numpy as np",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
     )  # not good
 
     s = """\
@@ -531,9 +589,9 @@ result = normal.T
         stmt=s,
         setup="import numpy as np",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
     )  # good (best AR)
 
     s = """\
@@ -558,9 +616,9 @@ result = shaped
         stmt=s,
         setup="import numpy as np",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
     )  # not good
 
     s = """\
@@ -580,9 +638,9 @@ result = normal
         stmt=s,
         setup="import numpy as np",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
     )  # not good
 
     #     s = """\
@@ -609,9 +667,9 @@ result = normal
     #         stmt=s,
     #         setup="import numpy as np",
     #         _globals=locals(),
-    #         reference=ref,
     #         repeat=_TIMEIT_REPEAT,
     #         number=_TIMEIT_NUMBER,
+    #         reference=ref,
     #     )  # not working properly
 
     s = """\
@@ -624,9 +682,9 @@ result = result[:, _iir_t60:]  # skip transient response
         stmt=s,
         setup="from scipy import signal",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
     )  # good (best IIR)
 
 
@@ -651,20 +709,20 @@ def _timeit_sp():
             stmt="np.fft.irfft(np.fft.rfft(d, axis=-1), axis=-1)",
             setup="import numpy as np",
             _globals=locals(),
-            reference=r,
-            check_dtype=dtype,
             repeat=_TIMEIT_REPEAT,
             number=_TIMEIT_NUMBER,
+            reference=r,
+            check_dtype=dtype,
         )
         # return _timeit(
         #     description=f"PYFFTW irfft(rfft()) as {d.dtype}",
         #     stmt="pyfftw.builders.irfft(pyfftw.builders.rfft(d, axis=-1), axis=-1)",
         #     setup="import pyfftw",
         #     _globals=locals(),
-        #     reference=r,
-        #     check_dtype=dtype,
         #     repeat=_TIMEIT_REPEAT,
         #     number=_TIMEIT_NUMBER,
+        #     reference=r,
+        #     check_dtype=dtype,
         # )
 
     print("comparison of dtypes")
@@ -710,18 +768,18 @@ def _timeit_sht():
             stmt='np.einsum("ij,jl", shb, d)',
             setup="import numpy as np",
             _globals=locals(),
-            reference=ref,
             repeat=_TIMEIT_REPEAT,
             number=_TIMEIT_NUMBER // (2 * _SH_COEFFICIENTS),
+            reference=ref,
         )
         r2 = _timeit(
             description=f"numpy.dot() as {d.dtype}",
             stmt="np.dot(shb, d)",
             setup="import numpy as np",
             _globals=locals(),
-            reference=ref,
             repeat=_TIMEIT_REPEAT,
             number=_TIMEIT_NUMBER // (2 * _SH_COEFFICIENTS),
+            reference=ref,
         )
 
         print()
@@ -759,9 +817,9 @@ def _timeit_basic():
         stmt="np.multiply(data, data)",
         setup="import numpy as np",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
     )
     print()
 
@@ -778,9 +836,9 @@ def _timeit_basic():
         stmt="np.abs(data)",
         setup="import numpy as np",
         _globals=locals(),
-        reference=ref,
         repeat=_TIMEIT_REPEAT,
         number=_TIMEIT_NUMBER,
+        reference=ref,
     )
 
 
