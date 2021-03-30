@@ -50,7 +50,7 @@ Contents:
   * __Alternative:__ Download and extract snapshot manually from provided URL (not recommended due to not being able to pull updates)
   * __Alternative:__ Update your local copy with changes from the repository (if you have cloned it in the past):<br/>
   `git pull`
-* Navigate into repository (the directory containing _setup.py_):<br/>
+* Navigate into the repository (the directory containing _setup.py_):<br/>
 `cd ReTiSAR/`
 * Install required _Python_ packages i.e., _Conda_ is recommended:
   * Make sure that _Conda_ is up to date:<br/>
@@ -69,8 +69,8 @@ Contents:
 __Remark:__ Check e.g. the `jackd -d coreaudio -d -l` command to specify the audio interface that should be used!
 * Run package with __[default]__ parameters to hear a binaural rendering of a raw Eigenmike recording:<br/>
 `python -m ReTiSAR`
-* __Option 1:__ Modify configuration by changing default parameters in [config.py](ReTiSAR/config.py) (prepared block comments for the specific execution modes below exist).
-* __Option 2:__ Modify configuration by command line arguments (like in the following examples showing different execution [parameters](#execution-parameters) and [modes](#execution-modes) (see `--help`).
+* __Option 1:__ Modify the configuration by changing the default parameters in [config.py](ReTiSAR/config.py) (prepared block comments for the specific execution modes below exist).
+* __Option 2:__ Modify the configuration by command line arguments (like in the following examples showing different execution [parameters](#execution-parameters) and [modes](#execution-modes), see `--help`).
 
 __JACK initialization &mdash;__ In case you have never started the _JACK_ audio server on your system or want to make sure it initializes with appropriate values. Open the _JackPilot_ application set your system specific default settings.<br/>
 At this point the only relevant _JACK_ audio server setting is the sampling frequency, which has to match the sampling frequency of your rendered audio source file or stream (no resampling will be applied for that specific file).
@@ -79,8 +79,8 @@ __FFTW optimization &mdash;__ In case the rendering takes very long to start (af
 
 __Rendering performance &mdash;__ Follow these remarks to expect continuous and artifact free rendering:
   * Optional components like array pre-rendering, headphone equalization, noise generation, etc. will save performance in case they are not deployed.
-  * Extended IR lengths (particularly for modes with array IR pre-rendering) will massively increase the computational load depending on the chosen block size (partitioned convolution).
-  * Currently there is no partitioned convolution for the main binaural renderer with SH based processing, hence the FIR taps of applied HRIR, Modal Radial Filters and further compensations (e.g. Spherical Head Filter) need to cumulatively fit inside the chosen block size.
+  * Extended IR lengths (particularly for modes with an array IR pre-rendering) will massively increase the computational load depending on the chosen block size (partitioned convolution).
+  * Currently, there is no partitioned convolution for the main binaural renderer with SH based processing, hence the FIR taps of the applied HRIR, Modal Radial Filters and further compensations (e.g. Spherical Head Filter) need to cumulatively fit inside the chosen block size.
   * Higher block size means lower computational load in real-time rendering but also increased system latency, most relevant for modes with array live-stream rendering, but also all other modes in terms of a slightly "smeared" head-tracking experience (noticeable at 4096 samples).
   * Adjust output levels of all rendering components (default parameters chosen accordingly) to prevent signal clipping (indicated by warning messages during execution).
   * Check _JACK_ system load (e.g. _JackPilot_ or [OSC_Remote_Demo.pd](#remote-control)) to be below approx. 95% load, in order to prevent dropouts (i.e. the OS reported overall system load is not a good indicator).
@@ -91,23 +91,23 @@ __Always check the command line output or generated log files in case the render
 
 ## Execution parameters
 The following parameters are all optional and available in combinations with the named execution modes subsequently:<br/>
-* Run with specific processing block size (_choose value according to the individual rendering configuration and performance of your system_)<br/>
-  * Largest block size (best performance but noticeable input latency):<br/>
+* Run with a specific processing block size (_choose the value according to the individual rendering configuration and performance of your system_)<br/>
+  * The largest block size (the best performance but noticeable input latency):<br/>
   `python -m ReTiSAR -b=4096` __[default]__<br/>
   * Try smaller block sizes __according to the specific rendering configuration and individual system performance__:<br/>
   `python -m ReTiSAR -b=1024`<br/>
   `python -m ReTiSAR -b=256`
-* Run with specific processing word length<br/>
+* Run with a specific processing word length<br/>
   * Single precision _32 bit_ (better performance):<br/>
   `python -m ReTiSAR -SP=TRUE` __[default]__<br/>
   * Double precision _64 bit_ (no configuration with an actual benefit is known):<br/>
   `python -m ReTiSAR -SP=FALSE`
-* Run with specific IR truncation cutoff level (applied to all IRs)<br/>
+* Run with a specific IR truncation cutoff level (applied to all IRs)<br/>
   * Cutoff _-60 dB_ under peak (better performance and perceptually irrelevant in most cases):<br/>
   `python -m ReTiSAR -irt=-60` __[default]__
-  * No cutoff to render entire IR (tough performance requirements in case of rendering particularly reverberant array IRs):<br/>
+  * No cutoff to render the entire IR (this constitutes tough performance requirements in the case of rendering array IRs with long reverberation):<br/>
   `python -m ReTiSAR -irt=0` __[applied in all scientific evaluations]__
-* Run with specific head-tracking device (paths are system dependent!)<br/>
+* Run with a specific head-tracking device (paths are system dependent!)<br/>
   * No tracking (head movement can be [remote controlled](#remote-control)):<br/>
   `python -m ReTiSAR -tt=NONE` __[default]__
   * Automatic rotation:<br/>
@@ -118,7 +118,7 @@ The following parameters are all optional and available in combinations with the
   `python -m ReTiSAR -tt=POLHEMUS_PATRIOT -t=/dev/tty.UC-232AC`
   * Tracker _Polhemus Fastrack_:<br/>
   `python -m ReTiSAR -tt=POLHEMUS_FASTRACK -t=/dev/tty.UC-232AC`
-* Run with specific HRTF dataset as _MIRO_ [[6]](#references) or _SOFA_ [[7]](#references) files<br/>
+* Run with a specific HRTF dataset as _MIRO_ [[6]](#references) or _SOFA_ [[7]](#references) files<br/>
   * _Neumann KU100_ artificial head from [[6]](#references) as _SOFA_:<br/>
   `python -m ReTiSAR -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA` __[default]__
   * _Neumann KU100_ artificial head from [[6]](#references) as _MIRO_:<br/>
@@ -132,7 +132,7 @@ The following parameters are all optional and available in combinations with the
   * Employ an _arbitrary (artificial or individual) dataset_ by providing a relative / absolute path!
   * The length of the employed HRIR dataset constrains the minimum usable rendering block size!
   * Mismatched IRs with a sampling frequency different to the source material will be resampled!
-* Run with specific headphone equalization / compensation filters (arbitrary filter length). The compensation filter should match the utilized individual headphone (model)! In the best case scenario, the filter was also gathered on the identical utilized HRIR (artificial or individual head)!<br/>
+* Run with a specific headphone equalization / compensation filters (arbitrary filter length). The compensation filter should match the used headphone model or even the individual headphone. In the best case scenario, the filter was also gathered on the identical utilized HRIR (artificial or individual head).<br/>
   * No individual headphone compensation:<br/>
   `python -m ReTiSAR -hp=NONE` __[default]__
   * _Beyerdynamic DT990_ headphone on _Neumann KU100_ artificial head from [[8]](#references):<br/>
@@ -147,15 +147,15 @@ The following parameters are all optional and available in combinations with the
   `python -m ReTiSAR -hp=res/HPCF/KEMAR_TUR/44k_24bit_2048tap_Sennheiser_HD600.wav`
   * Check the [res/HPCF/.](res/HPCF/.) directory for numerous other headphone models or employ _arbitrary (artificial or individual) compensation filters_ by providing a relative / absolute path!
   * Mismatched IRs with a sampling frequency different to the source material will be resampled!
-* Run with specific SH processing compensation techniques (relevant for rendering modes utilizing spherical harmonics)<br/>
-  * __Modal Radial Filters__ __[always applied]__ with individual amplification soft-limiting in dB according to [[3]](#references):<br/>
+* Run with a specific SH processing compensation techniques (relevant for rendering modes utilizing spherical harmonics)<br/>
+  * __Modal Radial Filters__ __[always applied]__ with an individual amplification soft-limiting in dB according to [[3]](#references):<br/>
   `python -m ReTiSAR -arr=18` __[default]__
   * __Spherical Head Filter__ according to [[4]](#references):<br/>
   `python -m ReTiSAR -sht=SHF`
-  * __Spherical Harmonics Tapering__ in combination with __Spherical Head Filter__ according to [[5]](#references):<br/>
+  * __Spherical Harmonics Tapering__ in combination with the __Spherical Head Filter__ according to [[5]](#references):<br/>
   `python -m ReTiSAR -sht=SHT+SHF` __[default]__
-* Run with specific emulated self-noise as additive component to each microphone array sensor (performance requirements increase according to channel count)<br/>
-  * No noise (best performance):<br/>
+* Run with some specific emulated self-noise as additive component to each microphone array sensor (the performance requirements increase according to channel count)<br/>
+  * No noise (yielding the best performance):<br/>
   `python -m ReTiSAR -gt=NONE` __[default]__
   * White noise (also setting the initial output level and mute state of the rendering component):<br/>
   `python -m ReTiSAR -gt=NOISE_WHITE -gl=-30 -gm=FALSE`
@@ -179,7 +179,7 @@ __Most execution modes require additional external measurement data, which canno
   `python -m ReTiSAR -b=512 -sh=3 -tt=NONE -s=res/record/ZY19_off_around.wav -sl=9 -ar=res/ARIR/RT_calib_ZY19_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
   * _HØSMA-7N_ at TH Cologne lecture hall __(recording file not provided!)__:<br/>
   `python -m ReTiSAR -b=2048 -sh=7 -tt=NONE -s=res/record/HOS64_hall_lecture.wav -sp="[(90,0)]" -sl=9 -ar=res/ARIR/RT_calib_HOS64_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
-* Run as array live-stream renderer with minimum latency (e.g. _Eigenmike_ with the respective channel calibration provided by manufacturer)<br/>
+* Run as array live-stream renderer with minimum latency (e.g. _Eigenmike_ with the respective channel calibration provided by the manufacturer)<br/>
   * _Eigenmike_ Chalmers _EM32 (SN 28)_:<br/>
   `python -m ReTiSAR -b=512 -sh=4 -tt=NONE -s=None -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`<br/>
   * _Eigenmike_ Facebook Reality Labs _EM32 (SN ??)_:<br/>
@@ -220,16 +220,16 @@ Depending on the current configuration and rendering mode different commands are
 `/prerenderer/mute 1`, `/prerenderer/mute 0`, `/prerenderer/mute -1`, `/prerenderer/mute` (set/toggle any client mute state),<br/>
 `/hpeq/passthrough true`, `/hpeq/passthrough false`, `/hpeq/passthrough toggle` (set/toggle any client passthrough state)
 * The target name is derived from the individual _JACK_ client name for all commands, while the order of target client and command can be altered, while further commands might be available:<br/>
-`/renderer/crossfade`, `/crossfade/renderer` (set/toggle crossfade state),<br/>
-`/renderer/delay 350.0` (set additional input delay in ms),<br/>
-`/renderer/order 0`, `/renderer/order 4` (set SH rendering order),<br/>
-`/tracker/zero` (calibrate tracker), `/tracker/azimuth 45` (set tracker orientation),<br/>
+`/renderer/crossfade`, `/crossfade/renderer` (set/toggle the crossfade state),<br/>
+`/renderer/delay 350.0` (set an additional input delay in ms),<br/>
+`/renderer/order 0`, `/renderer/order 4` (set the SH rendering order),<br/>
+`/tracker/zero` (calibrate the tracker), `/tracker/azimuth 45` (set the tracker orientation),<br/>
 `/player/stop`, `/player/play`, `/quit` (quit all rendering components)
 * __During runtime__, individual _JACK_ clients with their respective "target" name also report real-time feedback or analysis data on port `5006` __[default]__ in the specified exemplary data format (number of values depends on output ports) i.e., arbitrary combinations of the name and parameters:<br/>
-`/player/rms 0.0`, `/generator/peak 0.0 0.0 0.0 0.0` (current audio output metrics),<br/>
-`/renderer/load 100` (current client load),<br/>
-`/tracker/AzimElevTilt 0.0 0.0 0.0` (current head orientation),<br/>
-`/load 100` (current JACK system load)
+`/player/rms 0.0`, `/generator/peak 0.0 0.0 0.0 0.0` (the current audio output metrics),<br/>
+`/renderer/load 100` (the current client load),<br/>
+`/tracker/AzimElevTilt 0.0 0.0 0.0` (the current head orientation),<br/>
+`/load 100` (the current JACK system load)
 * In the package included is an example remote control client implemented for [_"vanilla" PD_](http://puredata.info/), see further instructions in [OSC_Remote_Demo.pd](res/OSC_Remote_Demo.pd).
 ![Screenshot of OSC_Remote_Demo.pd](res/OSC_Remote_Demo.jpg)
 
@@ -277,8 +277,8 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[12]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) C. Hohnerlein and J. Ahrens, “Spherical Microphone Array Processing in Python with the sound_field_analysis-py Toolbox,” in Fortschritte der Akustik -- DAGA 2017, 2017, pp. 1033–1036.
 
 ## Change Log
-  * Addition of Zylia _ZM-1 array configuration
-
+* __v2021.03.30__
+  * Addition of Zylia _ZM-1_ array example recording and live-stream configurations
 * __v2020.11.23__
   * Consolidation of `Python 3.9` compatibility
   * Consolidation of _Linux_ compatibility (no modifications were required; tested with _Jack_ `1.9.16` on kernel `5.9.1-1-rt19-MANJARO`)
@@ -289,7 +289,7 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 * __v2020.9.10__
   * Enforcement of `Black >= 20.8b1` code style
 * __v2020.8.20__
-  * Extension of `JackPlayer` to make auto play behaviour configurable (via `config` parameter or command line argument)
+  * Extension of `JackPlayer` to make auto-play behaviour configurable (via `config` parameter or command line argument)
 * __v2020.8.13__
   * Update of OSC Remote Demo to reset (after not receiving data) and clip displayed RMS values
   * Improvement of FFTW wisdom verification to be more error proof
@@ -304,7 +304,7 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
   * Fixes for further SonarLint security and code style recommendations
 * __v2020.7.1__
   * Update and addition of further _WDR Cologne_ ARIR source files (linking to Zenodo data set)
-  * Hack for Modal Radial Filters generation in open / cardioid SMA configurations (unfortunately this metadata is not directly available in SOFA ARIR files)
+  * Hack for Modal Radial Filters generation in open / cardioid SMA configurations (unfortunately this metadata is not directly available in the SOFA ARIR files)
 * __v2020.4.8__
   * Improvement of IIR pink noise generation (continuous utilization of internal filter delay conditions)
   * Improvement of IIR pink noise generation (employment of SOS instead of BA coefficients)
