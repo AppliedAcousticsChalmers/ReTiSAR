@@ -17,4 +17,4 @@ dependencies:
     - pysofaconventions >=0.1.5
     - soundfile >=0.10.2
     - samplerate
-    - sound-field-analysis >=2020.1.30
+    - sound-field-analysis >2020.1.30
