@@ -175,19 +175,19 @@ __Most execution modes require additional external measurement data, which canno
   `python -m ReTiSAR -sh=4 -tt=NONE -s=res/record/EM32ch_lab_voice_around.wav -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA` __[default]__
   * _Eigenmike_ at Chalmers lab space with speaker moving vertically in front of the array:<br/>
   `python -m ReTiSAR -sh=4 -tt=NONE -s=res/record/EM32ch_lab_voice_updown.wav -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
-  * _HØSMA-7N_ at TH Cologne lecture hall __(recording file not provided!)__:<br/>
-  `python -m ReTiSAR -b=1024 -sh=7 -tt=NONE -s=res/record/HOS64_hall_lecture.wav -sp="[(90,0)]" -sl=9 -ar=res/ARIR/RT_calib_HOS64_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
   * Zylia _ZM-1_ at TH Cologne office __(recording file not provided!)__:<br/>
-  `python -m ReTiSAR -b=256 -sh=3 -tt=NONE -s=res/record/ZY19_off_around.wav -sl=9 -ar=res/ARIR/RT_calib_ZY19_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
+  `python -m ReTiSAR -b=512 -sh=3 -tt=NONE -s=res/record/ZY19_off_around.wav -sl=9 -ar=res/ARIR/RT_calib_ZY19_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
+  * _HØSMA-7N_ at TH Cologne lecture hall __(recording file not provided!)__:<br/>
+  `python -m ReTiSAR -b=2048 -sh=7 -tt=NONE -s=res/record/HOS64_hall_lecture.wav -sp="[(90,0)]" -sl=9 -ar=res/ARIR/RT_calib_HOS64_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
 * Run as array live-stream renderer with minimum latency (e.g. _Eigenmike_ with the respective channel calibration provided by manufacturer)<br/>
   * _Eigenmike_ Chalmers _EM32 (SN 28)_:<br/>
-  `python -m ReTiSAR -b=256 -sh=4 -tt=NONE -s=None -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`<br/>
+  `python -m ReTiSAR -b=512 -sh=4 -tt=NONE -s=None -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`<br/>
   * _Eigenmike_ Facebook Reality Labs _EM32 (SN ??)_:<br/>
-  `python -m ReTiSAR -b=256 -sh=4 -tt=NONE -s=None -ar=res/ARIR/RT_calib_EM32frl_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
-  * TH Cologne _HØSMA-7N_:<br/>
-  `python -m ReTiSAR -b=1024 -sh=7 -tt=NONE -s=None -ar=res/ARIR/RT_calib_HOS64_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
+  `python -m ReTiSAR -b=512 -sh=4 -tt=NONE -s=None -ar=res/ARIR/RT_calib_EM32frl_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
   * Zylia _ZM-1_:<br/>
-  `python -m ReTiSAR -b=256 -sh=3 -tt=NONE -s=None -ar=res/ARIR/RT_calib_ZY19_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
+    `python -m ReTiSAR -b=512 -sh=3 -tt=NONE -s=None -ar=res/ARIR/RT_calib_ZY19_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
+  * TH Cologne _HØSMA-7N_:<br/>
+    `python -m ReTiSAR -b=2048 -sh=7 -tt=NONE -s=None -ar=res/ARIR/RT_calib_HOS64_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
 
 * Run as array IR renderer, e.g. _Eigenmike_<br/>
   * Simulated plane wave:<br/>
