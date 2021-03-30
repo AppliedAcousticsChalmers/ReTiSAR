@@ -122,6 +122,24 @@ SH_MAX_ORDER, ARIR_FILE = 4, "res/ARIR/RT_calib_EM32ch_struct.mat"  # Chalmers (
 # ARIR_TYPE = "AS_MIRO"
 # SH_MAX_ORDER, ARIR_FILE = 7, "res/ARIR/RT_calib_HOS64_struct.mat"
 
+############ ARRAY RECORDING RENDERING OF ZYLIA ZM-1 ############
+BLOCK_LENGTH = 256
+"""Block length of the JACK audio server and clients in samples, see `JackClient`. Should only be
+set before starting any client. """
+SOURCE_FILE = "res/record/ZY19_off_around.wav"  # file not provided
+"""File of audio being played by the application, see `JackPlayer`."""
+SOURCE_LEVEL = 6
+"""Output level in dBFS of audio being played by the application, see `JackClient`."""
+ARIR_TYPE = "AS_MIRO"
+"""Type of FIR filter file containing Array Room Impulse Responses, see `FilterSet.Type`."""
+ARIR_FILE = "res/ARIR/RT_calib_ZY19_struct.mat"
+"""File with FIR filter containing Array Room Impulse Responses, see `FilterSet`."""
+ARIR_LEVEL = 0
+"""Output level in dBFS of renderer for Array Room Impulse Responses, see `JackClient`."""
+SH_MAX_ORDER = 3
+"""Maximum spherical harmonics order when rendering Array Room Impulse Responses,
+see `JackRenderer`. """
+
 # ############ ARRAY LIVE-STREAM RENDERING ############
 # BLOCK_LENGTH = 256
 # # BLOCK_LENGTH = 1024
@@ -131,6 +149,22 @@ SH_MAX_ORDER, ARIR_FILE = 4, "res/ARIR/RT_calib_EM32ch_struct.mat"  # Chalmers (
 # SH_MAX_ORDER, ARIR_FILE = 4, "res/ARIR/RT_calib_EM32ch_struct.mat"  # Eigenmike Chalmers (SN 28)
 # # SH_MAX_ORDER, ARIR_FILE = 4, "res/ARIR/RT_calib_EM32frl_struct.mat"  # Eigenmike Facebook Reality Labs (SN ??)
 # # SH_MAX_ORDER, ARIR_FILE = 7, "res/ARIR/RT_calib_HOS64_struct.mat"  # HØSMA-7N
+
+# ############ ARRAY LIVE-STREAM RENDERING OF ZYLIA ZM-1 ############
+# BLOCK_LENGTH = 256
+# """Block length of the JACK audio server and clients in samples, see `JackClient`. Should only be
+# set before starting any client. """
+# SOURCE_FILE = None
+# """File of audio being played by the application, see `JackPlayer`."""
+# ARIR_TYPE = "AS_MIRO"
+# """Type of FIR filter file containing Array Room Impulse Responses, see `FilterSet.Type`."""
+# ARIR_FILE = "res/ARIR/RT_calib_ZY19_struct.mat"
+# """File with FIR filter containing Array Room Impulse Responses, see `FilterSet`."""
+# ARIR_LEVEL = 0
+# """Output level in dBFS of renderer for Array Room Impulse Responses, see `JackClient`."""
+# SH_MAX_ORDER = 3
+# """Maximum spherical harmonics order when rendering Array Room Impulse Responses,
+# see `JackRenderer`. """
 
 # ############ ARRAY IR RENDERING OF EIGENMIKE ############
 # SOURCE_FILE = "res/source/Drums_48.wav"

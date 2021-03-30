@@ -177,6 +177,8 @@ __Most execution modes require additional external measurement data, which canno
   `python -m ReTiSAR -sh=4 -tt=NONE -s=res/record/EM32ch_lab_voice_updown.wav -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
   * _HØSMA-7N_ at TH Cologne lecture hall __(recording file not provided!)__:<br/>
   `python -m ReTiSAR -b=1024 -sh=7 -tt=NONE -s=res/record/HOS64_hall_lecture.wav -sp="[(90,0)]" -sl=9 -ar=res/ARIR/RT_calib_HOS64_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
+  * Zylia _ZM-1_ at TH Cologne office __(recording file not provided!)__:<br/>
+  `python -m ReTiSAR -b=256 -sh=3 -tt=NONE -s=res/record/ZY19_off_around.wav -sl=9 -ar=res/ARIR/RT_calib_ZY19_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
 * Run as array live-stream renderer with minimum latency (e.g. _Eigenmike_ with the respective channel calibration provided by manufacturer)<br/>
   * _Eigenmike_ Chalmers _EM32 (SN 28)_:<br/>
   `python -m ReTiSAR -b=256 -sh=4 -tt=NONE -s=None -ar=res/ARIR/RT_calib_EM32ch_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`<br/>
@@ -185,7 +187,7 @@ __Most execution modes require additional external measurement data, which canno
   * TH Cologne _HØSMA-7N_:<br/>
   `python -m ReTiSAR -b=1024 -sh=7 -tt=NONE -s=None -ar=res/ARIR/RT_calib_HOS64_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
   * Zylia _ZM-1_:<br/>
-  `python -m ReTiSAR -b=256 -sh=3 ...` __(grid calibration file pending!)__
+  `python -m ReTiSAR -b=256 -sh=3 -tt=NONE -s=None -ar=res/ARIR/RT_calib_ZY19_struct.mat -art=AS_MIRO -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA`
 
 * Run as array IR renderer, e.g. _Eigenmike_<br/>
   * Simulated plane wave:<br/>
@@ -275,6 +277,8 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[12]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) C. Hohnerlein and J. Ahrens, “Spherical Microphone Array Processing in Python with the sound_field_analysis-py Toolbox,” in Fortschritte der Akustik -- DAGA 2017, 2017, pp. 1033–1036.
 
 ## Change Log
+  * Addition of Zylia _ZM-1 array configuration
+
 * __v2020.11.23__
   * Consolidation of `Python 3.9` compatibility
   * Consolidation of _Linux_ compatibility (no modifications were required; tested with _Jack_ `1.9.16` on kernel `5.9.1-1-rt19-MANJARO`)
