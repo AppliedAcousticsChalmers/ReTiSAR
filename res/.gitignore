@@ -24,7 +24,7 @@
 /research/benchmarks/**/*.png
 #!/research/benchmarks/**/*.log
 *.zip
-subplot_er.m
+*.m
 
 # always include resource references
 !*.source
