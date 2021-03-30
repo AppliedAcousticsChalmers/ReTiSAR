@@ -1263,7 +1263,7 @@ class FilterSetMiro(FilterSet):
         sh_bases = sfa.sph.sph_harm_all(
             nMax=self._sh_max_order,
             az=self._irs_grid.azimuth,
-            el=self._irs_grid.colatitude,
+            co=self._irs_grid.colatitude,
         ).astype(dtype)
 
         # ignore underflow FloatingPointError in `numpy.matmul()`
