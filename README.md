@@ -1,14 +1,16 @@
 # ReTiSAR
-Implementation of the Real-Time Spherical Microphone Renderer for binaural reproduction in Python [[1]](#references)[[2]](#references).
+
+Implementation of the Real-Time Spherical Microphone Renderer for binaural reproduction in Python [[1]](#references)[[2]](#references).<br/>
+[![Mentioned in Awesome Python for Scientific Audio](https://awesome.re/mentioned-badge.svg)](https://github.com/faroit/awesome-python-scientific-audio)
 
 ![Badge_OS](https://img.shields.io/badge/platform-osx--64%20|%20linux--64-lightgrey)
 [![Badge_Python](https://img.shields.io/badge/python-3.7%20|%203.8%20|%203.9-brightgreen)][Python]
 [![Badge Version](https://badge.fury.io/gh/AppliedAcousticsChalmers%2FReTiSAR.svg)](https://github.com/AppliedAcousticsChalmers/ReTiSAR/releases)
-[![Badge_LastCommit](https://img.shields.io/github/last-commit/AppliedAcousticsChalmers/ReTiSAR)](https://github.com/AppliedAcousticsChalmers/ReTiSAR/commit/master)<br/>
+[![Badge_LastCommit](https://img.shields.io/github/last-commit/AppliedAcousticsChalmers/ReTiSAR)](https://github.com/AppliedAcousticsChalmers/ReTiSAR/commit/master) <br/>
 [![Badge_CommitActivity](https://img.shields.io/github/commit-activity/m/AppliedAcousticsChalmers/ReTiSAR)](https://github.com/AppliedAcousticsChalmers/ReTiSAR/commits/master)
 ![Badge_CodeSize](https://img.shields.io/github/languages/code-size/AppliedAcousticsChalmers/ReTiSAR)
 ![Badge_RepoSize](https://img.shields.io/github/repo-size/AppliedAcousticsChalmers/ReTiSAR)
-[![Badge Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)<br/>
+[![Badge Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) <br/>
 [![Badge_Conda](https://img.shields.io/badge/supports-conda-orange)][Conda]
 [![Badge_FFTW](https://img.shields.io/badge/supports-FFTW-orange)][FFTW]
 [![Badge_JACK](https://img.shields.io/badge/supports-JACK-orange)][JACK]
