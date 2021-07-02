@@ -287,7 +287,7 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
   * Consolidation of _Linux_ compatibility (no modifications were required; tested with _Jack_ `1.9.16` on kernel `5.9.1-1-rt19-MANJARO`)
 * __v2020.10.21__
   * Improvement of establishing _JACK_ and/or OS specific client name length limitation of `JackClient`
-* __v2020.10.15__ (__v2020.FA__)
+* __v2020.10.15__ ([__v2020.FA__](https://github.com/AppliedAcousticsChalmers/ReTiSAR/releases/tag/v2020.FA))
   * Addition of references to data set for _Forum Acusticum_ [[10]](#references) publication
 * __v2020.9.10__
   * Enforcement of `Black >= 20.8b1` code style
@@ -334,9 +334,9 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 * __v2020.1.30__
   * First publication of code
 
-* Pre-release (__v2020.ICASSP__)
+* Pre-release ([__v2020.ICASSP__](https://github.com/AppliedAcousticsChalmers/ReTiSAR/releases/tag/v2020.ICASSP))
   * Contains the older original code state for the _ICASSP_ [[13]](#references) publication
-* Pre-release (__v2019.DAGA__)
+* Pre-release ([__v2019.DAGA__](https://github.com/AppliedAcousticsChalmers/ReTiSAR/releases/tag/v2019.DAGA))
   * Contains the older original code state for the initial _DAGA_ [[1]](#references) publication
 
 ## Contributing
