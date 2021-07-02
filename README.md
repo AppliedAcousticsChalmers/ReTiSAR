@@ -276,7 +276,8 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[9]](https://depositonce.tu-berlin.de/handle/11303/6153.5) F. Brinkmann et al., “The FABIAN head-related transfer function data base.” Technische Universität Berlin, Berlin, Germany, 2017, doi: 10.14279/depositonce-5718.5.<br/>
 [[10]](https://hal.archives-ouvertes.fr/hal-03235341) H. Helmholz, D. Lou Alon, S. V. A. Garí, and J. Ahrens, “Instrumental Evaluation of Sensor Self-Noise in Binaural Rendering of Spherical Microphone Array Signals,” in Forum Acusticum, 2020, pp. 1349–1356, doi: 10.48465/fa.2020.0074.<br/>
 [[11]](http://www.audiogroup.web.fh-koeln.de/FILES/VDT2012_WDRIRC.pdf) P. Stade, B. Bernschütz, and M. Rühl, “A Spatial Audio Impulse Response Compilation Captured at the WDR Broadcast Studios,” in 27th Tonmeistertagung -- VDT International Convention, 2012, pp. 551–567.<br/>
-[[12]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) C. Hohnerlein and J. Ahrens, “Spherical Microphone Array Processing in Python with the sound_field_analysis-py Toolbox,” in Fortschritte der Akustik -- DAGA 2017, 2017, pp. 1033–1036.
+[[12]](https://pdfs.semanticscholar.org/3c9a/ed0153b9eb94947953ddb326c3de29ae5f75.pdf) C. Hohnerlein and J. Ahrens, “Spherical Microphone Array Processing in Python with the sound_field_analysis-py Toolbox,” in Fortschritte der Akustik -- DAGA 2017, 2017, pp. 1033–1036.<br/>
+[[13]](https://ieeexplore.ieee.org/document/9054434/) H. Helmholz, J. Ahrens, D. Lou Alon, S. V. A. Garí, and R. Mehra, “Evaluation of Sensor Self-Noise In Binaural Rendering of Spherical Microphone Array Signals,” in International Conference on Acoustics, Speech and Signal Processing (ICASSP), 2020, pp. 161–165, doi: 10.1109/ICASSP40776.2020.9054434.
 
 ## Change Log
 * __v2021.03.30__
@@ -332,6 +333,11 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
   * Update of README structure (including Quickstart section)
 * __v2020.1.30__
   * First publication of code
+
+* Pre-release (__v2020.ICASSP__)
+  * Contains the older original code state for the _ICASSP_ [[13]](#references) publication
+* Pre-release (__v2019.DAGA__)
+  * Contains the older original code state for the initial _DAGA_ [[1]](#references) publication
 
 ## Contributing
 See [CONTRIBUTING](CONTRIBUTING.md) for full details.
