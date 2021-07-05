@@ -44,7 +44,7 @@ class SubProcess(mp_context.Process):
             disable logger after creation, useful for benchmarking
         """
         # self._logger.debug(f'initializing PROCESS [{name}] ...')
-        mp_context.Process.__init__(self, name=name)
+        super().__init__(name=name)
         self.daemon = is_daemon_process
 
         # initialize attributes
