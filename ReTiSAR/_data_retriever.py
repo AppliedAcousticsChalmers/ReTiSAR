@@ -105,7 +105,15 @@ class DataRetriever(object):
         bool
             if the requested resource has a data file available
         """
-        return os.path.isfile(DataRetriever._get_data_path(path))
+        data_path = DataRetriever._get_data_path(path)
+        is_file = os.path.isfile(data_path)
+
+        if is_file and not os.path.getsize(data_path):
+            # delete file with size of 0 bytes (probably from a failed download)
+            os.remove(data_path)
+            return False
+
+        return is_file
 
     @staticmethod
     def has_source(path):
@@ -191,6 +199,8 @@ class DataRetriever(object):
                 with request.urlopen(source_info[0]) as response, open(
                     file=download, mode="wb"
                 ) as file:
+                    if response.length is None:
+                        response.length = 0
                     log_str = f"{log_str}\n --> size: {response.length / 1e6:.1f} MB"
                     logger.warning(log_str) if logger else print(
                         f"[WARNING]  {log_str}", file=sys.stderr
