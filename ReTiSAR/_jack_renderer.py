@@ -214,31 +214,26 @@ class JackRenderer(JackClient):
             )
             source_ports = source_ports[:convolver_port_count]
 
-        # elif (
-        #     len(source_ports) < convolver_port_count
-        #     and type(self._convolver) is AdjustableShConvolver
-        # ):
-        #     raise ValueError(
-        #         f"number of {len(source_ports)} input ports is smaller then the number of array "
-        #         f"processing channels {convolver_port_count} (according to loaded filter)."
-        #     )
-
-        if (
-            len(source_ports) < convolver_port_count
+        # skip connecting if source number is smaller than specified by convolver
+        elif (
+            is_connect
+            and len(source_ports) < convolver_port_count
             and type(self._convolver) is AdjustableShConvolver
         ):
             self._logger.warning(
-                f"skipping input register and connect.\n"
+                f"skipping input connect.\n"
                 f" --> number of {len(source_ports)} input ports is smaller then the number of "
                 f"array processing channels {convolver_port_count} (according to loaded filter)"
             )
-        else:
-            self._client_register_inputs(len(source_ports))
+            is_connect = False
 
-            if is_connect:
-                # connect source to input ports
-                for src, dst in zip(source_ports, self._client.inports):
-                    self._client.connect(src, dst)
+        # register input ports
+        self._client_register_inputs(convolver_port_count)
+
+        if is_connect:
+            # connect source to input ports
+            for src, dst in zip(source_ports, self._client.inports):
+                self._client.connect(src, dst)
 
         # restore beforehand execution state
         if event_ready_state_before:
