@@ -1,0 +1,25 @@
+DATE
+2019-05-09
+
+HARDWARE
+iMacPro, Lab10, 2017
+3,2 GHz Intel Xenon W (8 Cores + HT)
+128 GB 2666 MHz DDR4
+Internal sound card
+
+SOFTWARE
+macOS 10.14.4
+PyCharm 2019.1.2
+Jackd 1.9.11
+Python 3.7.3
+numpy 1.16.3
+scipy 1.2.1
+pyfftw 0.11.1
+mkl 2019.3
+mkl_fft 1.0.12
+mkl_random 1.0.2
+
+PARAMETERS
+all packages installed from conda-main if possible
+otherwise from conda-forge
+otherwise from PyPI

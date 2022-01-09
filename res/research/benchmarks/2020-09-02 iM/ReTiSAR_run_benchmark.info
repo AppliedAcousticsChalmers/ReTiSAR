@@ -1,0 +1,89 @@
+DATE
+2020-09-02
+
+HARDWARE
+iMacPro, Lab10, 2017
+3,2 GHz Intel Xenon W (8 Cores + HT)
+128 GB 2666 MHz DDR4
+Internal sound card
+
+SOFTWARE
+macOS 10.15.6
+PyCharm 2020.2.1
+Jackd 1.9.11
+
+PARAMETERS
+
+ENVIRONMENT (conda list --export)
+appdirs=1.4.4=py_0
+attrs=20.1.0=py_0
+black=19.10b0=py_0
+blas=1.0=mkl
+ca-certificates=2020.7.22=0
+certifi=2020.6.20=py38_0
+cffi=1.14.2=pypi_0
+cftime=1.2.1=pypi_0
+click=7.1.2=py_0
+cycler=0.10.0=py38_0
+fftw=3.3.8=h1de35cc_3
+freetype=2.10.2=ha233b18_0
+intel-openmp=2019.4=233
+jack-client=0.5.2=pypi_0
+jinja2=2.11.2=py_0
+jpeg=9b=he5867d9_2
+kiwisolver=1.2.0=py38h04f5b5a_0
+lcms2=2.11=h92f6f08_0
+libcxx=10.0.0=1
+libedit=3.1.20191231=h1de35cc_1
+libffi=3.3=hb1e8313_2
+libgfortran=3.0.1=h93005f0_2
+libpng=1.6.37=ha441bb4_0
+libtiff=4.1.0=hcb84e12_1
+lz4-c=1.9.2=hb1e8313_1
+markupsafe=1.1.1=py38h1de35cc_1
+matplotlib=3.3.1=0
+matplotlib-base=3.3.1=py38h181983e_0
+mkl=2019.4=233
+mkl-service=2.3.0=py38hfbe908c_0
+mkl_fft=1.1.0=py38hc64f4ea_0
+mkl_random=1.1.1=py38h959d312_0
+mypy_extensions=0.4.3=py38_0
+natsort=7.0.1=py_0
+ncurses=6.2=h0a44026_1
+netcdf4=1.5.4=pypi_0
+numpy=1.19.1=py38h3b9f5b6_0
+numpy-base=1.19.1=py38hcfb5961_0
+olefile=0.46=py_0
+openssl=1.1.1g=h1de35cc_0
+pandas=1.1.1=py38hb1e8313_0
+pathspec=0.7.0=py_0
+pillow=7.2.0=py38ha54b6ba_0
+pip=20.2.2=py38_0
+pycparser=2.20=pypi_0
+pyfftw=0.12.0=py38h874608b_1
+pyparsing=2.4.7=py_0
+pyserial=3.4=py_2
+pysofaconventions=0.1.5=pypi_0
+python=3.8.5=h26836e1_0
+python-dateutil=2.8.1=py_0
+python-osc=1.7.4=pypi_0
+python_abi=3.8=1_cp38
+pytz=2020.1=py_0
+readline=8.0=h1de35cc_0
+regex=2020.7.14=py38haf1e3a3_0
+samplerate=0.1.0=pypi_0
+scipy=1.5.0=py38hbab996c_0
+setuptools=49.6.0=py38_0
+six=1.15.0=py_0
+sound-field-analysis=2020.1.30=pypi_0
+soundfile=0.10.3.post1=pypi_0
+sqlite=3.33.0=hffcf06c_0
+tk=8.6.10=hb0a8c7a_0
+toml=0.10.1=py_0
+tornado=6.0.4=py38h1de35cc_1
+typed-ast=1.4.1=py38h1de35cc_0
+typing_extensions=3.7.4.3=py_0
+wheel=0.35.1=py_0
+xz=5.2.5=h1de35cc_0
+zlib=1.2.11=h1de35cc_3
+zstd=1.4.5=h41d2c2f_0

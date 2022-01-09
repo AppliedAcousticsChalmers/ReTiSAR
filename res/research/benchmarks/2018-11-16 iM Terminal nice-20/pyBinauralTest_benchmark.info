@@ -1,0 +1,19 @@
+DATE
+2018-11-16
+
+HARDWARE
+iMacPro, Lab10, 2017
+3,2 GHz Intel Xenon W (8 Cores + HT)
+128 GB 2666 MHz DDR4
+Internal sound card
+
+SOFTWARE
+macOS 10.13.6
+Terminal + sudo
+Jackd 1.9.11
+Python 3.7.1
+
+PARAMETERS
+Process number changed to 1418
+File number changed to 10240
+Nice changed to -20
