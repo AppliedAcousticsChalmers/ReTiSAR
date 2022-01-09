@@ -280,6 +280,10 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 [[13]](https://ieeexplore.ieee.org/document/9054434/) H. Helmholz, J. Ahrens, D. Lou Alon, S. V. A. Garí, and R. Mehra, “Evaluation of Sensor Self-Noise In Binaural Rendering of Spherical Microphone Array Signals,” in International Conference on Acoustics, Speech and Signal Processing (ICASSP), 2020, pp. 161–165, doi: 10.1109/ICASSP40776.2020.9054434.
 
 ## Change Log
+* __v2021.07.26__
+  * Improve logging of loaded FFTW wisdom
+  * Improve behaviour of the SH renderer to create input ports even if less physical recording ports are present
+  * Update `DataRetriever` to be more resilient against faulty downloads
 * __v2021.03.30__
   * Addition of Zylia _ZM-1_ array example recording and live-stream configurations
 * __v2020.11.23__
