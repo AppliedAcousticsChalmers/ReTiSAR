@@ -3,24 +3,18 @@ channels:
   - defaults  # prefer installing packages from conda-main over conda-forge, will install Intel MKL for numpy)
   - conda-forge  # preferring conda-forge would install OpenBLAS for numpy
 dependencies:
-  - cffi  # for jack-client/samplerate/pysoundfile from conda
   - matplotlib
-  - netCDF4  # for pysofaconventions from conda
-  - numpy >= 1.15.4
+  - numpy >=1.17
   - pip
 #  - psutil  # for adjusting process priority, currently not used
-  - pycparser  # for jack-client/samplerate/pysoundfile from conda
-  - pyfftw
-  - pyserial >= 3.4
-  - pysoundfile >= 0.10.2  # on Windows you need to install soundfile via pip
-  - python >= 3.7
-  - scipy
+  - pyfftw  # only on conda-forge
+  - pyserial >=3.4
+  - python >=3.7
+  - scipy >=0.16
   - pip:
-    - jack-client >= 0.4.4
+    - jack-client >=0.4.4
     - python-osc
-    - pysofaconventions >= 0.1.5
+    - pysofaconventions >=0.1.5
+    - soundfile >=0.10.2
     - samplerate
-#    - sound-field-analysis >= 2019.8.15  # use repository as long as PyPI package is not updated
-#    - -e ../sound_field_analysis-py/
-    - "https://github.com/AppliedAcousticsChalmers/sound_field_analysis-py/tarball/master#egg=sound_field_analysis"
-    - -e .
+    - sound-field-analysis >=2021.2.4

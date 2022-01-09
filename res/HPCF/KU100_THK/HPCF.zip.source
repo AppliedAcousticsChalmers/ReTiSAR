@@ -1,0 +1,6 @@
+http://audiogroup.web.th-koeln.de/FILES/HPCF.zip
+
+- Unpack archive
+- Open desired model in MATLAB
+- Extract desired minimum or linear phase compensation filter into two channel WAV file
+- Execute ReTiSAR with the desired filter
