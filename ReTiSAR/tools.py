@@ -641,8 +641,11 @@ def import_fftw_wisdom(is_enforce_load=False):
         # import and print wisdom
         pyfftw.import_wisdom(wisdom)
         for w in wisdom:
-            n = w.decode("utf-8").strip().split("\n")
-            print(f' --> {len(n) - 2:>3} entries for "{n[0].strip("()")}"')
+            if len(w):
+                n = w.decode("utf-8").strip().split("\n")
+                print(
+                    f' --> {len(n) - 2:>3} entries for "{n[0].strip("()").split(" #")[0]}"'
+                )
 
     except FileNotFoundError:
         log_error("file not found")
