@@ -263,7 +263,7 @@ LOGGING_PATH = "log/"
 # ###################### #
 
 # PROCESS_PRIORITY = 1
-# """Process attribute, which is requested as its operation system specific priority,
+# """Process attribute, which is requested as its operating system specific priority,
 # see `__main__`. """
 
 IS_SINGLE_PRECISION = True
@@ -274,31 +274,31 @@ PROCESS_FILE_LIMIT_MIN = 10240
 """MacOS specific process attribute to limit the number of open files, which is requested to be
 as high as the specified value. """
 
-NUMPY_OMP_NUM_THREADS = 1  # 1 leads to best performance so far
+NUMPY_OMP_NUM_THREADS = 1  # 1 leads to the best performance so far
 """Number of available OpenMP threads, should be chosen carefully to not lead to oversubscription
 (1 is equivalent to disabling threading in OpenMP). """
-NUMPY_OMP_DYNAMIC = False  # False leads to best performance so far
+NUMPY_OMP_DYNAMIC = False  # False leads to the best performance so far
 """Enable dynamic reduction of number of threads based on analysis of system workload, which may
 reduce possible oversubscription from OpenMP threading. """
-# quarter CPU count leads to best real-time performance so far
+# quarter CPU count leads to the best real-time performance so far
 NUMPY_MKL_NUM_THREADS = int(tools.get_cpu_count() / 4)
 """Number of available MKL threads, should be chosen carefully to not lead to oversubscription (1
 is equivalent to disabling threading in MKL). """
-NUMPY_MKL_DYNAMIC = False  # False leads to best performance so far
+NUMPY_MKL_DYNAMIC = False  # False leads to the best performance so far
 """Enable dynamic reduction of number of threads based on analysis of system workload, which may
 reduce possible oversubscription from MKL threading. """
 
-IS_PYFFTW_MODE = True  # True leads to best performance so far
+IS_PYFFTW_MODE = True  # True leads to the best performance so far
 """If `pyfftw` package (wrapper for FFTW library) should be used instead of `numpy` for all
 real-time DFT operations. In case `pyfftw` is not used, all related tasks like loading/saving and
 pre-calculating FFTW wisdom will be skipped. """
 # PYFFTW_EFFORT = "FFTW_ESTIMATE"
-# PYFFTW_EFFORT = "FFTW_MEASURE"
-PYFFTW_EFFORT = "FFTW_PATIENT"
+PYFFTW_EFFORT = "FFTW_MEASURE"
+# PYFFTW_EFFORT = "FFTW_PATIENT"
 # PYFFTW_EFFORT = "FFTW_EXHAUSTIVE"
 """Amount of effort spent during the FFTW planning stage to create the fastest possible
 transform, see `pyfftw`. """
-# quarter CPU count leads to best real-time performance so far
+# quarter CPU count leads to the best real-time performance so far
 PYFFTW_NUM_THREADS = int(tools.get_cpu_count() / 4)
 """Number of available FFTW threads, should be chosen carefully to not lead to oversubscription (
 1 is equivalent to disabling threading in FFTW). """
