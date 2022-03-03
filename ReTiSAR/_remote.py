@@ -148,7 +148,7 @@ class OscRemote(object):
     def terminate(self):
         """
         Shutdown OSC server if it is running and in the current implementation releasing the
-        application to continue execution (most likely to shutdown all child processes and
+        application to continue execution (most likely to shut down all child processes and
         terminating itself.
         """
         if self._server is None:
@@ -162,17 +162,18 @@ class OscRemote(object):
     @staticmethod
     def handle_terminate(_, self, *__):
         """
-        Call the terminate function of this instance to shutdown the application.
+        Call the terminate function of this instance to shut down the application.
 
         Parameters
         ----------
         _ : str
             OSC target
-        self : SubProcess
+        self : List of SubProcess
             instance, in this case a reference to itself
         __ : any
             ignored parameters
         """
+        self = self[0]
         log_str = "terminated by user."
         self._logger.error(log_str) if self._logger else print(log_str, file=sys.stderr)
         self.terminate()
@@ -182,7 +183,7 @@ class OscRemote(object):
     def handle_function(_, references, *parameters):
         """
         Call the intended function of the instance with the parameters provided. Additional
-        parameters will be dropped, in case there are more given then the referenced function
+        parameters will be dropped, in case there are more given than the referenced function
         takes.
 
         Parameters
