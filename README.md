@@ -38,8 +38,9 @@ Contents:
 
 ## Requirements
 * _macOS_ (tested on `10.14 Mojave` and `10.15 Catalina`) or _Linux_ (tested on `5.9.1-1-rt19-MANJARO`)<br/>
+(_macOS_ `11 Big Sur` and `12 Monterey` seem to have a problem with _JACK_ `<=1.9.20` which prevent the pipeline to initialize)<br/>
 (_Windows_ is not supported due to an incompatibility with the current `multiprocessing` implementation)
-* [_JACK_ library][JACK] (prebuilt installers / binaries are available)
+* [_JACK_ library][JACK] (`brew install qjackctl` or alternatively prebuilt installers are available)
 * [_Conda_ installation][Conda] (`miniconda` is sufficient; provides an easy way to get [Intel _MKL_](https://software.intel.com/en-us/articles/using-intel-distribution-for-python-with-anaconda) or alternatively [_OpenBLAS_](https://github.com/conda-forge/openblas-feedstock) optimized `numpy` versions which is highly recommended)
 * [_Python_ installation][Python] (tested with `3.7` to `3.9`; recommended way to get _Python_ is to use _Conda_ as described in the [setup section](#setup))
 * Installation of the required _Python_ packages (recommended way is to use _Conda_ as described in the [setup section](#setup))
@@ -55,26 +56,27 @@ Contents:
 * Navigate into the repository (the directory containing _setup.py_):<br/>
 `cd ReTiSAR/`
 * Install required _Python_ packages i.e., _Conda_ is recommended:
-  * Make sure that _Conda_ is up to date:<br/>
+  * Make sure that _Conda_ is up-to-date:<br/>
   `conda update conda`
   * Create new _Conda_ environment from the specified requirements (`--force` to overwrite potentially existing outdated environment):<br/>
   `conda env create --file environment.yml --force`
   * Activate created _Conda_ environment:<br/>
-  `source activate ReTiSAR`
+  `conda activate ReTiSAR`
 
 ## Quickstart
 * Follow [requirements](#requirements) and [setup](#setup) instructions
 * During first execution, some small amount of additional mandatory external measurement data will be downloaded automatically, see remark in [execution modes](#execution-modes) __(requires Internet connection)__
-* Start _JACK_ server with desired sampling rate (all demo configurations are in 48 kHz):</br>
+* Start _JACK_ server with desired sampling rate (all demo configurations are in 48 kHz) preferably with the _QjackCtl_ application or terminal:</br>
 `jackd -d coreaudio -r 48000` __[macOS]__</br>
 `jackd -d alsa -r 48000` __[Linux]__</br>
-__Remark:__ Check e.g. the `jackd -d coreaudio -d -l` command to specify the audio interface that should be used!
+__Remark:__ Select the correct audio interface that should be used in _QjackCtl_ or terminal with the help of e.g.<br/>
+`jackd -d coreaudio -d -l` !
 * Run package with __[default]__ parameters to hear a binaural rendering of a raw Eigenmike recording:<br/>
 `python -m ReTiSAR`
 * __Option 1:__ Modify the configuration by changing the default parameters in [config.py](ReTiSAR/config.py) (prepared block comments for the specific execution modes below exist).
 * __Option 2:__ Modify the configuration by command line arguments (like in the following examples showing different execution [parameters](#execution-parameters) and [modes](#execution-modes), see `--help`).
 
-__JACK initialization &mdash;__ In case you have never started the _JACK_ audio server on your system or want to make sure it initializes with appropriate values. Open the _JackPilot_ application set your system specific default settings.<br/>
+__JACK initialization &mdash;__ In case you have never started the _JACK_ audio server on your system or want to make sure it initializes with appropriate values. Open the _QjackCtl_ application to set your system specific default settings.<br/>
 At this point the only relevant _JACK_ audio server setting is the sampling frequency, which has to match the sampling frequency of your rendered audio source file or stream (no resampling will be applied for that specific file).
 
 __FFTW optimization &mdash;__ In case the rendering takes very long to start (after the message _"initializing FFTW DFT optimization ..."_), you might want to endure this long computation time once (per rendering configuration) or lower your [FFTW] planner effort (see `--help`).
@@ -85,7 +87,7 @@ __Rendering performance &mdash;__ Follow these remarks to expect continuous and 
   * Currently, there is no partitioned convolution for the main binaural renderer with SH based processing, hence the FIR taps of the applied HRIR, Modal Radial Filters and further compensations (e.g. Spherical Head Filter) need to cumulatively fit inside the chosen block size.
   * Higher block size means lower computational load in real-time rendering but also increased system latency, most relevant for modes with array live-stream rendering, but also all other modes in terms of a slightly "smeared" head-tracking experience (noticeable at 4096 samples).
   * Adjust output levels of all rendering components (default parameters chosen accordingly) to prevent signal clipping (indicated by warning messages during execution).
-  * Check _JACK_ system load (e.g. _JackPilot_ or [OSC_Remote_Demo.pd](#remote-control)) to be below approx. 95% load, in order to prevent dropouts (i.e. the OS reported overall system load is not a good indicator).
+  * Check _JACK_ system load (e.g. _QjackCtl_ or [OSC_Remote_Demo.pd](#remote-control)) to be below approx. 95% load, in order to prevent dropouts (i.e. the OS reported overall system load is not a good indicator).
   * Check _JACK_ detected dropouts ("xruns" indicated during execution).
   * Most of all, use your ears! If something sounds strange, there is probably something going wrong... ;)
 
@@ -202,11 +204,11 @@ __Most execution modes require additional external measurement data, which canno
   * 86ch (sh7), SBS center:<br/>
   `python -m ReTiSAR -sh=7 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_SBS_VSA_86RS_PAC.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
   * 110ch (sh8), CR1 left:<br/>
-  `python -m ReTiSAR -sh=8 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -sp="[(-37,0)]" -ar=res/ARIR/DRIR_CR1_VSA_110RS_L.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
+  `python -m ReTiSAR -sh=8 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -sp="[(37,0)]" -ar=res/ARIR/DRIR_CR1_VSA_110RS_L.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
   * 194ch (sh11, open sphere, cardioid microphones), LBS center:<br/>
   `python -m ReTiSAR -sh=11 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -ar=res/ARIR/DRIR_LBS_VSA_194OSC_PAC.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
   * 1202ch (truncated sh12), CR7 left:<br/>
-  `python -m ReTiSAR -sh=12 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -sp="[(-37,0)]" -ar=res/ARIR/DRIR_CR7_VSA_1202RS_L.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
+  `python -m ReTiSAR -sh=12 -tt=AUTO_ROTATE -s=res/source/Drums_48.wav -sp="[(37,0)]" -ar=res/ARIR/DRIR_CR7_VSA_1202RS_L.sofa -art=ARIR_SOFA -arl=-12 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA`
 
 Note that the [rendering performance](#quickstart) is mostly determined by the chosen combination of the following parameters: __number of microphones (ARIR channels)__, __room reverberation time (ARIR length)__, __IR truncation cutoff level__ and __rendering block size__.
 
@@ -236,8 +238,8 @@ Depending on the current configuration and rendering mode different commands are
 ![Screenshot of OSC_Remote_Demo.pd](res/OSC_Remote_Demo.jpg)
 
 ## Validation - Setup and Execution
-* Download and build required [_ecasound_ library](https://ecasound.seul.org/ecasound/download.php) for signal playback and capture __with _JACK_ support__:<br/>
-in directory `./configure`, `make` and `sudo make install` while having _JACK_ installed
+* Install [_ecasound_ library](https://ecasound.seul.org/ecasound/download.php) for signal playback and capture __with _JACK_ support__:<br/>
+`brew install ecasound`
 * __Optional:__ Install [_sendosc_](https://github.com/yoggy/sendosc) tool to be used for automation in shell scripts:<br/>
 `brew install yoggy/tap/sendosc`
 * __Remark:__ Make sure all subsequent rendering configurations are able to start up properly before recording starts (particularly FFTW optimization might take a long time, see above)
@@ -256,7 +258,7 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 ## Benchmark - Setup and Execution
 * Install additionally required _Python_ packages into _Conda_ environment:<br/>
 `conda env update --file environment_dev.yml`
-* Run the _JACK_ server with arbitrary sampling rate via _JackPilot_ or in a new command line window (`[CMD]+[T]`):<br/>
+* Run the _JACK_ server with arbitrary sampling rate via _QjackCtl_ or in a new command line window (`[CMD]+[T]`):<br/>
 `jackd -d coreaudio`
 * Run in benchmark mode, instantiating one rendering _JACK_ client with as many convolver instances as possible (40-60 minutes):<br/>
 `python -m ReTiSAR --BENCHMARK_MODE=PARALLEL_CONVOLVERS`
@@ -298,7 +300,7 @@ in directory `./configure`, `make` and `sudo make install` while having _JACK_ i
 * __v2020.9.10__
   * Enforcement of `Black >= 20.8b1` code style
 * __v2020.8.20__
-  * Extension of `JackPlayer` to make auto-play behaviour configurable (via `config` parameter or command line argument)
+  * Extension of `JackPlayer` to make autoplay behaviour configurable (via `config` parameter or command line argument)
 * __v2020.8.13__
   * Update of OSC Remote Demo to reset (after not receiving data) and clip displayed RMS values
   * Improvement of FFTW wisdom verification to be more error proof
@@ -364,7 +366,7 @@ Copyright (c) 2018<br/>
 Division of Applied Acoustics<br/>
 Chalmers University of Technology
 
-[JACK]: http://jackaudio.org/downloads/
+[JACK]: https://github.com/jackaudio/jack2-releases/releases
 [Conda]: https://conda.io/en/master/miniconda.html
 [Python]: https://www.python.org/downloads/
 [OSC]: http://opensoundcontrol.org/implementations
