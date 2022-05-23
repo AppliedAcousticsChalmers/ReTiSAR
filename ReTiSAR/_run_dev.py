@@ -936,14 +936,16 @@ def _test_client_name_lock():
     (the old client will be terminated before creating the new one).
 
     This should not be a problem or an unusual use case for Jack to handle. However, this test
-    revealed some problems as documented in https://github.com/jackaudio/jack2/issues/658 and
+    revealed some issues as documented in https://github.com/jackaudio/jack2/issues/658 and
     https://github.com/spatialaudio/jackclient-python/issues/98.
 
-    On macOS, creating the 99th instance fails with a jack.JackOpenError when initializing the
+    On macOS, creating the 99th instance used to fail with a jack.JackOpenError when initializing the
     client. This occurred neither on Linux nor on Windows based on the same Jack version.
 
-    After the failure occurs no clients with that name can be instantiated at all. This persists
+    After the failure occurred no clients with that name can be instantiated at all. This persists
     even through a restart of Jack. AFAIK only a system restart helps to resolve the lock.
+
+    The issue was fixed in https://github.com/jackaudio/jack2/pull/788.
     """
     import jack
 
@@ -953,7 +955,7 @@ def _test_client_name_lock():
             i += 1
 
             # name = f"Client{i:d}"  # runs for arbitrarily many clients
-            name = f"Client"  # fails for the 99th instance
+            name = f"Client"  # used to fail for the 99th instance, but was fixed
 
             print(f'Test {i:d}: creating "{name}" ...')
             client = jack.Client(name=name)
