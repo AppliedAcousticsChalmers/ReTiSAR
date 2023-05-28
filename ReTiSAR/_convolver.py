@@ -11,7 +11,7 @@ from ._filter_set import FilterSetMultiChannel, FilterSetShConfig, FilterSetSsr
 class DelayBuffer(object):
     """
     Basic class to provide a delay line of time domain signals with a ringbuffer. The realized
-    delay will always be integer multiples of the system audio block size. There is a system wide
+    delay will always be integer multiples of the system audio block size. There is a system-wide
     configurable maximum delay time.
 
     Attributes
@@ -39,7 +39,7 @@ class DelayBuffer(object):
         block_length : int
             system specific size of every audio block
         delay_ms : float, optional
-            starting delay in delay in milliseconds
+            starting delay in milliseconds
         """
         self._buffer = None
         self._buffer_ptr = 0
@@ -308,7 +308,7 @@ class Convolver(object):
         """
         Provides debugging possibilities the `filter_block()` function before running the
         `Convolver` as a separate process, where breakpoints do not work anymore. Arbitrary audio
-        blocks can be send into the array, here some white noise in the shape to be expected from
+        blocks can be sent into the array, here some white noise in the shape to be expected from
         a `JackRenderer` input is generated.
 
         Parameters
@@ -442,7 +442,7 @@ class OverlapSaveConvolver(Convolver):
     Attributes
     ----------
     _block_length : int
-        system wide time domain audio block size
+        system-wide time domain audio block size
     _blocks_fd : numpy.ndarray
         complex one-sided frequency spectra contained in a shifting buffer of size [number of
         blocks; number of output channels; `_block_length` (+1 depending on even or uneven length)]
@@ -459,7 +459,7 @@ class OverlapSaveConvolver(Convolver):
         Parameters
         ----------
         block_length : int
-            system wide time domain audio block size
+            system-wide time domain audio block size
         """
         super().__init__(filter_set=filter_set)
         self._block_length = block_length
@@ -653,7 +653,7 @@ class OverlapSaveConvolver(Convolver):
         if buffer_blocks_fd.shape[0] > 1:
             # shift blocks forwards
             buffer_blocks_fd = np.roll(buffer_blocks_fd, -1, axis=0)
-            # since `buffer_blocks_fd` is assigned a new copy of an ndarray, it needs to be returned
+            # since `buffer_blocks_fd` is assigned a new copy of a ndarray, it needs to be returned
 
         # set last block to zero
         buffer_blocks_fd[-1] = 0.0
@@ -1024,7 +1024,7 @@ class AdjustableShConvolver(AdjustableFdConvolver):
         Raises
         ------
         NotImplementedError
-            in case more then one `source_positions` are given
+            in case more than one `source_positions` are given
         """
         super().__init__(
             filter_set=filter_set,
@@ -1074,7 +1074,7 @@ class AdjustableShConvolver(AdjustableFdConvolver):
         """
         Calculate components which can be prepared before spherical harmonic processing in
         real-time. This contains calculating all spherical harmonics orders, coefficients and
-        base functions. Also a modal radial filter according to the provided input array
+        base functions. Also, a modal radial filter according to the provided input array
         configuration, as well as further compensation filters will be generated and applied
         preliminary.
 
@@ -1238,7 +1238,7 @@ class AdjustableShConvolver(AdjustableFdConvolver):
 
         When the current rendering order is lowered during execution, the sound field is still
         decomposed at the full maximum order. Although, only coefficients up to the specified
-        current order are used to calculated the ear signals. For best efficiency also the
+        current order are used to calculate the ear signals. For best efficiency also the
         decomposition would only be done at the current order, but the implementation would
         become much more complicated (sizes of all internal buffers in SH domain would change).
 

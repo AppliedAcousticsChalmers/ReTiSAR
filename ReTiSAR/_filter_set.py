@@ -57,7 +57,7 @@ class FilterSet(object):
     class Type(Enum):
         """
         Enumeration data type used to get an identification of loaded digital audio filter sets.
-        It's attributes (with an arbitrary distinct integer value) are used as system wide unique
+        It's attributes (with an arbitrary distinct integer value) are used as system-wide unique
         constant identifiers.
         """
 
@@ -71,7 +71,7 @@ class FilterSet(object):
         HPCF_FIR = auto()
         """Headphone Compensation Filter in a shape of a regular WAV file or itaAudio as being
         specified in the ITA-Toolbox.
-        http://ita-toolbox.org/
+        https://www.ita-toolbox.org/
 
         Used by `OverlapSaveConvolver` with size [fir_samples; 2].
         """
@@ -96,7 +96,7 @@ class FilterSet(object):
         """
         Head Related Impulse Responses in a shape as being specified in the Measured Impulse
         Response Object.
-        http://audiogroup.web.th-koeln.de/FILES/miro_documentation.pdf
+        https://audiogroup.web.th-koeln.de/FILES/miro_documentation.pdf
 
         Used by `AdjustableFdConvolver` with flexible size specified by the measurement point grid.
         """
@@ -105,7 +105,7 @@ class FilterSet(object):
         """
         Array Room Impulse Responses in a shape as being specified in the Measured Impulse Response
         Object.
-        http://audiogroup.web.th-koeln.de/FILES/miro_documentation.pdf
+        https://audiogroup.web.th-koeln.de/FILES/miro_documentation.pdf
 
         Used by `AdjustableFdConvolver` with flexible size specified by the measurement point grid.
         """
@@ -114,7 +114,7 @@ class FilterSet(object):
         """
         Array audio stream with a configuration file as being specified in the Measured Impulse
         Response Object.
-        http://audiogroup.web.th-koeln.de/FILES/miro_documentation.pdf
+        https://audiogroup.web.th-koeln.de/FILES/miro_documentation.pdf
 
         Used by `AdjustableFdConvolver` with flexible size specified by the measurement point grid.
         """
@@ -265,7 +265,7 @@ class FilterSet(object):
     ):
         """
         Loading the file contents of the provided FIR filter according to its specification. The
-        loading procedures are are provided by the individual subclasses. This function also
+        loading procedures are provided by the individual subclasses. This function also
         generates `_dirac_td` with identical size as `_irs_td`.
 
         Parameters
@@ -462,7 +462,7 @@ class FilterSet(object):
         data_td[np.nonzero(data_td == 0)] = 1e-12  # prevent errors
         etc = 20 * np.log10(np.abs(data_td))
 
-        # find last index that is over provided threshold for ever channel
+        # find last index that is over provided threshold for every channel
         # adjust threshold to cutoff value under global peak
         cutoff_index = np.nonzero(etc > cutoff_db + etc.max())
         len_max = cutoff_index[-1].max() + 1
@@ -599,12 +599,12 @@ class FilterSet(object):
     def _zero_pad(self, block_length):
         """
         Append zeros in time domain to `_irs_td` to full blocks and if filter length is smaller
-        then provided block length.
+        than the provided block length.
 
         Parameters
         ----------
         block_length : int or None
-            system wide length of audio blocks in samples
+            system-wide length of audio blocks in samples
         """
         if not block_length:
             return
@@ -625,8 +625,8 @@ class FilterSet(object):
     def calculate_filter_blocks_fd(self, block_length):
         """
         Split up the time domain information of the filter into blocks according to the provided
-        length. This operation will add an additional dimension to the beginning of the
-        block-wise `numpy.ndarray`s. For convenience in later processing the blocks will also be
+        length. This operation will add a dimension to the beginning of the block-wise
+        `numpy.ndarray`s. For convenience in later processing the blocks will also be
         independently transformed into frequency domain and saved as complex one-sided spectra.
 
         The transformation process is also emulated for the dirac impulse response data. This is
@@ -635,7 +635,7 @@ class FilterSet(object):
         Parameters
         ----------
         block_length : int or None
-            system wide length of audio blocks in samples
+            system-wide length of audio blocks in samples
         """
         # entire signal is one block, if no size is given
         if not block_length:  # None or <=0
@@ -760,12 +760,12 @@ class FilterSetMultiChannel(FilterSet):
     Flexible structure used to store FIR filter sets with an arbitrary number of channels.
 
     All relevant time or frequency information of the contained filters are saved in
-    multi-dimensional `numpy.ndarray`s for efficiency.
+    multidimensional `numpy.ndarray`s for efficiency.
     """
 
     def _load(self, dtype):
         """
-        Load an arbitrary number of impulse responses from multi-channel audio file. There is no
+        Load an arbitrary number of impulse responses from multichannel audio file. There is no
         directional information associated with this data. This can be used to provide a
         multi-channel-wise convolution i.e., to equalize reproduction setups (headphones or
         loudspeakers).
@@ -846,7 +846,7 @@ class FilterSetSsr(FilterSet):
     with the SoundScapeRenderer.
 
     All relevant time or frequency information of the contained filters are saved in
-    multi-dimensional `numpy.ndarray`s for efficiency.
+    multidimensional `numpy.ndarray`s for efficiency.
     """
 
     def _load(self, dtype):
@@ -895,7 +895,7 @@ class FilterSetSsr(FilterSet):
             index in the `numpy.ndarray` storing the impulse response according to the desired
             incidence direction
         """
-        # invert left handed orientation of SSR grid and round down
+        # invert left-handed orientation of SSR grid and round down
         return int(-azim_deg)
 
 
@@ -905,7 +905,7 @@ class FilterSetMiro(FilterSet):
     Responses in a shape as being specified in the Measured Impulse Response Object.
 
     All relevant time, frequency or spherical harmonics information of the contained filters are
-    saved in multi-dimensional `numpy.ndarray`s for efficiency. Relevant spatial sampling grid
+    saved in multidimensional `numpy.ndarray`s for efficiency. Relevant spatial sampling grid
     information is saved in structures provided by `sound-field-analysis-py`.
 
     Attributes
@@ -1165,7 +1165,7 @@ class FilterSetMiro(FilterSet):
         """
         # TODO: change to grid based search method of closest point
 
-        # get closest azimuth index (catch case when index at end of vector would be detected)
+        # get the closest azimuth index (catch case when index at end of vector would be detected)
         azim_ids = min(
             self._points_azim_deg.searchsorted(
                 azim_deg, side="left" if azim_deg >= 0 else "right"
@@ -1176,7 +1176,7 @@ class FilterSetMiro(FilterSet):
         # get indices of all azimuths having the same value
         azim_ids = np.where(self._points_azim_deg == self._points_azim_deg[azim_ids])[0]
 
-        # get closest elevation index of subset (catch case when index at end of vector would be
+        # get the closest elevation index of subset (catch case when index at end of vector would be
         # detected)
         elev_sub_id = min(
             self._points_elev_deg[azim_ids].searchsorted(elev_deg),
@@ -1319,7 +1319,7 @@ class FilterSetSofa(FilterSetMiro):
     Responses in a shape as being specified in the Spatially Oriented Format for Acoustics.
 
     All relevant time, frequency or spherical harmonics information of the contained filters are
-    saved in multi-dimensional `numpy.ndarray`s for efficiency. Relevant spatial sampling grid
+    saved in multidimensional `numpy.ndarray`s for efficiency. Relevant spatial sampling grid
     information is saved in structures provided by `sound-field-analysis-py`.
     """
 

@@ -321,7 +321,7 @@ def main():
         # stack channels for equal level alignment
         ref_ir_stack = np.hstack([ch for ch in ref_ir])
         cmp_ir_stack = np.hstack([ch for ch in cmp_ir])
-        # perform least RMS fit and level alignment
+        # perform the least RMS fit and level alignment
         cmp_scale = fmin(
             func=_calculate_rms_error,
             x0=1,
@@ -729,7 +729,7 @@ def _generate_table_entry(
     """
     Generate `pandas.DataFrame` from the provided data. IMPORTANT the variable names in this
     function call are captured and directly applied as virtual column names for the data table.
-    HENCE CHANGING A VARIABLE NAME, YOU'LL HAVE TO ALTER IT IN THE ENTIRE BENCHMARKING APPLICATION.
+    HENCE, CHANGING A VARIABLE NAME, YOU'LL HAVE TO ALTER IT IN THE ENTIRE BENCHMARKING APPLICATION.
 
     Parameters
     ----------

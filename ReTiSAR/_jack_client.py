@@ -627,7 +627,7 @@ class JackClient(SubProcess):
         Parameters
         ----------
         port : int
-            number of individual port of the client, value 0 .. number of ports - 1
+            number of individual port of the client, value 0 ... number of ports - 1
         value_db_fs : float, optional
             new relative individual output volume of the port in Decibel_FullScale
 
@@ -770,8 +770,8 @@ class JackClient(SubProcess):
         Apply output volume to output audio blocks and deliver them to JACK. Optionally the
         memory structure and sample clipping of the data will be checked here.
 
-        Output data channels greater then available output ports are neglected. Output ports
-        greater then available output data are filled with zeros.
+        Output data channels greater than available output ports are neglected. Output ports
+        greater than available output data are filled with zeros.
 
         Parameters
         ----------
@@ -858,7 +858,7 @@ class JackClient(SubProcess):
                 # deliver output to JACK
                 port.get_array()[:] = data  # assigning to a slice creates a copy
 
-            # regarding ports greater then result channels
+            # regarding ports greater than result channels
             for port in self._client.outports[output_td.shape[0] :]:
                 # output zeros
                 port.get_array().fill(0)
@@ -866,8 +866,8 @@ class JackClient(SubProcess):
     def _report_load(self):
         """
         Deliver via OSC (or log otherwise) individual client load based on reported JACK frame
-        times. Furthermore deliver (or log) overall system load based on a prediction by JACK.
-        Latter is is done only when configured as a main client.
+        times. Furthermore, deliver (or log) overall system load based on a prediction by JACK.
+        Latter is done only when configured as a main client.
         """
         if not self._is_measure_load or not config.IS_RUNNING.is_set():
             return

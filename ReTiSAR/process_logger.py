@@ -126,23 +126,25 @@ def setup_logfile(name, ending="log"):
     """
     # get file name and path
     try:
-        file = os.path.abspath(config.LOGGING_PATH)
+        file_name = os.path.abspath(config.LOGGING_PATH)
     except (AttributeError, TypeError):
         return None  # no logging file name given
 
     # append file ending
-    file = f"{os.path.join(file, name)}.{ending}"
+    file_name = f"{os.path.join(file_name, name)}.{ending}"
 
-    # create path if does not exist
-    if not os.path.exists(os.path.dirname(file)):
-        os.makedirs(os.path.dirname(file))
+    # create path if it does not exist
+    if not os.path.exists(os.path.dirname(file_name)):
+        os.makedirs(os.path.dirname(file_name))
 
     # rename existing files as backup
-    if os.path.isfile(file):
-        backup = os.path.join(os.path.dirname(file), f"BACKUP_{os.path.basename(file)}")
-        os.replace(src=file, dst=backup)
+    if os.path.isfile(file_name):
+        backup = os.path.join(
+            os.path.dirname(file_name), f"BACKUP_{os.path.basename(file_name)}"
+        )
+        os.replace(src=file_name, dst=backup)
 
-    return file
+    return file_name
 
 
 def _update_format_recursively(logger, fmt):

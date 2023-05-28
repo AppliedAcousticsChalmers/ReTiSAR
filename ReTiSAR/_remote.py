@@ -46,7 +46,7 @@ class OscRemote(object):
         """
         Start OSC server to receive messages for all mapped functions regarding the provided
         clients. In the current implementation running the OSC server blocks further application
-        execution, , keeping the application alive until the server is released.
+        execution, keeping the application alive until the server is released.
 
         Parameters
         ----------
@@ -149,7 +149,7 @@ class OscRemote(object):
         """
         Shutdown OSC server if it is running and in the current implementation releasing the
         application to continue execution (most likely to shut down all child processes and
-        terminating itself.
+        terminating itself).
         """
         if self._server is None:
             return

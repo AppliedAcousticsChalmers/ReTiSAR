@@ -14,7 +14,7 @@ class JackRenderer(JackClient):
     Attributes
     ----------
     _is_passthrough : bool
-        if JACK client should passthrough signals without any processing
+        if JACK client should pass through signals without any processing
     _convolver : Convolver
         providing block-wise processing of FIR filtering in the frequency domain
     """
@@ -98,7 +98,7 @@ class JackRenderer(JackClient):
     ):
         """
         Initialize `_convolver` specific attributes by also loading the necessary `FilterSet`.
-        `filter_name` (and all other parameters can be `None`, so no `Convolver` is created.
+        `filter_name` (and all other parameters can be `None`, so no `Convolver` is created).
 
         Parameters
         ----------
@@ -296,7 +296,7 @@ class JackRenderer(JackClient):
     def _process(self, input_td):
         """
         Process block of audio data. This implementation falls back to a straight passthrough
-        behaviour if requested. Otherwise the provided `Convolver` instance will handle the
+        behaviour if requested. Otherwise, the provided `Convolver` instance will handle the
         signal processing.
 
         Parameters
@@ -414,7 +414,7 @@ class JackRenderer(JackClient):
         """
         Calculate components which can be prepared before spherical harmonic processing in
         real-time. This contains calculating all spherical harmonics orders, coefficients and
-        base functions. Also a modal radial filter according to the provided input array
+        base functions. Also, a modal radial filter according to the provided input array
         configuration will be generated and applied preliminary.
 
         Parameters
@@ -498,8 +498,8 @@ class JackRendererBenchmark(JackRenderer):
 
     def add_convolver(self):
         """
-        Add an additional `Convolver` instance by creating a clone of the initial one (identical
-        but independent instances of all attributes).
+        Add a `Convolver` instance by creating a clone of the initial one (identical but
+        independent instances of all attributes).
         """
         self._convolvers.append(copy(self._convolver))
 

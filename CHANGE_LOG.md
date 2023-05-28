@@ -2,6 +2,7 @@
 
 * __unreleased__
   * Move change log information from README to separate CHANGE_LOG file
+  * Change default FFTW effort to "FFTW_MEASURE" (lowered from "FFTW_PATIENT")
 
 * __v2021.07.26__ ([__v2021.TASLP__](https://github.com/AppliedAcousticsChalmers/ReTiSAR/releases/tag/v2021.TASLP))
   * Addition of references to data set for _IEEE/ACM Transactions on Audio, Speech, and Language Processing_ [[14]](README.md#references) publication

@@ -22,7 +22,7 @@ class DataRetriever(object):
         data file, or allow the user to give instruction to provide the data file.
 
         In the current implementation the data will be attempted to download and unpacked in case
-        a zip archive is available. All steps are are logged and shown to the user. The startup
+        a zip archive is available. All steps are logged and shown to the user. The startup
         process will be interrupted in case the data file is not available i.e., downloading and
         / or unpacking of the data failed.
 
@@ -148,7 +148,7 @@ class DataRetriever(object):
     def _download(source, logger=None):
         """
         Attempt to download data from the URL provided in the source file. Afterwards, attempt to
-        unpack in case the downloaded (or already available) file is an archive. Otherwise show
+        unpack in case the downloaded (or already available) file is an archive. Otherwise, show
         additional instructions in case such are provided in the source file.
 
         Parameters
@@ -268,7 +268,7 @@ class DataRetriever(object):
                 log_str = f'{log_str}\n --> unpacking member "{member_file}"'
                 member = file.open(name=member_file, mode="r")
 
-                # copy file (taken from zipfile's extract)
+                # copy file (taken from ZipFile's extract)
                 log_str = (
                     f'{log_str}\n --> saving data into "{os.path.relpath(target_file)}"'
                 )

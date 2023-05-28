@@ -33,7 +33,7 @@ class HeadTracker(SubProcess):
         """
         Enumeration data type used to get an identification of hardware providing head tracking
         data to the application. It's attributes (with an arbitrary distinct integer value) are
-        used as system wide unique constant identifiers.
+        used as system-wide unique constant identifiers.
         """
 
         POLHEMUS_PATRIOT = auto()
@@ -73,7 +73,7 @@ class HeadTracker(SubProcess):
         """
         Enumeration data type used to get array indices providing storing positional tracking
         data in a single array. It's attributes (with an incrementing distinct integer value) are
-        used as system wide unique constant identifiers specifying the index of the according
+        used as system-wide unique constant identifiers specifying the index of the according
         data in the array.
         """
 
@@ -82,7 +82,7 @@ class HeadTracker(SubProcess):
     @staticmethod
     def create_instance_by_type(name, tracker_type, tracker_port, *args, **kwargs):
         """
-        Static method to instantiate one of the from `HeadTracker` deriving classes, depending on
+        Static method to instantiate one of the classes deriving from `HeadTracker`, depending on
         the given `HeadTracker.Type`.
 
         Parameters
@@ -229,7 +229,7 @@ class HeadTracker(SubProcess):
     def set_zero_position(self):
         """
         Reset the virtual audio scene to be in front where current head rotation is facing.
-        Consequently the tracker will always output zeros as the reference position in that exact
+        Consequently, the tracker will always output zeros as the reference position in that exact
         orientation (and cartesian room coordinate).
         """
         for i in HeadTracker.DataIndex:

@@ -45,7 +45,7 @@ class Compensation(object):
         """
         Enumeration data type used to get an identification of SH processing compensation
         techniques. It's attributes (with strings in long form provided for nicer printing
-        output) are used as system wide unique (with alias) constant identifiers.
+        output) are used as system-wide unique (with alias) constant identifiers.
         """
 
         SPF = "SUBSONIC_PRE_FILTER"
@@ -752,13 +752,13 @@ class Compensation(object):
         def _get_non_sectorial_ids():
             ids = []
             for n in range(1, sh_max_order + 1, 1):
-                ids.extend(list(range(n ** 2 + 1, (n + 1) ** 2 - 1, 1)))
+                ids.extend(list(range(n**2 + 1, (n + 1) ** 2 - 1, 1)))
             return ids
 
         # def _get_sectorial_ids():
         #     ids = []
         #     for n in range(sh_max_order + 1):
-        #         ids.append(n ** 2)
+        #         ids.append(n**2)
         #         if n > 0:
         #             ids.append((n + 1) ** 2 - 1)
         #     return ids
@@ -804,13 +804,13 @@ class Compensation(object):
         def _get_non_equatorial_ids():
             ids = []
             for n in range(1, sh_max_order + 1, 1):
-                ids.extend(list(range(n ** 2 + 1, (n + 1) ** 2, 2)))
+                ids.extend(list(range(n**2 + 1, (n + 1) ** 2, 2)))
             return ids
 
         # def _get_equatorial_ids():
         #     ids = []
         #     for n in range(sh_max_order + 1):
-        #         ids.extend(list(range(n ** 2, (n + 1) ** 2, 2)))
+        #         ids.extend(list(range(n**2, (n + 1) ** 2, 2)))
         #     return ids
 
         # generate weights according to the number of SH degrees

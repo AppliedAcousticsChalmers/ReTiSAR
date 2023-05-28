@@ -1022,13 +1022,10 @@ def generate_noise(shape, scale=1 / 10, dtype="float64"):
         return scale * _RNG.standard_normal(size=shape, dtype=dtype)
 
     elif np.dtype(dtype) in [np.complex64, np.complex128]:
-        return (
-            scale
-            * _RNG.standard_normal(
-                size=(shape[0], shape[1] * 2),
-                dtype=np.float32 if np.dtype(dtype) == np.complex64 else np.float64,
-            ).view(dtype)
-        )
+        return scale * _RNG.standard_normal(
+            size=(shape[0], shape[1] * 2),
+            dtype=np.float32 if np.dtype(dtype) == np.complex64 else np.float64,
+        ).view(dtype)
 
     else:
         raise ValueError(f'unknown data type "{dtype}".')
@@ -1704,10 +1701,10 @@ def export_plot(figure, name, logger=None, file_type="png"):
         name = os.path.join(config.LOGGING_PATH, name)
     # store all requested file types
     for ending in re.split(r"[,.;:|/\-+]+", file_type):
-        file = f"{name}{os.path.extsep}{ending}"
-        log_str = f'writing results to "{os.path.relpath(file)}" ...'
+        file_name = f"{name}{os.path.extsep}{ending}"
+        log_str = f'writing results to "{os.path.relpath(file_name)}" ...'
         logger.info(log_str) if logger else print(log_str)
-        figure.savefig(file, dpi=300)
+        figure.savefig(file_name, dpi=300)
     # close figure
     plt.close(figure)
 

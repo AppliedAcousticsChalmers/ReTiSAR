@@ -199,7 +199,7 @@ def _run(
         list of filter lengths of emulated finite impulse responses used for convolution in the
         generated JACK clients
     block_lengths : List[int]
-        list of block lengths used for the convolutions engine (influencing the needed blocks per
+        list of block lengths used for the convolution's engine (influencing the needed blocks per
         partitioned overlap-save-convolution)
     repetitions : int
         number of repetitions (being averaged afterwards) per combination of `filter_files` and
@@ -482,7 +482,7 @@ def _generate_table_entry(
     """
     Generate `pandas.DataFrame` from the provided data. IMPORTANT the variable names in this
     function call are captured and directly applied as virtual column names for the data table.
-    HENCE CHANGING A VARIABLE NAME, YOU'LL HAVE TO ALTER IT IN THE ENTIRE BENCHMARKING APPLICATION.
+    HENCE, CHANGING A VARIABLE NAME, YOU'LL HAVE TO ALTER IT IN THE ENTIRE BENCHMARKING APPLICATION.
 
     Parameters
     ----------
@@ -613,7 +613,7 @@ def _generate_plot(results_limits, title=None):
     _GROUP_MARKER_OFFSET = -0.5 * len(results_grouped) + 0.5
     # # END: DEFINE PLOTTING CONFIGURATION
 
-    # get limits for y axis (space at the bottom for limits as text)
+    # get limits for y-axis (space at the bottom for limits as text)
     _PLOT_Y_MAX = results_limits.instances_n.max()
     _PLOT_Y_MIN = len(results_grouped) * _PLOT_Y_MAX / -20
     _PLOT_Y_GRID = int(_PLOT_Y_MAX / 50)
@@ -682,7 +682,7 @@ def _generate_plot(results_limits, title=None):
     plt.grid(which="both", linestyle="-", alpha=0.4)
     plt.minorticks_on()
 
-    # set x axis related plot settings
+    # set x-axis related plot settings
     plt.xlabel("block_len")
     plt.gca().xaxis.grid(False, which="minor")
     plt.xlim(-0.5, len(_BLOCK_LENGTHS_PLOT) - 0.5)
@@ -690,7 +690,7 @@ def _generate_plot(results_limits, title=None):
     plt.gca().set_xticks([], minor=True)
     plt.gca().set_xticklabels(_BLOCK_LENGTHS_PLOT)
 
-    # set y axis related plot settings
+    # set y-axis related plot settings
     plt.ylabel("instances_n - 1   (raw and median)")
     plt.ylim(_PLOT_Y_MIN, _PLOT_Y_MAX)
     plt.gca().set_yticks(list(range(0, _PLOT_Y_MAX + 1, _PLOT_Y_TICK)))

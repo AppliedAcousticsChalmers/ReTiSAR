@@ -146,10 +146,10 @@ class Generator(object):
         """
         Enumeration data type used to get an identification of generators utilizing a certain
         algorithm to generate artificial audio signals i.e., noise with a specified coloration.
-        It's attributes (with an distinct integer value) are used as system wide unique constant
+        It's attributes (with a distinct integer value) are used as system-wide unique constant
         identifiers.
 
-        The given numbers are relevant in case of the auto-regressive noise generation algorithm,
+        The given numbers are relevant in case of the autoregressive noise generation algorithm,
         meaning each color corresponds to an inverse frequency power in the noise power density
         spectrum.
         """
@@ -314,7 +314,7 @@ class GeneratorNoiseAr(GeneratorNoise):
     Extended `GeneratorNoise` implementation for generating noise with a desired coloration. This
     means an incoherent block of noise will be generated for every output channel.
 
-    This implementation uses an auto-regressive algorithm, mimicking the application of IIR
+    This implementation uses an autoregressive algorithm, mimicking the application of IIR
     filters of very high order. The current implementation is computationally very expensive,
     since the samples are acquired in time domain, hence the implementation can not be utilized
     in real-time so far.
@@ -322,9 +322,9 @@ class GeneratorNoiseAr(GeneratorNoise):
     Attributes
     ----------
     _coefficients : numpy.ndarray
-        filter coefficients for auto-regressive algorithm according to given order and power
+        filter coefficients for autoregressive algorithm according to given order and power
     _buffer : numpy.ndarray
-        constantly shifting buffer for auto-regressive algorithm of size [number of coefficients;
+        constantly shifting buffer for autoregressive algorithm of size [number of coefficients;
         number of output channels]
 
     References
@@ -343,9 +343,9 @@ class GeneratorNoiseAr(GeneratorNoise):
         dtype : str or numpy.dtype or type
             data type to generate
         power : int
-            power indicating the type of coloration for auto-regressive method
+            power indicating the type of coloration for autoregressive method
         order : int, optional
-            order indicating the mimicked filter order for auto-regressive method
+            order indicating the mimicked filter order for autoregressive method
         """
         super().__init__(output_count=output_count, dtype=dtype)
 
@@ -517,12 +517,12 @@ class GeneratorNoiseIir(GeneratorNoise):
             block_length=block_length, is_transposed=is_transposed
         )
 
-        # transpose initial IIR filter delay conditions in case output should be transposed
-        # this is not nice, but should only happens
+        # transpose initial IIR filter delay conditions in case the output should be transposed
+        # (this is not nice, but should only happen ...)
         if is_transposed and self._last_delays.shape[1] != normal.shape[1]:
             self._last_delays = self._last_delays.T
 
-        # filter signal along time axis
+        # filter signal along the time axis
         [shaped, self._last_delays] = sosfilt(
             sos=self._sos,
             x=normal,

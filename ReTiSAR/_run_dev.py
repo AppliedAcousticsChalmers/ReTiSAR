@@ -885,7 +885,7 @@ def _test_multiprocessing():
 
 def _test_client_name_length():
     """
-    Test whether a strong limitation the the allowed length of a Jack client exists. The
+    Test whether a strong limitation regarding the allowed length of a Jack client exists. The
     limitation on older Jack versions on macOS used to be 27 characters which is very short. In
     more recent Jack versions, the limit should have been increased to 63 characters. See
     https://github.com/jackaudio/jack2/issues/474.
