@@ -181,11 +181,6 @@ class JackPlayer(JackClient):
             blocksize=self._client.blocksize, dtype=dtype, always_2d=True, fill_value=0
         )
 
-        # pre-fill queue
-        self._q.put_nowait(
-            np.zeros((self._sf.channels, self._client.blocksize), dtype=dtype)
-        )
-
     def start(self):
         """
         Extends the `JackClient` function to `start()` the process. This is only necessary since
@@ -338,6 +333,8 @@ class JackPlayer(JackClient):
             output_td = self._q.get_nowait()
             if output_td is None:
                 self.terminate_members("finished file playback.")
+            else:
+                output_td = np.ascontiguousarray(output_td)
 
             return output_td
 
