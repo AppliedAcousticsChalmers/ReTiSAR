@@ -200,7 +200,7 @@ class JackRenderer(JackClient):
         if source_ports is None or source_ports is True:
             # get physical recording ports in case no ports were given
             source_ports = self._client.get_ports(is_physical=True, is_output=True)
-            if not source_ports:
+            if not source_ports and not is_connect:
                 raise ValueError(
                     "no source ports given and no physical recording ports detected."
                 )

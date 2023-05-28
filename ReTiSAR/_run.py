@@ -63,6 +63,8 @@ def main():
         new_renderer = None
         new_generator = None
         try:
+            # If this line fails with `jack.Status 0x21` then the current JACK environment is
+            # problematic. Therefore, try again after restarting your system.
             new_renderer = JackRenderer(
                 name=f"{name}-PreRenderer",
                 block_length=config.BLOCK_LENGTH,
@@ -263,7 +265,7 @@ def main():
             elif existing_renderer.is_alive():
                 if (
                     tools.transform_into_type(config.ARIR_TYPE, FilterSet.Type)
-                    is FilterSet.Type.AS_MIRO
+                    in (FilterSet.Type.AS_MIRO, FilterSet.Type.ARIR_SOFA)
                 ):
                     # connect recording ports to renderer ports directly instead (in case
                     # pre-renderer is started)
