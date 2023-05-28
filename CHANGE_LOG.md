@@ -1,6 +1,6 @@
 # Change Log
 
-* __unreleased__
+* __v2023.05.29__ ([__Latest__](https://github.com/AppliedAcousticsChalmers/ReTiSAR/releases/tag/v2023.05.29))
   * Update `conda` environment setup with latest version of `sound-field-analysis` as long as the PyPI package is not yet available
   * Update of validation script for improved readability
   * Improve startup behaviour of the SH renderer for _JACK_ configurations without physical input ports
@@ -9,7 +9,6 @@
   * Consolidation of `Python 3.11` and `numpy>=1.24.0` compatibility (requires `sound-field-analysis>=2022.12.29`)
   * Move change log information from README to separate CHANGE_LOG file
   * Change default FFTW effort to "FFTW_MEASURE" (lowered from "FFTW_PATIENT")
-
 * __v2021.07.26__ ([__v2021.TASLP__](https://github.com/AppliedAcousticsChalmers/ReTiSAR/releases/tag/v2021.TASLP))
   * Addition of references to data set for _IEEE/ACM Transactions on Audio, Speech, and Language Processing_ [[14]](README.md#references) publication
   * Improve logging of loaded FFTW wisdom
