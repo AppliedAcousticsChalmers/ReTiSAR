@@ -166,7 +166,7 @@ class JackRenderer(JackClient):
     def client_register_and_connect_inputs(self, source_ports=True):
         """
         Register an identical number of input ports according to the provided source ports to the
-        current client. Afterwards connect the given ports to the newly created target ports in a
+        current client. Afterward connect the given ports to the newly created target ports in a
         1:1 relation.
 
         The number of input ports being registered is checked validated against the used
@@ -339,7 +339,9 @@ class JackRenderer(JackClient):
             #     self._is_passthrough = not self._is_passthrough
             # else:
             #     self._is_passthrough = new_state
-            # self._logger.info(f'set passthrough state to {["OFF", "ON"][self._is_passthrough]}.')
+            # self._logger.info(
+            #     f'set passthrough state to {["OFF", "ON"][self._is_passthrough]}.'
+            # )
 
             # let _convolver handle the passthrough behaviour
             new_state = self._convolver.set_passthrough(new_state)
@@ -390,8 +392,8 @@ class JackRenderer(JackClient):
             return
         if type(self._convolver) is not AdjustableShConvolver:
             self._logger.error(
-                f'client is not rendering in spherical harmonics mode, "set SH processing order" '
-                f"ignored."
+                'client is not rendering in spherical harmonics mode, "set SH processing order" '
+                "ignored."
             )
             return
         if new_order is not None and int(new_order) != new_order:

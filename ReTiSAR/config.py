@@ -138,7 +138,7 @@ SH_MAX_ORDER, ARIR_FILE = 4, "res/ARIR/RT_calib_EM32ch_struct.mat"  # Chalmers (
 # # SH_MAX_ORDER, ARIR_FILE = 3, "res/ARIR/RT_calib_ZY19_struct.mat"  # ZYLIA ZM-1
 # SH_MAX_ORDER, ARIR_FILE = 4, "res/ARIR/RT_calib_EM32ch_struct.mat"  # Eigenmike Chalmers (SN 28)
 # # SH_MAX_ORDER, ARIR_FILE = 4, "res/ARIR/RT_calib_EM32frl_struct.mat"  # Eigenmike Facebook Reality Labs (SN ??)
-# # SH_MAX_ORDER, ARIR_FILE = 7, "res/ARIR/RT_calib_HOS64_struct.mat"  # HØSMA-7N
+# # SH_MAX_ORDER, ARIR_FILE = 7, "res/ARIR/RT_calib_HOS64_struct.mat"  # HOSMA-7N
 
 # ############ ARRAY IR RENDERING OF EIGENMIKE ############
 # SOURCE_FILE = "res/source/Drums_48.wav"

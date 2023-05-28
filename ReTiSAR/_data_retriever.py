@@ -77,6 +77,7 @@ class DataRetriever(object):
 
         return data
 
+    # noinspection PyUnusedFunction
     @staticmethod
     def does_exist(path):
         """
@@ -147,7 +148,7 @@ class DataRetriever(object):
     @staticmethod
     def _download(source, logger=None):
         """
-        Attempt to download data from the URL provided in the source file. Afterwards, attempt to
+        Attempt to download data from the URL provided in the source file. Afterward, attempt to
         unpack in case the downloaded (or already available) file is an archive. Otherwise, show
         additional instructions in case such are provided in the source file.
 

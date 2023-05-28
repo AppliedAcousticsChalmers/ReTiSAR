@@ -43,7 +43,7 @@ class SubProcess(mp_context.Process):
         is_disable_logger : bool, optional
             disable logger after creation, useful for benchmarking
         """
-        # self._logger.debug(f'initializing PROCESS [{name}] ...')
+        # self._logger.debug(f"initializing PROCESS [{name}] ...")
         super().__init__(name=name)
         self.daemon = is_daemon_process
 

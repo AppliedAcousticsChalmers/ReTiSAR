@@ -109,15 +109,15 @@ def _timeit(
 
     if reference:
         t = result[0] / reference[0]
-        file = sys.stdout
+        sys_file = sys.stdout
         if abs(t - 1) < 2e-2:
             grade = "EVEN"
         elif t < 1:
             grade = "BETTER"
         else:
             grade = "WORSE"
-            file = sys.stderr
-        print(f"time factor: {t:-22.2f} ... {grade}", file=file)
+            sys_file = sys.stderr
+        print(f"time factor: {t:-22.2f} ... {grade}", file=sys_file)
         sleep(0.05)  # to get correct output order
 
         if reference[1].shape != result[1].shape:
@@ -138,27 +138,27 @@ def _timeit(
                 return result
 
         r = np.abs(np.sum(np.subtract(result[1], reference[1])))
-        file = sys.stdout
+        sys_file = sys.stdout
         if r == 0:
             grade = "PERFECT"
         elif r < 1e-10:
             grade = "OKAY"
         else:
             grade = "MISMATCH"
-            file = sys.stderr
-        print(f"result sum:  {r:-22} ... {grade}", file=file)
+            sys_file = sys.stderr
+        print(f"result sum:  {r:-22} ... {grade}", file=sys_file)
         sleep(0.05)  # to get correct output order
 
         r = np.abs(np.subtract(result[1], reference[1])).max()
-        file = sys.stdout
+        sys_file = sys.stdout
         if r == 0:
             grade = "PERFECT"
         elif r < 1e-10:
             grade = "OKAY"
         else:
             grade = "MISMATCH"
-            file = sys.stderr
-        print(f"result max:  {r:-22} ... {grade}", file=file)
+            sys_file = sys.stderr
+        print(f"result max:  {r:-22} ... {grade}", file=sys_file)
         sleep(0.05)  # to get correct output order
 
     if check_dtype:
@@ -167,6 +167,7 @@ def _timeit(
     return result
 
 
+# noinspection PyUnusedFunction
 def _timeit_roll():
     _TIMEIT_REPEAT = 5
     _TIMEIT_NUMBER = 100
@@ -178,12 +179,12 @@ def _timeit_roll():
     input_td = tools.generate_noise((_CHANNEL_COUNT, _BLOCK_LENGTH))
     buffer_ref = tools.generate_noise((_BLOCK_COUNT, _CHANNEL_COUNT, _BLOCK_LENGTH))
 
-    buffer = buffer_ref.copy()
+    buffer_res = buffer_ref.copy()
     s = """\
-buffer = globals().get("buffer")  # I don't know why this is necessary...
-buffer = np.roll(buffer, 1, axis=0)  # roll buffer to the right
-buffer[0] = input_td  # update the first element
-result = buffer
+buffer_res = globals().get("buffer")  # I don't know why this is necessary...
+buffer_res = np.roll(buffer_res, 1, axis=0)  # roll buffer to the right
+buffer_res[0] = input_td  # update the first element
+result = buffer_res
 """
     ref = _timeit(
         description="numpy roll",
@@ -194,12 +195,12 @@ result = buffer
         number=_TIMEIT_NUMBER,
     )
 
-    buffer = buffer_ref.copy()
+    buffer_res = buffer_ref.copy()
     s = """\
-buffer = globals().get("buffer")  # I don't know why this is necessary...
-buffer[1:] = buffer[:-1]  # roll buffer to the right
-buffer[0] = input_td  # update the first element
-result = buffer
+buffer_res = globals().get("buffer")  # I don't know why this is necessary...
+buffer_res[1:] = buffer_res[:-1]  # roll buffer to the right
+buffer_res[0] = input_td  # update the first element
+result = buffer_res
 """
     _timeit(
         description="slice indexing",
@@ -414,6 +415,7 @@ def _timeit_fft():
     )
 
 
+# noinspection SpellCheckingInspection,PyUnusedFunction
 def _timeit_noise():
     _TIMEIT_REPEAT = 5
     _TIMEIT_NUMBER = 15
@@ -690,6 +692,7 @@ result = result[:, _iir_t60:]  # skip transient response
     )  # good (best IIR)
 
 
+# noinspection PyUnusedFunction
 def _timeit_sp():
     _TIMEIT_REPEAT = 10
 
@@ -733,6 +736,7 @@ def _timeit_sp():
     _test_performance(data, np.float16, ref)
 
 
+# noinspection PyUnusedFunction
 def _timeit_sht():
     # print(f"system switcher interval is {sys.getswitchinterval()}")
     # print(f"system recursion limit is {sys.getrecursionlimit()}")
@@ -797,6 +801,7 @@ def _timeit_sht():
     #     print(f"results {r} max: {np.abs(np.subtract(*rs[:][r][1])).max()}")
 
 
+# noinspection PyUnusedFunction
 def _timeit_basic():
     _TIMEIT_REPEAT = 10
     _TIMEIT_NUMBER = 2000
@@ -905,7 +910,6 @@ def _test_client_name_length():
     # 27 used to be the maximum length due to semaphore length limitations on macOS
     # 63 seems to be the maximum length in more recent version of Jack on macOS
     for length in [10, 27, 28, 63, 64, 100]:
-
         # create client
         name = _generate_name(le=length)
         print(f'creating client with name "{name}"')
@@ -957,7 +961,7 @@ def _test_client_name_lock():
             i += 1
 
             # name = f"Client{i:d}"  # runs for arbitrarily many clients
-            name = f"Client"  # used to fail for the 99th instance, but was fixed
+            name = "Client"  # used to fail for the 99th instance, but was fixed
 
             print(f'Test {i:d}: creating "{name}" ...')
             client = jack.Client(name=name)

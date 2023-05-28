@@ -57,6 +57,7 @@ class HeadTracker(SubProcess):
         Used by`HeadTracker` to receive head tracking data over a serial port like
         "/dev/tty.usbserial-AH03F9XC" when adapted to USB. """
 
+        # noinspection PyUnusedName
         VRPN = auto()
         """Generic VRPN interface to receive tracking data from a Virtual Reality Peripheral
         Network server application.
@@ -215,7 +216,7 @@ class HeadTracker(SubProcess):
                         f"{self._osc_name}/AzimElevTilt", angles_deg
                     )
                 # else:
-                #     self._logger.debug(f'azimuth, elevation, tilt degrees {angles_deg}')
+                #     self._logger.debug(f"azimuth, elevation, tilt degrees {angles_deg}")
         except KeyboardInterrupt:
             self._logger.error("interrupted by user.")
 
@@ -239,6 +240,7 @@ class HeadTracker(SubProcess):
             f"setting head tracker zero position to {HeadTracker.print_data(self._position_zero)}."
         )
 
+    # noinspection PyUnusedFunction
     def set_azimuth_position(self, azim_deg=0.0):
         """
         Parameters

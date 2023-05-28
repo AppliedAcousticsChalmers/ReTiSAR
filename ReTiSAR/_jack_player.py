@@ -149,15 +149,17 @@ class JackPlayer(JackClient):
         # `soundfile.read()` only seems to have the types `float32`, `float64`, `int16` and
         # `int32` implemented, hence the decision is very easy
         dtype = np.float64 if self._sf.subtype.upper() == "DOUBLE" else np.float32
-        # _SUBTYPE2DTYPE = {'PCM_16':  np.float16,
-        #                   'PCM_24':  np.float32,
-        #                   'PCM_32':  np.float32,
-        #                   'FLOAT':   np.float32,
-        #                   'DOUBLE':  np.float64,
-        #                   'ALAC_16': np.float16,
-        #                   'ALAC_20': np.float32,
-        #                   'ALAC_24': np.float32,
-        #                   'ALAC_32': np.float32, }
+        # _SUBTYPE2DTYPE = {
+        #     "PCM_16": np.float16,
+        #     "PCM_24": np.float32,
+        #     "PCM_32": np.float32,
+        #     "FLOAT": np.float32,
+        #     "DOUBLE": np.float64,
+        #     "ALAC_16": np.float16,
+        #     "ALAC_20": np.float32,
+        #     "ALAC_24": np.float32,
+        #     "ALAC_32": np.float32,
+        # }
         # try:
         #     dtype = _SUBTYPE2DTYPE[self._sf.subtype]
         # except KeyError:
@@ -230,6 +232,7 @@ class JackPlayer(JackClient):
         except KeyboardInterrupt:
             self._logger.error("interrupted by user.")
 
+    # noinspection PySameParameterValue
     def terminate_members(self, msg=""):
         """
         Extending the functionality to `terminate_members()` the audio player specific
@@ -318,7 +321,7 @@ class JackPlayer(JackClient):
         Process block of audio data. This implementation provides the output of read audio data
         from file. `None` in buffer is used to signal the end of the audio file. If that is
         reached the `JackPlayer` instance will be terminated. There is no internal functionality
-        to restart the playback afterwards. That can only be achieved by starting a new
+        to restart the playback afterward. That can only be achieved by starting a new
         `JackPlayer` instance.
 
         Returns

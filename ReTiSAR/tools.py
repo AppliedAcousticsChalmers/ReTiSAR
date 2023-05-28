@@ -416,7 +416,7 @@ def request_process_parameters():
 def request_numpy_parameters():
     """
     Set `numpy` specific parameters for linked libraries like settings for automatic threading
-    behaviour. Information about the utilized threading libraries is printed out afterwards.
+    behaviour. Information about the utilized threading libraries is printed out afterward.
     """
 
     def set_env_parameter(param, val):
@@ -599,12 +599,12 @@ def import_fftw_wisdom(is_enforce_load=False):
             if is_legacy_load:
                 if len(wisdom) > 1:
                     print(
-                        f"... found FFTW wisdom file and ignoring the signature.",
+                        "... found FFTW wisdom file and ignoring the signature.",
                         file=sys.stderr,
                     )
                 else:
                     print(
-                        f"... found legacy FFTW wisdom file without signature.",
+                        "... found legacy FFTW wisdom file without signature.",
                         file=sys.stderr,
                     )
                 sleep(0.05)  # to get correct output order
@@ -624,7 +624,7 @@ def import_fftw_wisdom(is_enforce_load=False):
 
                     # verify hash with signature
                     if hmac.compare_digest(digest, expected_digest):
-                        print(f"... found valid FFTW wisdom file signature.")
+                        print("... found valid FFTW wisdom file signature.")
                     else:
                         log_error(
                             "found invalid FFTW wisdom file signature",

@@ -40,7 +40,7 @@ class Compensation(object):
     transfer function for e.g. Eigenmike rendering at order 4. Upper limit is left open to use
     the remaining amount of available filter length. """
 
-    # noinspection SpellCheckingInspection
+    # noinspection SpellCheckingInspection,PyUnusedName
     class Type(Enum):
         """
         Enumeration data type used to get an identification of SH processing compensation

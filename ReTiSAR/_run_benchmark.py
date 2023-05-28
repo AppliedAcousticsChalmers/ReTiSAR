@@ -202,7 +202,7 @@ def _run(
         list of block lengths used for the convolution's engine (influencing the needed blocks per
         partitioned overlap-save-convolution)
     repetitions : int
-        number of repetitions (being averaged afterwards) per combination of `filter_files` and
+        number of repetitions (being averaged afterward) per combination of `filter_files` and
         `block_lengths`
     is_include_overhead : bool
         if `JackRenderer` level analysis and OSC reporting overheads should be performed
@@ -245,7 +245,6 @@ def _run(
 
                     # test multiple times for average
                     for r in range(repetitions):
-
                         # continuously start instances
                         instances = []
                         instances_n = 0
@@ -558,6 +557,7 @@ def _table_highlight_limit(entry):
     return ["color: red" if is_limit else "" for _ in entry]
 
 
+# noinspection PySameParameterValue
 def _get_table_by_query_equal(table, column_name, value):
     """
     Return a new data set, whose elements out of the provided data set fulfill the condition: value

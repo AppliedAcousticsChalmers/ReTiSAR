@@ -9,6 +9,7 @@ from ._convolver import DelayBuffer
 from ._subprocess import SubProcess
 
 
+# noinspection PyUnusedFunction
 class JackClient(SubProcess):
     """
     Base functionality to run a JACK client contained in a separate process. To run the process
@@ -381,7 +382,7 @@ class JackClient(SubProcess):
     def client_register_and_connect_inputs(self, source_ports=True):
         """
         Register an identical number of input ports according to the provided source ports to the
-        current client. Afterwards connect the given ports to the newly created target ports in a
+        current client. Afterward, connect the given ports to the newly created target ports in a
         1:1 relation.
 
         Parameters
@@ -459,7 +460,7 @@ class JackClient(SubProcess):
     def _client_register_and_connect_outputs(self, target_ports=True):
         """
         Register an identical number of output ports according to the provided target ports to
-        the current client. Afterwards connect the given ports to the newly created source ports
+        the current client. Afterward, connect the given ports to the newly created source ports
         in a 1:1 relation.
 
         Parameters
@@ -826,9 +827,9 @@ class JackClient(SubProcess):
             if self._is_first_frame:
                 self._is_first_frame = False
                 if output_td[0].flags["C_CONTIGUOUS"]:
-                    self._logger.debug(f'output array layout is "C_CONTIGUOUS".')
+                    self._logger.debug('output array layout is "C_CONTIGUOUS".')
                 else:
-                    self._logger.warning(f'output array layout is not "C_CONTIGUOUS".')
+                    self._logger.warning('output array layout is not "C_CONTIGUOUS".')
                 if (self._is_single_precision and output_td.dtype == np.float32) or (
                     not self._is_single_precision and output_td.dtype == np.float64
                 ):

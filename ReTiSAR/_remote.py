@@ -212,7 +212,7 @@ class OscRemote(object):
             parameters = parameters[:function_parameters_count]
 
         if len(parameters) == 0:
-            # log_str = f'calling ... {type(client).__name__}.{function_name}()'
+            # log_str = f"calling ... {type(client).__name__}.{function_name}()"
             # logger.info(log_str) if logger else print(log_str)
             getattr(client, function_name)()
         else:

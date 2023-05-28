@@ -607,7 +607,7 @@ def _plot_result(ref_ir, cmp_ir, fs, compare_frame_samples=128, is_show_fd=False
 
         if ch == diff_ir.shape[0] - 1:
             axes[ch, 0].set_xlabel("Samples")
-        axes[ch, 0].set_ylabel(f"ETC / dBFS")
+        axes[ch, 0].set_ylabel("ETC / dBFS")
         axes[ch, 0].tick_params(
             which="both", direction="in", top=True, bottom=True, left=True, right=True
         )

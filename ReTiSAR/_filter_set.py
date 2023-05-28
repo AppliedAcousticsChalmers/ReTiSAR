@@ -214,7 +214,7 @@ class FilterSet(object):
 
     def __init__(self, file_name, is_hrir, is_hpcf=False):
         """
-        Initialize FIR filter, call `load()` afterwards to load the file contents!
+        Initialize FIR filter, call `load()` afterward to load the file contents!
 
         Parameters
         ----------
@@ -732,7 +732,7 @@ class FilterSet(object):
             raise RuntimeError(FilterSet._ERROR_MSG_FD)
 
         index = self._get_index_from_rotation(azim_deg, elev_deg)
-        # print(f'azim {azim_deg:>-4.0f}, elev {elev_deg:>-4.0f} -> index {index:>4.0f}')
+        # print(f"azim {azim_deg:>-4.0f}, elev {elev_deg:>-4.0f} -> index {index:>4.0f}")
         return self._irs_blocks_fd[:, index]
 
     def _get_index_from_rotation(self, azim_deg, elev_deg):
@@ -928,7 +928,7 @@ class FilterSetMiro(FilterSet):
 
     def __init__(self, file_name, is_hrir, sh_max_order=None, sh_is_enforce_pinv=False):
         """
-        Initialize FIR filter, call `load()` afterwards to load the file contents!
+        Initialize FIR filter, call `load()` afterward to load the file contents!
 
         Parameters
         ----------
@@ -1023,7 +1023,7 @@ class FilterSetMiro(FilterSet):
 
             # make sure provided sampling frequencies are identical and safe for reference
             if array_signal_l.signal.fs != array_signal_r.signal.fs:
-                raise ValueError(f"mismatch in left and right ear sampling frequency.")
+                raise ValueError("mismatch in left and right ear sampling frequency.")
 
             # make sure provided sampling grids are identical and safe for reference
             if (
@@ -1040,7 +1040,7 @@ class FilterSetMiro(FilterSet):
                     array_signal_l.grid.weight, array_signal_r.grid.weight
                 )
             ):
-                raise ValueError(f"mismatch in left and right ear sampling grid.")
+                raise ValueError("mismatch in left and right ear sampling grid.")
 
             # select one set for further reference, since they are identical
             array_signal = array_signal_l
@@ -1492,20 +1492,20 @@ class FilterSetSofa(FilterSetMiro):
             raise TypeError(f'unknown parameter type "{type(self._file_name)}".')
 
         # load file
-        file = sofa.SOFAFile(self._file_name, "r")
+        sofa_file = sofa.SOFAFile(self._file_name, "r")
 
         # get IRs and adjust data type
-        self._irs_td = _check_irs(file.getDataIR())
+        self._irs_td = _check_irs(sofa_file.getDataIR())
 
         # save needed attributes
-        self._fs = int(file.getSamplingRate()[0])
+        self._fs = int(sofa_file.getSamplingRate()[0])
 
         # get grid
         if self._is_hrir:
             # transform grid into azimuth, colatitude, radius in radians
             grid_acr_rad = sfa.utils.SOFA_grid2acr(
-                grid_values=file.getSourcePositionValues(),
-                grid_info=file.getSourcePositionInfo(),
+                grid_values=sofa_file.getSourcePositionValues(),
+                grid_info=sofa_file.getSourcePositionInfo(),
             )
 
             # store spherical degree with elevation !!
@@ -1515,11 +1515,11 @@ class FilterSetSofa(FilterSetMiro):
         else:
             # transform grid into azimuth, colatitude, radius in radians
             grid_acr_rad = sfa.utils.SOFA_grid2acr(
-                grid_values=file.getReceiverPositionValues()[:, :, 0],
-                grid_info=file.getReceiverPositionInfo(),
+                grid_values=sofa_file.getReceiverPositionValues()[:, :, 0],
+                grid_info=sofa_file.getReceiverPositionInfo(),
             )
 
-            self._arir_config = self._load_arir_config(sofa_file=file)
+            self._arir_config = self._load_arir_config(sofa_file=sofa_file)
 
         # store spherical radians with colatitude !!
         self._irs_grid = sfa.io.SphericalGrid(
