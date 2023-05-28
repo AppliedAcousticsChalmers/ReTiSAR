@@ -1,6 +1,7 @@
 # Change Log
 
 * __unreleased__
+  * Update of validation script for improved readability
   * Improve startup behaviour of the SH renderer for _JACK_ configurations without physical input ports
   * Update of command line argument parser to be more forgiving with source position strings
   * Improve `JackPlayer` to enforce providing C-contiguous data to _JACK_

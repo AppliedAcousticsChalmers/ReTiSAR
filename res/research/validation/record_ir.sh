@@ -52,6 +52,8 @@ STARTUP_SEC=17
 REC_SEC=2.0
 OSC_IP="127.0.0.1"
 OSC_PORT=5005
+CONFIG_BASE='-pfe=FFTW_PATIENT -sh=8 -arr=0 -sht=NONE -irt=0 -tt=NONE -s=NONE -sp="[(37,0)]" -gt=NONE -ar=res/ARIR/DRIR_CR1_VSA_110RS_L.sofa -art=ARIR_SOFA -arl=0 -hr=res/HRIR/KU100_THK/48k_32bit_128tap_2702dir.sofa -hrt=HRIR_SOFA -hrl=0 -hp=NONE'
+CONFIG_BASE="--STUDY_MODE ${CONFIG_BASE}"
 
 SECONDS=0 # measure execution time
 if ! type "ecasound" >/dev/null 2>&1; then
@@ -62,21 +64,10 @@ fi
 pkill -f ecasound
 pkill -f ReTiSAR
 
-CONFIG_NAME="4096_DP"
-CONFIG="--STUDY_MODE -b=4096 -SP=FALSE -sh=8 -arr=0 -sht=NONE -irt=0 -tt=NONE -s=NONE -sp=[(37,0)] -gt=NONE -ar=res/ARIR/CR1_VSA_110RS_L.sofa -art=ARIR_SOFA -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA -hrl=0 -hp=NONE"
-run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}"
-
-CONFIG_NAME="1024_DP"
-CONFIG="--STUDY_MODE -b=1024 -SP=FALSE -sh=8 -arr=0 -sht=NONE -irt=0 -tt=NONE -s=NONE -sp=[(37,0)] -gt=NONE -ar=res/ARIR/CR1_VSA_110RS_L.sofa -art=ARIR_SOFA -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA -hrl=0 -hp=NONE"
-run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}"
-
-CONFIG_NAME="4096_SP"
-CONFIG="--STUDY_MODE -b=4096 -SP=TRUE -sh=8 -arr=0 -sht=NONE -irt=0 -tt=NONE -s=NONE -sp=[(37,0)] -gt=NONE -ar=res/ARIR/CR1_VSA_110RS_L.sofa -art=ARIR_SOFA -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA -hrl=0 -hp=NONE"
-run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}"
-
-CONFIG_NAME="1024_SP"
-CONFIG="--STUDY_MODE -b=1024 -SP=TRUE -sh=8 -arr=0 -sht=NONE -irt=0 -tt=NONE -s=NONE -sp=[(37,0)] -gt=NONE -ar=res/ARIR/CR1_VSA_110RS_L.sofa -art=ARIR_SOFA -arl=0 -hr=res/HRIR/KU100_THK/HRIR_L2702.sofa -hrt=HRIR_SOFA -hrl=0 -hp=NONE"
-run_and_record ${NAME_PREFIX}${CONFIG_NAME} "${CONFIG}"
+run_and_record ${NAME_PREFIX}"4096_DP" "${CONFIG_BASE} -b=4096 -SP=FALSE"
+run_and_record ${NAME_PREFIX}"1024_DP" "${CONFIG_BASE} -b=1024 -SP=FALSE"
+run_and_record ${NAME_PREFIX}"4096_SP" "${CONFIG_BASE} -b=4096 -SP=TRUE"
+run_and_record ${NAME_PREFIX}"1024_SP" "${CONFIG_BASE} -b=1024 -SP=TRUE"
 
 # shellcheck disable=SC2039
 echo ${SECONDS} | awk '{printf "\n ... finished in "int($1/60/60)"h "int($1/60)"m "int($1%60)"s.\n"}'
