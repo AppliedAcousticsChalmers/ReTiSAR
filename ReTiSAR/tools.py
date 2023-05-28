@@ -183,7 +183,9 @@ def parse_cmd_args():
 
     # parse arguments
     args = parser.parse_args()
-
+    if args.SOURCE_POSITIONS is not None:
+        # be more forgiving when parsing source position strings
+        args.SOURCE_POSITIONS = args.SOURCE_POSITIONS.strip("'").strip('"')
     # update config
     from . import config
 
