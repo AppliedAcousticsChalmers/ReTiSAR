@@ -1,6 +1,6 @@
 name: ReTiSAR
 channels:
-  - defaults  # prefer installing packages from conda-main over conda-forge, will install Intel MKL for numpy)
+  - defaults  # prefer installing packages from conda-main over conda-forge (will install Intel MKL for numpy)
   - conda-forge  # preferring conda-forge would install OpenBLAS for numpy
 dependencies:
   - matplotlib
@@ -17,5 +17,5 @@ dependencies:
     - pysofaconventions >=0.1.5
     - soundfile >=0.10.2
     - samplerate
-#    - git+https://github.com/AppliedAcousticsChalmers/sound_field_analysis-py@main
-    - sound-field-analysis >=2021.2.4  # `numpy>=1.24.0` requires `sound-field-analysis>=2022.12.29`
+    - git+https://github.com/AppliedAcousticsChalmers/sound_field_analysis-py@main # for `numpy>=1.24.0` as long as the PyPI package is not yet available
+#    - sound-field-analysis >=2022.12.29
