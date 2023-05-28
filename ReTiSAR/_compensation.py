@@ -355,7 +355,9 @@ class Compensation(object):
             # mark compensation as applied and remember used length
             Compensation._TYPES_APPLIED.append(_type)
             Compensation._NFFT_USED += nfft - 1  # convolution result length = N + M - 1
-            # print(f'type={_type.value}, nfft={nfft}, nfft_used={Compensation._NFFT_USED}')
+            # print(
+            #     f"type={_type.value}, nfft={nfft}, nfft_used={Compensation._NFFT_USED}"
+            # )
 
             # calculate compensation
             return Compensation._generate_fd_by_type(

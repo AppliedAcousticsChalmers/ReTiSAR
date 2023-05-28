@@ -388,7 +388,7 @@ class JackRenderer(JackClient):
         """
         if not self._check_alive("set SH processing order"):
             return
-        if not type(self._convolver) is AdjustableShConvolver:
+        if type(self._convolver) is not AdjustableShConvolver:
             self._logger.error(
                 f'client is not rendering in spherical harmonics mode, "set SH processing order" '
                 f"ignored."

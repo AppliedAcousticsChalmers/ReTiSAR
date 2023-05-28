@@ -730,6 +730,7 @@ class JackClient(SubProcess):
             return None
 
         # receive input from JACK, `np.vstack()` creates a copy
+        port: jack.OwnPort
         input_td = np.vstack([port.get_array() for port in self._client.inports])
 
         # buffer and delay input
@@ -783,6 +784,7 @@ class JackClient(SubProcess):
 
         if self._output_mute or output_td is None:
             # output zeros
+            port: jack.OwnPort
             for port in self._client.outports:
                 port.get_array().fill(0)
 

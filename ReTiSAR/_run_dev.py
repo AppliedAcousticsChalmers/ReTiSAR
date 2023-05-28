@@ -62,7 +62,7 @@ def _timeit(
     setup : str
         Additional statement used for setup
     _globals :
-        Namespace the code will be executed in (as opposed to inside timeit's
+        Namespace the code will be executed in (as opposed to inside `timeit`'s
         namespace)
     repeat : int
         How many times to repeat the timeit measurement (results will be
@@ -214,6 +214,7 @@ result = buffer
     import jack
 
     rb = jack.RingBuffer(buffer_ref.nbytes)
+    # noinspection SpellCheckingInspection
     s = """\
 bytes_written = rb.write(input_td.tobytes())
 if bytes_written != input_td.nbytes:
@@ -237,6 +238,7 @@ result = read
     )
 
     rb = jack.RingBuffer(buffer_ref.nbytes)
+    # noinspection SpellCheckingInspection
     s = """\
 if rb.write_space >= input_td.nbytes:
     rb.write_buffers[0][: input_td.nbytes] = input_td.tobytes()
