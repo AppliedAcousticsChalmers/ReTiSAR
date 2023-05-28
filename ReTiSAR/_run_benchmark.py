@@ -509,12 +509,11 @@ def _generate_table_entry(
         generated data entry, to be appended to the data set (table)
     """
     # collect function parameter names as column names
-    params = inspect.signature(_generate_table_entry).parameters.keys()
+    params = list(inspect.signature(_generate_table_entry).parameters.keys())
 
     # collect function parameter values as data entry
-    data = []
-    for p in params:  # was not able to write that as a nice one-liner
-        data.append(locals()[p])
+    _locals = locals()  # this is required
+    data = [_locals[p] for p in params]
 
     # create `pandas.DataFrame`
     return pd.DataFrame([data], columns=params)

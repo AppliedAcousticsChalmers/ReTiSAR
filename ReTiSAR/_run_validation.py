@@ -360,7 +360,7 @@ def main():
             logger=logger,
             file_type="pdf",
         )
-        # plot unweighted difference
+        # plot weighted difference
         diff_tf_w = np.asarray(
             np.abs(np.fft.rfft(diff_ir) / np.fft.rfft(ref_ir)), dtype=np.complex_
         )
@@ -370,7 +370,6 @@ def main():
             logger=logger,
             file_type="pdf",
         )
-        # plot weighted difference
         tools.export_plot(
             figure=tools.plot_ir_and_tf(
                 np.abs(diff_ir / ref_ir),
@@ -385,17 +384,24 @@ def main():
         )
 
         # save results
-        results = results.append(
-            _generate_table_entry(
-                cmp_file_name=os.path.relpath(cmp_file),
-                cmp_azimuth_deg=cmp_azimuth,
-                cmp_corr_n_samples=cmp_corr_n,
-                cmp_scale_dbfs=np.array2string(
-                    cmp_scale_db, precision=1, floatmode="fixed"
+        results = pd.concat(
+            [
+                results,
+                _generate_table_entry(
+                    cmp_file_name=os.path.relpath(cmp_file),
+                    cmp_azimuth_deg=cmp_azimuth,
+                    cmp_corr_n_samples=cmp_corr_n,
+                    cmp_scale_dbfs=np.array2string(
+                        cmp_scale_db, precision=1, floatmode="fixed"
+                    ),
+                    diff_rms_dbfs=np.array2string(
+                        diff_rms, precision=1, floatmode="fixed"
+                    ),
+                    diff_max_dbfs=np.array2string(
+                        diff_max, precision=2, floatmode="fixed"
+                    ),
                 ),
-                diff_rms_dbfs=np.array2string(diff_rms, precision=1, floatmode="fixed"),
-                diff_max_dbfs=np.array2string(diff_max, precision=2, floatmode="fixed"),
-            ),
+            ],
             ignore_index=True,
         )
 
@@ -412,7 +418,9 @@ def main():
         f"{os.path.splitext(os.path.basename(ref_file))[0]}{os.path.extsep}html",
     )
     logger.info(f'writing results to "{os.path.relpath(html_file)}" ...')
-    tools.export_html(html_file, results.style.render(), title=html_title)
+    tools.export_html(
+        file_name=html_file, html_content=results.style.to_html(), title=html_title
+    )
 
     # end application
     logger.info("... validation ended.")
@@ -752,12 +760,11 @@ def _generate_table_entry(
         generated data entry, to be appended to the data set (table)
     """
     # collect function parameter names as column names
-    params = inspect.signature(_generate_table_entry).parameters.keys()
+    params = list(inspect.signature(_generate_table_entry).parameters.keys())
 
     # collect function parameter values as data entry
-    data = []
-    for p in params:  # was not able to write that as a nice one-liner
-        data.append(locals()[p])
+    _locals = locals()  # this is required
+    data = [_locals[p] for p in params]
 
     # create `pandas.DataFrame`
     return pd.DataFrame([data], columns=params)
