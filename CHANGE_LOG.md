@@ -1,6 +1,7 @@
 # Change Log
 
 * __unreleased__
+  * Consolidation of `Python 3.11` and `numpy>=1.24.0` compatibility (requires `sound-field-analysis>=2022.12.29`)
   * Move change log information from README to separate CHANGE_LOG file
   * Change default FFTW effort to "FFTW_MEASURE" (lowered from "FFTW_PATIENT")
 

@@ -40,9 +40,9 @@ Contents:
 * _macOS_ (tested on `10.14 Mojave` and `10.15 Catalina`) or _Linux_ (tested on `5.9.1-1-rt19-MANJARO`)<br/>
 (_Windows_ is not supported due to an incompatibility with the current `multiprocessing` implementation)
 * [_JACK_ library][JACK] (`brew install qjackctl` or alternatively [prebuilt installers][JACK] are available)<br/>
-(_macOS_ `11 Big Sur` and _macOS_ `12 Monterey` require `jack >= 1.9.21` to work correctly!)
+(_macOS_ `11 Big Sur` and following versions require `jack >= 1.9.21` to work correctly!)
 * [_Conda_ installation][Conda] (`miniconda` is sufficient; provides an easy way to get [Intel _MKL_](https://software.intel.com/en-us/articles/using-intel-distribution-for-python-with-anaconda) or alternatively [_OpenBLAS_](https://github.com/conda-forge/openblas-feedstock) optimized `numpy` versions which is highly recommended)
-* [_Python_ installation][Python] (tested with `3.7` to `3.9`; recommended way to get _Python_ is to use _Conda_ as described in the [setup section](#setup))
+* [_Python_ installation][Python] (tested with `3.7` to `3.11`; recommended way to get _Python_ is to use _Conda_ as described in the [setup section](#setup))
 * Installation of the required _Python_ packages (recommended way is to use _Conda_ as described in the [setup section](#setup))
 * __Optional:__ Download of publicly available measurement data for alternative [execution modes](#execution-modes) __(always check the command line output or log files in case the rendering pipeline does not initialize successfully!)__
 * __Optional:__ Install an [_OSC_ client][OSC] for real-time feedback and [remote control](#remote-control) options during runtime
