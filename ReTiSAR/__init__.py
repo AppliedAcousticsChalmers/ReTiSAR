@@ -1,4 +1,4 @@
-__version__ = "2021.07.26"
+__version__ = "2023.05.29"
 
 __all__ = [
     "Compensation",
