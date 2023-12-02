@@ -1,6 +1,6 @@
 # ReTiSAR
 
-Implementation of the Real-Time Spherical Microphone Renderer for binaural reproduction in Python [[1]](#references)[[2]](#references).<br/>
+Implementation of the Real-Time Spherical Array Renderer for binaural reproduction in Python [[1]](#references)[[2]](#references).<br/>
 [![Mentioned in Awesome Python for Scientific Audio](https://awesome.re/mentioned-badge.svg)](https://github.com/faroit/awesome-python-scientific-audio)
 
 ![Badge_OS](https://img.shields.io/badge/platform-osx--64%20|%20linux--64-lightgrey)
